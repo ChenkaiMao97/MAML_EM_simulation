@@ -600,55 +600,53 @@ class MAML(tf.keras.Model):
       task_output_tr_pre = self.Unet(input_tr, new_weights)
       task_loss_tr_pre = self.loss_func(task_output_tr_pre, label_tr)
       # print("task_output_tr_pre.shape", task_output_tr_pre.shape)
-      new_weights = weights.copy()
-      
-      for i in range(num_inner_updates):
-        with tf.GradientTape(persistent=False) as g:
-          g.watch(new_weights)
+      with tf.GradientTape(persistent=True) as g:
+        g.watch(new_weights)
+        for i in range(num_inner_updates):
           predictions = self.Unet(input_tr, new_weights)
           loss = self.loss_func(predictions,label_tr)
 
-        gradients = g.gradient(loss, new_weights)
-        print("in 1")
-        if self.learn_inner_update_lr:
-          for block in range(NUM_DOWNCOV_BLOCKS):
-            new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0]
-            new_weights['encode_layer'+str(block)+'_'+'conv'][1] = new_weights['encode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][1]*gradients['encode_layer'+str(block)+'_'+'conv'][1]
-            new_weights['encode_layer'+str(block)+'_'+'conv'][2] = new_weights['encode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][2]*gradients['encode_layer'+str(block)+'_'+'conv'][2]
-            new_weights['encode_layer'+str(block)+'_'+'b'][0] = new_weights['encode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'b'][i][0]*gradients['encode_layer'+str(block)+'_'+'b'][0]
-            new_weights['encode_layer'+str(block)+'_'+'b'][1] = new_weights['encode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'b'][i][1]*gradients['encode_layer'+str(block)+'_'+'b'][1]
-            new_weights['encode_layer'+str(block)+'_'+'b'][2] = new_weights['encode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'b'][i][2]*gradients['encode_layer'+str(block)+'_'+'b'][2]
-          for block in range(NUM_UPSAMPLING_BLOCKS):
-            new_weights['decode_layer'+str(block)+'_'+'conv'][0] = new_weights['decode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][0]*gradients['decode_layer'+str(block)+'_'+'conv'][0]
-            new_weights['decode_layer'+str(block)+'_'+'conv'][1] = new_weights['decode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][1]*gradients['decode_layer'+str(block)+'_'+'conv'][1]
-            new_weights['decode_layer'+str(block)+'_'+'conv'][2] = new_weights['decode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][2]*gradients['decode_layer'+str(block)+'_'+'conv'][2]
-            new_weights['decode_layer'+str(block)+'_'+'b'][0] = new_weights['decode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'b'][i][0]*gradients['decode_layer'+str(block)+'_'+'b'][0]
-            new_weights['decode_layer'+str(block)+'_'+'b'][1] = new_weights['decode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'b'][i][1]*gradients['decode_layer'+str(block)+'_'+'b'][1]
-            new_weights['decode_layer'+str(block)+'_'+'b'][2] = new_weights['decode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'b'][i][2]*gradients['decode_layer'+str(block)+'_'+'b'][2]
-          new_weights['last_layer_conv'] = new_weights['last_layer_conv'] - self.inner_update_lr_dict['last_layer_conv'][i]*gradients['last_layer_conv']
-          new_weights['last_layer_b'] = new_weights['last_layer_b'] - self.inner_update_lr_dict['last_layer_b'][i]*gradients['last_layer_b']
-        else:
-          for block in range(NUM_DOWNCOV_BLOCKS):
-            new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][0]
-            new_weights['encode_layer'+str(block)+'_'+'conv'][1] = new_weights['encode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][1]
-            new_weights['encode_layer'+str(block)+'_'+'conv'][2] = new_weights['encode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][2]
-            new_weights['encode_layer'+str(block)+'_'+'b'][0] = new_weights['encode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'b'][0]
-            new_weights['encode_layer'+str(block)+'_'+'b'][1] = new_weights['encode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'b'][1]
-            new_weights['encode_layer'+str(block)+'_'+'b'][2] = new_weights['encode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'b'][2]
-          for block in range(NUM_UPSAMPLING_BLOCKS):
-            new_weights['decode_layer'+str(block)+'_'+'conv'][0] = new_weights['decode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][0]
-            new_weights['decode_layer'+str(block)+'_'+'conv'][1] = new_weights['decode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][1]
-            new_weights['decode_layer'+str(block)+'_'+'conv'][2] = new_weights['decode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][2]
-            new_weights['decode_layer'+str(block)+'_'+'b'][0] = new_weights['decode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'b'][0]
-            new_weights['decode_layer'+str(block)+'_'+'b'][1] = new_weights['decode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'b'][1]
-            new_weights['decode_layer'+str(block)+'_'+'b'][2] = new_weights['decode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'b'][2]
-          new_weights['last_layer_conv'] = new_weights['last_layer_conv'] - self.inner_update_lr*gradients['last_layer_conv']
-          new_weights['last_layer_b'] = new_weights['last_layer_b'] - self.inner_update_lr*gradients['last_layer_b']
+          gradients = g.gradient(loss, new_weights)
+          print("in 1")
+          if self.learn_inner_update_lr:
+            for block in range(NUM_DOWNCOV_BLOCKS):
+              new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0]
+              new_weights['encode_layer'+str(block)+'_'+'conv'][1] = new_weights['encode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][1]*gradients['encode_layer'+str(block)+'_'+'conv'][1]
+              new_weights['encode_layer'+str(block)+'_'+'conv'][2] = new_weights['encode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][2]*gradients['encode_layer'+str(block)+'_'+'conv'][2]
+              new_weights['encode_layer'+str(block)+'_'+'b'][0] = new_weights['encode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'b'][i][0]*gradients['encode_layer'+str(block)+'_'+'b'][0]
+              new_weights['encode_layer'+str(block)+'_'+'b'][1] = new_weights['encode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'b'][i][1]*gradients['encode_layer'+str(block)+'_'+'b'][1]
+              new_weights['encode_layer'+str(block)+'_'+'b'][2] = new_weights['encode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'b'][i][2]*gradients['encode_layer'+str(block)+'_'+'b'][2]
+            for block in range(NUM_UPSAMPLING_BLOCKS):
+              new_weights['decode_layer'+str(block)+'_'+'conv'][0] = new_weights['decode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][0]*gradients['decode_layer'+str(block)+'_'+'conv'][0]
+              new_weights['decode_layer'+str(block)+'_'+'conv'][1] = new_weights['decode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][1]*gradients['decode_layer'+str(block)+'_'+'conv'][1]
+              new_weights['decode_layer'+str(block)+'_'+'conv'][2] = new_weights['decode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][2]*gradients['decode_layer'+str(block)+'_'+'conv'][2]
+              new_weights['decode_layer'+str(block)+'_'+'b'][0] = new_weights['decode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'b'][i][0]*gradients['decode_layer'+str(block)+'_'+'b'][0]
+              new_weights['decode_layer'+str(block)+'_'+'b'][1] = new_weights['decode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'b'][i][1]*gradients['decode_layer'+str(block)+'_'+'b'][1]
+              new_weights['decode_layer'+str(block)+'_'+'b'][2] = new_weights['decode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'b'][i][2]*gradients['decode_layer'+str(block)+'_'+'b'][2]
+            new_weights['last_layer_conv'] = new_weights['last_layer_conv'] - self.inner_update_lr_dict['last_layer_conv'][i]*gradients['last_layer_conv']
+            new_weights['last_layer_b'] = new_weights['last_layer_b'] - self.inner_update_lr_dict['last_layer_b'][i]*gradients['last_layer_b']
+          else:
+            for block in range(NUM_DOWNCOV_BLOCKS):
+              new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][0]
+              new_weights['encode_layer'+str(block)+'_'+'conv'][1] = new_weights['encode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][1]
+              new_weights['encode_layer'+str(block)+'_'+'conv'][2] = new_weights['encode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][2]
+              new_weights['encode_layer'+str(block)+'_'+'b'][0] = new_weights['encode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'b'][0]
+              new_weights['encode_layer'+str(block)+'_'+'b'][1] = new_weights['encode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'b'][1]
+              new_weights['encode_layer'+str(block)+'_'+'b'][2] = new_weights['encode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'b'][2]
+            for block in range(NUM_UPSAMPLING_BLOCKS):
+              new_weights['decode_layer'+str(block)+'_'+'conv'][0] = new_weights['decode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][0]
+              new_weights['decode_layer'+str(block)+'_'+'conv'][1] = new_weights['decode_layer'+str(block)+'_'+'conv'][1] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][1]
+              new_weights['decode_layer'+str(block)+'_'+'conv'][2] = new_weights['decode_layer'+str(block)+'_'+'conv'][2] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][2]
+              new_weights['decode_layer'+str(block)+'_'+'b'][0] = new_weights['decode_layer'+str(block)+'_'+'b'][0] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'b'][0]
+              new_weights['decode_layer'+str(block)+'_'+'b'][1] = new_weights['decode_layer'+str(block)+'_'+'b'][1] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'b'][1]
+              new_weights['decode_layer'+str(block)+'_'+'b'][2] = new_weights['decode_layer'+str(block)+'_'+'b'][2] - self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'b'][2]
+            new_weights['last_layer_conv'] = new_weights['last_layer_conv'] - self.inner_update_lr*gradients['last_layer_conv']
+            new_weights['last_layer_b'] = new_weights['last_layer_b'] - self.inner_update_lr*gradients['last_layer_b']
 
-        predictions_ts = self.Unet(input_ts, new_weights)
-        task_outputs_ts.append(predictions_ts)
-        loss_ts = self.loss_func(predictions_ts, label_ts)
-        task_losses_ts.append(loss_ts)
+          predictions_ts = self.Unet(input_ts, new_weights)
+          task_outputs_ts.append(predictions_ts)
+          loss_ts = self.loss_func(predictions_ts, label_ts)
+          task_losses_ts.append(loss_ts)
       
       #############################
 
