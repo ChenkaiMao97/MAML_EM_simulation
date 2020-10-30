@@ -45,10 +45,13 @@ def mat_to_input_and_field(filename):
 
   img = np.array(mat['img'])
   
+  # TO DO: change 50 to a variable
+  elongated_img = np.expand_dims(np.tile(img, (50,1)), axis=-1) # 1 channel
+     
   # image = image.reshape([dim_input])
   # image = image.astype(np.float32) / 255.0
   # image = 1.0 - image
-  return img, fields
+  return elongated_img, fields
 
 
 class DataGenerator(object):
@@ -57,7 +60,7 @@ class DataGenerator(object):
   A "class" is considered a class of simulation setup(i.e. x wavelength, x bars).
   """
 
-  def __init__(self, num_class=1, num_samples_per_class, num_meta_test_class=1, num_meta_test_samples_per_class, config={}):
+  def __init__(self, num_class, num_samples_per_class, num_meta_test_class, num_meta_test_samples_per_class, config={}):
     """
     Args:
       num_classes: Number of classes within one frequency  (for now equals 1: regard all as same class within one fre)
@@ -67,11 +70,11 @@ class DataGenerator(object):
       batch_size: size of meta batch size (e.g. number of functions)
     """
     self.num_classes = num_class
-    self.num_samples_per_class = num_snum_classesamples_per_class
+    self.num_samples_per_class = num_samples_per_class
     self.num_meta_test_classes = num_meta_test_class
     self.num_meta_test_samples_per_class = num_meta_test_samples_per_class
 
-    data_folder = config.get('data_folder', './scratch/users/chenkaim/data/')
+    data_folder = config.get('data_folder', '/scratch/users/chenkaim/data/')
     self.img_size = config.get('img_size', (50, 200))
 
     data_folders = [os.path.join(data_folder, wavelength, bars)
@@ -119,24 +122,21 @@ class DataGenerator(object):
       sampled_data_folders = random.sample(
         folders, num_classes)
       mat_paths = get_mat_paths(sampled_data_folders, n_samples=num_samples_per_class, shuffle=False)
-      images,labels = [mat_to_input_and_field(
-        li, self.dim_input) for li in mat_paths]
-      images = np.stack(images)
-      labels = np.stack(labels)
+      images_and_labels = [mat_to_input_and_field(
+        li) for li in mat_paths]
+      images = np.array([i[0] for i in images_and_labels])
+      labels = np.array([i[1] for i in images_and_labels])
       # labels = np.array(labels).astype(np.int32)
-      # labels = np.reshape(
-      #   labels, (num_classes, num_samples_per_class))
-      # labels = np.eye(num_classes, dtype=np.float32)[labels]
-      # images = np.reshape(
-      #   images, (num_classes, num_samples_per_class, -1))
+      labels = np.reshape(labels, (num_classes, num_samples_per_class, self.img_size[0], self.img_size[1], NUM_OUT_CHANNELS))
+      images = np.reshape(images, (num_classes, num_samples_per_class, self.img_size[0], self.img_size[1],1))
+      #TO DO: rewrite shuffle using zip
+      #batch = np.concatenate([labels, images], 2)
+      #if shuffle:
+      #  for p in range(num_samples_per_class):
+      #    np.random.shuffle(batch[:, p])
 
-      batch = np.concatenate([labels, images], 2)
-      if shuffle:
-        for p in range(num_samples_per_class):
-          np.random.shuffle(batch[:, p])
-
-      labels = batch[:, :, :num_classes]
-      images = batch[:, :, num_classes:]
+      #labels = batch[:, :, :num_classes]
+      #images = batch[:, :, num_classes:]
 
       if swap:
         labels = np.swapaxes(labels, 0, 1)
@@ -157,15 +157,11 @@ from tensorflow.keras.backend import int_shape
 from tensorflow.keras import initializers
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import MeanAbsoluteError
-# from tensorflow.keras.layers import (
+from tensorflow.keras.layers import LeakyReLU, MaxPooling2D, ZeroPadding2D, UpSampling2D, Cropping2D, Concatenate
 #     Input,
 #     Dense,
 #     Conv2D,
 #     Flatten,
-#     MaxPooling2D,
-#     UpSampling2D,
-#     ZeroPadding2D,
-#     Cropping2D,
 #     Concatenate,
 #     BatchNormalization,
 #     Activation,
@@ -190,11 +186,13 @@ LR_DIV_FACTOR = 25.
 PCT_START = 0.2
 OMEGA = 1
 BATCH_SIZE = 64
-NUM_DOWNCOV_BLOCKS = 5
+NUM_DOWNCOV_BLOCKS = 4
 NUM_UPSAMPLING_BLOCKS = NUM_DOWNCOV_BLOCKS-1
 NUM_OUT_CHANNELS = 2
 UPSAMPLE_INTERP = ["nearest", "bilinear"][1]
 FNAME = '/scratch/users/chenkaim/test'
+
+seed=1234
 #FNAME = 's100_100_45k/leaky_alph02_b64mae_dr0_dc4_filsx1_lkw2_v7'
 
 def annealing_linear(start, end, pct):
@@ -231,7 +229,7 @@ def custom_activation(x):
 #def custom_activation(x):
 #    return tf.nn.leaky_relu(x, alpha=0.3)
 
-get_custom_objects().update({'custom_activation': Activation(custom_activation)})
+#get_custom_objects().update({'custom_activation': Activation(custom_activation)})
 
 class UniformRandom(tf.keras.initializers.Initializer):
 
@@ -303,12 +301,17 @@ initializer = UniformRandom(omega0=OMEGA)
 
 #     return conv_layer, norm_layer, x
 
-def conv_block(inp, cweight, bweight, bn, activation=LeakyReLU(alpha=ALPHA))
+def conv_block(inp, cweight, bweight, bn, activation=LeakyReLU(alpha=ALPHA)):
   """ Perform, conv, batch norm, nonlinearity, and max pool """
   stride, no_stride = [1,2,2,1], [1,1,1,1]
-
+  print("121212")
+  print(inp.shape)
+  print(cweight.shape)
+  print(bweight.shape)
   conv_output = tf.nn.conv2d(input=inp, filters=cweight, strides=no_stride, padding='SAME') + bweight
+  print("131313")
   normed = bn(conv_output)
+  print("141414")
   output = activation(normed)
   return conv_output, normed, output
 
@@ -325,9 +328,11 @@ def conv_block(inp, cweight, bweight, bn, activation=LeakyReLU(alpha=ALPHA))
 #     return act_out
 
 def res_Block(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA)):
-    first_conv, _, x = conv_block(inp, cweight[0], bweight[0], bn[0], activation=LeakyReLU(alpha=ALPHA))
-    _, _, x = conv_block(x, cweight[1], bweight[1], bn[1], activation=LeakyReLU(alpha=ALPHA))
-    _, x, _ = conv_block(x, cweight[2], bweight[2], bn[2], activation=LeakyReLU(alpha=ALPHA))
+    first_conv, _, x = conv_block(inp, cweights[0], bweights[0], bns[0], activation=LeakyReLU(alpha=ALPHA))
+    print("101010")
+    _, _, x = conv_block(x, cweights[1], bweights[1], bns[1], activation=LeakyReLU(alpha=ALPHA))
+    _, x, _ = conv_block(x, cweights[2], bweights[2], bns[2], activation=LeakyReLU(alpha=ALPHA))
+    print("111111")
     x = first_conv+x
 
     output = activation(x)
@@ -335,7 +340,9 @@ def res_Block(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA)):
     return output
 
 def _encodeBlock(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA)):
+    print("888")
     res_out = res_Block(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA))
+    print("999")
     pool_out = MaxPooling2D((2, 2), strides=2)(res_out)
     return res_out, pool_out
 
@@ -351,7 +358,7 @@ def _decodeBlock(x, shortcut, rows_odd, cols_odd, cweights, bweights, bns, activ
 
     x = Concatenate()([shortcut, x])
 
-    x = resBlock(x, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA))
+    x = res_Block(x, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA))
 
     return x
 
@@ -384,7 +391,7 @@ def _decodeBlock(x, shortcut, rows_odd, cols_odd, cweights, bweights, bns, activ
 
 #     return model
 
-class MuskensNet(tf.keras.layers.Layer)
+class MuskensNet(tf.keras.layers.Layer):
   def __init__(self, channels, num_downcov_blocks):
     super(MuskensNet, self).__init__()
     self.channels = channels
@@ -404,6 +411,7 @@ class MuskensNet(tf.keras.layers.Layer)
     for block in range(NUM_DOWNCOV_BLOCKS):
       weights['encode_layer'+str(block)+'_'+'conv'] = []
       weights['encode_layer'+str(block)+'_'+'b'] = []
+      self.bns['encode_layer'+str(block)+'_'+'bn'] = []
       out_channels = (2**block)*32
       if(block == 0):
         weights['encode_layer'+str(block)+'_'+'conv'].append(tf.Variable(weight_initializer(shape=[k, k, self.channels, out_channels]), name='encode_layer'+str(block)+'_'+'conv1', dtype=dtype))
@@ -421,9 +429,11 @@ class MuskensNet(tf.keras.layers.Layer)
     for block in range(NUM_UPSAMPLING_BLOCKS):
       weights['decode_layer'+str(block)+'_'+'conv'] = []
       weights['decode_layer'+str(block)+'_'+'b'] = []
-      out_channels = (2**(NUM_UPSAMPLING_BLOCKS-block-1))*32
+      self.bns['decode_layer'+str(block)+'_'+'bn'] = []
+      out_channels = (2**(NUM_UPSAMPLING_BLOCKS-block-1))*32  
+      in_channels = out_channels*3 # 3 is because we're concatenating the last stage of double channels
 
-      weights['decode_layer'+str(block)+'_'+'conv'].append(tf.Variable(weight_initializer(shape=[k, k, out_channels*2, out_channels]), name='decode_layer'+str(block)+'_'+'conv1', dtype=dtype))
+      weights['decode_layer'+str(block)+'_'+'conv'].append(tf.Variable(weight_initializer(shape=[k, k, in_channels, out_channels]), name='decode_layer'+str(block)+'_'+'conv1', dtype=dtype))
       weights['decode_layer'+str(block)+'_'+'b'].append(tf.Variable(tf.zeros([out_channels]), name='decode_layer'+str(block)+'_'+'b1'))
       self.bns['decode_layer'+str(block)+'_'+'bn'].append(tf.keras.layers.BatchNormalization(name='decode_layer'+str(block)+'_bn1'))
       weights['decode_layer'+str(block)+'_'+'conv'].append(tf.Variable(weight_initializer(shape=[k, k, out_channels, out_channels]), name='decode_layer'+str(block)+'_'+'conv2', dtype=dtype))
@@ -436,15 +446,17 @@ class MuskensNet(tf.keras.layers.Layer)
     weights['last_layer_conv'] = tf.Variable(weight_initializer(shape=[k, k, 32, NUM_OUT_CHANNELS]), name='last_layer_conv', dtype=dtype)
     weights['last_layer_b'] = tf.Variable(tf.zeros([NUM_OUT_CHANNELS]), name='last_layer_b')
     
-    self.weights = weights
+    self.layer_weights = weights
 
   def call(self, inp, weights):
     x = inp
     blocks = []
+    print("666")
     for block in range(NUM_DOWNCOV_BLOCKS):
       res_out, x = _encodeBlock(x, weights['encode_layer'+str(block)+'_'+'conv'], \
                                    weights['encode_layer'+str(block)+'_'+'b'], \
                                    self.bns['encode_layer'+str(block)+'_'+'bn'])
+      print("777")
       (_, rows, cols, _) = res_out.shape
       rows_odd = rows%2   #Boolean values. 1 if num of rows/cols is odd
       cols_odd = cols%2
@@ -459,7 +471,7 @@ class MuskensNet(tf.keras.layers.Layer)
                        weights['decode_layer'+str(block)+'_'+'conv'], \
                        weights['decode_layer'+str(block)+'_'+'b'], \
                        self.bns['decode_layer'+str(block)+'_'+'bn'])
-    x = tf.nn.conv2d(input=x, filters=weights['last_conv_layer'], strides=[1,1,1,1], padding='SAME') + weights['last_layer_b']
+    x = tf.nn.conv2d(input=x, filters=weights['last_layer_conv'], strides=[1,1,1,1], padding='SAME') + weights['last_layer_b']
 
     return x
 
@@ -517,11 +529,11 @@ def accuracy(output,label):
   return tf.norm(output - label)/tf.norm(label)
 
 class MAML(tf.keras.Model):
-  def __init__(self, dim_input=(100,100,1), channel=1,
+  def __init__(self, dim_input=(50,200,1), channel=1,
                num_inner_updates=1,
                inner_update_lr=0.4, k_shot=5, learn_inner_update_lr=False):
     super(MAML, self).__init__()
-    self.dim_input = (100,100,1)
+    self.dim_input = (50,200,1)
     # self.dim_output = dim_output
     self.inner_update_lr = inner_update_lr
     self.loss_func = MeanAbsoluteError()
@@ -540,16 +552,15 @@ class MAML(tf.keras.Model):
     # Define the weights - these should NOT be directly modified by the
     # inner training loop
     tf.random.set_seed(seed)
-    # nn_input_dim = (100,100,1)
-    self.layers = MuskensNet(channel, NUM_DOWNCOV_BLOCKS)
+    self.Unet = MuskensNet(channel, NUM_DOWNCOV_BLOCKS)
 
     # TO DO: update when learning the the learning rate
     self.learn_inner_update_lr = learn_inner_update_lr
     if self.learn_inner_update_lr:
       self.inner_update_lr_dict = {}
-      for key in self.layers.weights.keys():
-        if(type(self.layers.weights[key]) is list):
-          self.inner_update_lr_dict[key] = [[tf.Variable(self.inner_update_lr, name='inner_update_lr_%s_%d_%d' % (key, number, j)) for number in range(len(self.layers.weights[key]))] for j in range(num_inner_updates)]
+      for key in self.Unet.layer_weights.keys():
+        if(type(self.Unet.layer_weights[key]) is list):
+          self.inner_update_lr_dict[key] = [[tf.Variable(self.inner_update_lr, name='inner_update_lr_%s_%d_%d' % (key, number, j)) for number in range(len(self.Unet.layer_weights[key]))] for j in range(num_inner_updates)]
         else:
           self.inner_update_lr_dict[key] = [tf.Variable(self.inner_update_lr, name='inner_update_lr_%s_%d' % (key, j)) for j in range(num_inner_updates)]
   
@@ -574,7 +585,7 @@ class MAML(tf.keras.Model):
       # the inner and outer loop data
       input_tr, input_ts, label_tr, label_ts = inp
       # weights corresponds to the initial weights in MAML (i.e. the meta-parameters)
-      weights = self.layers.weights
+      weights = self.Unet.layer_weights
 
       # the predicted outputs, loss values, and accuracy for the pre-update model (with the initial weights)
       # evaluated on the inner loop training data
@@ -594,16 +605,16 @@ class MAML(tf.keras.Model):
       new_weights = weights.copy()
       # print("input_tr.shape", input_tr.shape)
       # print("label_tr.shape", label_tr.shape)
-
-      task_output_tr_pre = self.layers(input_tr, new_weights)
+      print("555")
+      task_output_tr_pre = self.Unet(input_tr, new_weights)
       task_loss_tr_pre = self.loss_func(task_output_tr_pre, label_tr)
       # print("task_output_tr_pre.shape", task_output_tr_pre.shape)
-
+      print("333")
       with tf.GradientTape(persistent=True) as g:
         for i in range(num_inner_updates):
           new_weights = weights.copy()
           g.watch(new_weights)
-          predictions = self.layers(input_tr, new_weights)
+          predictions = self.Unet(input_tr, new_weights)
           loss = self.loss_func(predictions,label_tr)
 
           gradients = g.gradient(loss, new_weights)
@@ -643,7 +654,7 @@ class MAML(tf.keras.Model):
             new_weights['last_layer_conv'] -= self.inner_update_lr*gradients['last_layer_conv']
             new_weights['last_layer_b'] -= self.inner_update_lr*gradients['last_layer_b']
 
-          predictions_ts = self.layers(input_ts, new_weights)
+          predictions_ts = self.Unet(input_ts, new_weights)
           task_outputs_ts.append(predictions_ts)
           loss_ts = self.loss_func(predictions_ts, label_ts)
           task_losses_ts.append(loss_ts)
@@ -662,6 +673,7 @@ class MAML(tf.keras.Model):
 
     input_tr, input_ts, label_tr, label_ts = inp
     # to initialize the batch norm vars, might want to combine this, and not run idx 0 twice.
+    print("444")
     unused = task_inner_loop((input_tr[0], input_ts[0], label_tr[0], label_ts[0]),
                           False,
                           meta_batch_size,
@@ -691,9 +703,10 @@ import random
 import tensorflow as tf
 
 def outer_train_step(inp, model, optim, meta_batch_size=25, num_inner_updates=1):
+  print("111")
   with tf.GradientTape(persistent=False) as outer_tape:
     result = model(inp, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
-
+    print("222")
     outputs_tr, outputs_ts, losses_tr_pre, losses_ts, accuracies_tr_pre, accuracies_ts = result
 
     total_losses_ts = [tf.reduce_mean(loss_ts) for loss_ts in losses_ts]
@@ -747,13 +760,13 @@ def meta_train_fn(model, exp_string, data_generator,
     # NOTE: The code assumes that the support and query sets have the same number of examples.
 
     input_meta_train, label_meta_train = data_generator.sample_batch("meta_train", meta_batch_size);
-    input_tr = tf.reshape(input_meta_train[:,:,:k_shot,:],[input_meta_train.shape[0],-1,input_meta_train.shape[-1]])
-    label_tr = tf.reshape(label_meta_train[:,:,:k_shot,:],[label_meta_train.shape[0],-1,label_meta_train.shape[-1]])
-    input_ts = tf.reshape(input_meta_train[:,:,k_shot:,:],[input_meta_train.shape[0],-1,input_meta_train.shape[-1]])
-    label_ts = tf.reshape(label_meta_train[:,:,k_shot:,:],[label_meta_train.shape[0],-1,label_meta_train.shape[-1]])
+    input_tr = tf.reshape(input_meta_train[:,:,:k_shot,:,:],[input_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], model.channels])
+    label_tr = tf.reshape(label_meta_train[:,:,:k_shot,:,:,:],[label_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
+    input_ts = tf.reshape(input_meta_train[:,:,k_shot:,:,:],[input_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], model.channels])
+    label_ts = tf.reshape(label_meta_train[:,:,k_shot:,:,:,:],[label_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
 
     #############################
-
+    print("finished sampling training set")
     inp = (input_tr, input_ts, label_tr, label_ts)
     
     result = outer_train_step(inp, model, optimizer, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
@@ -773,16 +786,14 @@ def meta_train_fn(model, exp_string, data_generator,
 
     if (itr!=0) and itr % TEST_PRINT_INTERVAL == 0:
       #############################
-      #### YOUR CODE GOES HERE ####
-
       # sample a batch of validation data and partition it into
       # the support/training set (input_tr, label_tr) and the query/test set (input_ts, label_ts)
-      # NOTE: The code assumes that the support and query sets have the same number of examples.
       input_meta_val, label_meta_val = data_generator.sample_batch("meta_val", meta_batch_size);
-      input_tr = tf.reshape(input_meta_val[:,:,:k_shot,:], [input_meta_val.shape[0], -1, input_meta_val.shape[-1]])
-      label_tr = tf.reshape(label_meta_val[:,:,:k_shot,:], [label_meta_val.shape[0], -1, label_meta_val.shape[-1]])
-      input_ts = tf.reshape(input_meta_val[:,:,k_shot:,:], [input_meta_val.shape[0], -1, input_meta_val.shape[-1]])
-      label_ts = tf.reshape(label_meta_val[:,:,k_shot:,:], [label_meta_val.shape[0], -1, label_meta_val.shape[-1]])
+      input_tr = tf.reshape(input_meta_val[:,:,:k_shot,:,:], [input_meta_val.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
+      label_tr = tf.reshape(label_meta_val[:,:,:k_shot,:,:,:], [label_meta_val.shape[0], -1, model.dim_input[0],model.dim_input[1], NUM_OUT_CHANNELS])
+      input_ts = tf.reshape(input_meta_val[:,:,k_shot:,:,:], [input_meta_val.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
+      label_ts = tf.reshape(label_meta_val[:,:,k_shot:,:,:,:], [label_meta_val.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
+      print("finished sampling eval set")
       #############################
 
       inp = (input_tr, input_ts, label_tr, label_ts)
@@ -813,16 +824,13 @@ def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
 
   for _ in range(NUM_META_TEST_POINTS):
     #############################
-    #### YOUR CODE GOES HERE ####
-
     # sample a batch of test data and partition it into
     # the support/training set (input_tr, label_tr) and the query/test set (input_ts, label_ts)
-    # NOTE: The code assumes that the support and query sets have the same number of examples.
     input_meta_test, label_meta_test = data_generator.sample_batch("meta_test", meta_batch_size);
-    input_tr = tf.reshape(input_meta_test[:,:,:k_shot,:],[input_meta_test.shape[0], -1, input_meta_test.shape[-1]])
-    label_tr = tf.reshape(label_meta_test[:,:,:k_shot,:],[label_meta_test.shape[0], -1, label_meta_test.shape[-1]])
-    input_ts = tf.reshape(input_meta_test[:,:,k_shot:,:],[input_meta_test.shape[0], -1, input_meta_test.shape[-1]])
-    label_ts = tf.reshape(label_meta_test[:,:,k_shot:,:],[label_meta_test.shape[0], -1, label_meta_test.shape[-1]])
+    input_tr = tf.reshape(input_meta_test[:,:,:k_shot,:,:],[input_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
+    label_tr = tf.reshape(label_meta_test[:,:,:k_shot,:,:,:],[label_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
+    input_ts = tf.reshape(input_meta_test[:,:,k_shot:,:,:],[input_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
+    label_ts = tf.reshape(label_meta_test[:,:,k_shot:,:,:,:],[label_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
     #############################
     inp = (input_tr, input_ts, label_tr, label_ts)
     result = outer_eval_step(inp, model, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
@@ -842,7 +850,7 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=25, meta_lr=0.001,
              inner_update_lr=0.4, num_inner_updates=1,
              learn_inner_update_lr=False,
              resume=False, resume_itr=0, log=True, logdir='/tmp/data',
-             data_path='./scratch/users/chenkaim/data/',meta_train=True,
+             data_path='/scratch/users/chenkaim/data/',meta_train=True,
              meta_train_iterations=15000, meta_train_k_shot=-1,
              meta_train_inner_update_lr=-1):
 
@@ -852,7 +860,7 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=25, meta_lr=0.001,
 
   # set up MAML model
   # dim_output = data_generator.dim_output
-  dim_input = data_generator.dim_input
+  dim_input = (50,200,1)
   model = MAML(dim_input, channel=1,
               num_inner_updates=num_inner_updates,
               inner_update_lr=inner_update_lr,
@@ -881,4 +889,4 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=25, meta_lr=0.001,
     meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
     return meta_test_results
   
-run_results = run_maml(n_way=1, k_shot=5, inner_update_lr=4.0, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
+run_results = run_maml(n_way=2, k_shot=5, inner_update_lr=4.0, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
