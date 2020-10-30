@@ -185,11 +185,11 @@ LEARNING_RATE = 0.00005
 LR_DIV_FACTOR = 25.
 PCT_START = 0.2
 OMEGA = 1
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 NUM_DOWNCOV_BLOCKS = 4
 NUM_UPSAMPLING_BLOCKS = NUM_DOWNCOV_BLOCKS-1
 NUM_OUT_CHANNELS = 2
-UPSAMPLE_INTERP = ["nearest", "bilinear"][1]
+UPSAMPLE_INTERP = ["nearest", "bilinear"][0]
 FNAME = '/scratch/users/chenkaim/test'
 
 seed=1234
@@ -304,14 +304,8 @@ initializer = UniformRandom(omega0=OMEGA)
 def conv_block(inp, cweight, bweight, bn, activation=LeakyReLU(alpha=ALPHA)):
   """ Perform, conv, batch norm, nonlinearity, and max pool """
   stride, no_stride = [1,2,2,1], [1,1,1,1]
-  print("121212")
-  print(inp.shape)
-  print(cweight.shape)
-  print(bweight.shape)
   conv_output = tf.nn.conv2d(input=inp, filters=cweight, strides=no_stride, padding='SAME') + bweight
-  print("131313")
   normed = bn(conv_output)
-  print("141414")
   output = activation(normed)
   return conv_output, normed, output
 
@@ -329,10 +323,8 @@ def conv_block(inp, cweight, bweight, bn, activation=LeakyReLU(alpha=ALPHA)):
 
 def res_Block(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA)):
     first_conv, _, x = conv_block(inp, cweights[0], bweights[0], bns[0], activation=LeakyReLU(alpha=ALPHA))
-    print("101010")
     _, _, x = conv_block(x, cweights[1], bweights[1], bns[1], activation=LeakyReLU(alpha=ALPHA))
     _, x, _ = conv_block(x, cweights[2], bweights[2], bns[2], activation=LeakyReLU(alpha=ALPHA))
-    print("111111")
     x = first_conv+x
 
     output = activation(x)
@@ -340,9 +332,7 @@ def res_Block(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA)):
     return output
 
 def _encodeBlock(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA)):
-    print("888")
     res_out = res_Block(inp, cweights, bweights, bns, activation=LeakyReLU(alpha=ALPHA))
-    print("999")
     pool_out = MaxPooling2D((2, 2), strides=2)(res_out)
     return res_out, pool_out
 
@@ -451,12 +441,10 @@ class MuskensNet(tf.keras.layers.Layer):
   def call(self, inp, weights):
     x = inp
     blocks = []
-    print("666")
     for block in range(NUM_DOWNCOV_BLOCKS):
       res_out, x = _encodeBlock(x, weights['encode_layer'+str(block)+'_'+'conv'], \
                                    weights['encode_layer'+str(block)+'_'+'b'], \
                                    self.bns['encode_layer'+str(block)+'_'+'bn'])
-      print("777")
       (_, rows, cols, _) = res_out.shape
       rows_odd = rows%2   #Boolean values. 1 if num of rows/cols is odd
       cols_odd = cols%2
@@ -527,6 +515,10 @@ from functools import partial
 
 def accuracy(output,label):
   return tf.norm(output - label)/tf.norm(label)
+
+@tf.function
+def my_map(*args, **kwargs):
+  return tf.map_fn(*args, **kwargs)
 
 class MAML(tf.keras.Model):
   def __init__(self, dim_input=(50,200,1), channel=1,
@@ -605,20 +597,18 @@ class MAML(tf.keras.Model):
       new_weights = weights.copy()
       # print("input_tr.shape", input_tr.shape)
       # print("label_tr.shape", label_tr.shape)
-      print("555")
       task_output_tr_pre = self.Unet(input_tr, new_weights)
       task_loss_tr_pre = self.loss_func(task_output_tr_pre, label_tr)
       # print("task_output_tr_pre.shape", task_output_tr_pre.shape)
-      print("333")
-      with tf.GradientTape(persistent=True) as g:
+      with tf.GradientTape(persistent=False) as g:
+        new_weights = weights.copy()
+        g.watch(new_weights)
         for i in range(num_inner_updates):
-          new_weights = weights.copy()
-          g.watch(new_weights)
           predictions = self.Unet(input_tr, new_weights)
           loss = self.loss_func(predictions,label_tr)
 
           gradients = g.gradient(loss, new_weights)
-      
+          print("in 1")
           if self.learn_inner_update_lr:
             for block in range(NUM_DOWNCOV_BLOCKS):
               new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0]
@@ -666,14 +656,13 @@ class MAML(tf.keras.Model):
 
       for j in range(num_inner_updates):
         task_accuracies_ts.append(accuracy(task_outputs_ts[j], label_ts))
-
+      print("in 2")
       task_output = [task_output_tr_pre, task_outputs_ts, task_loss_tr_pre, task_losses_ts, task_accuracy_tr_pre, task_accuracies_ts]
 
       return task_output
 
     input_tr, input_ts, label_tr, label_ts = inp
     # to initialize the batch norm vars, might want to combine this, and not run idx 0 twice.
-    print("444")
     unused = task_inner_loop((input_tr[0], input_ts[0], label_tr[0], label_ts[0]),
                           False,
                           meta_batch_size,
@@ -681,10 +670,14 @@ class MAML(tf.keras.Model):
     out_dtype = [tf.float32, [tf.float32]*num_inner_updates, tf.float32, [tf.float32]*num_inner_updates]
     out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
     task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
+    print("111")
     result = tf.map_fn(task_inner_loop_partial,
                     elems=(input_tr, input_ts, label_tr, label_ts),
                     dtype=out_dtype,
                     parallel_iterations=meta_batch_size)
+    #result = task_inner_loop((input_tr, input_ts, label_tr, label_ts),True, meta_batch_size, num_inner_updates)
+
+    print("222")
     return result
 
 """Model training code"""
@@ -703,10 +696,8 @@ import random
 import tensorflow as tf
 
 def outer_train_step(inp, model, optim, meta_batch_size=25, num_inner_updates=1):
-  print("111")
   with tf.GradientTape(persistent=False) as outer_tape:
     result = model(inp, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
-    print("222")
     outputs_tr, outputs_ts, losses_tr_pre, losses_ts, accuracies_tr_pre, accuracies_ts = result
 
     total_losses_ts = [tf.reduce_mean(loss_ts) for loss_ts in losses_ts]
@@ -846,7 +837,7 @@ def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
   print((means, stds, ci95))
 
 
-def run_maml(n_way=5, k_shot=1, meta_batch_size=25, meta_lr=0.001,
+def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
              inner_update_lr=0.4, num_inner_updates=1,
              learn_inner_update_lr=False,
              resume=False, resume_itr=0, log=True, logdir='/tmp/data',
@@ -889,4 +880,4 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=25, meta_lr=0.001,
     meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
     return meta_test_results
   
-run_results = run_maml(n_way=2, k_shot=5, inner_update_lr=4.0, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
+run_results = run_maml(n_way=1, k_shot=5, inner_update_lr=4.0, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
