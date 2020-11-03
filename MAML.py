@@ -605,7 +605,7 @@ class MAML(tf.keras.Model):
         for i in range(num_inner_updates):
           predictions = self.Unet(input_tr, new_weights)
           loss = self.loss_func(predictions,label_tr)
-
+          print(predictions.shape, label_tr.shape)
           gradients = g.gradient(loss, new_weights)
           print("in 1")
           if self.learn_inner_update_lr:
@@ -670,7 +670,7 @@ class MAML(tf.keras.Model):
     out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
     task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
     print("111")
-    result = tf.map_fn(task_inner_loop_partial,
+    result = my_map(task_inner_loop,
                     elems=(input_tr, input_ts, label_tr, label_ts),
                     dtype=out_dtype,
                     parallel_iterations=meta_batch_size)
@@ -698,9 +698,10 @@ def outer_train_step(inp, model, optim, meta_batch_size=25, num_inner_updates=1)
   with tf.GradientTape(persistent=False) as outer_tape:
     result = model(inp, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
     outputs_tr, outputs_ts, losses_tr_pre, losses_ts, accuracies_tr_pre, accuracies_ts = result
-
+    print(result)
     total_losses_ts = [tf.reduce_mean(loss_ts) for loss_ts in losses_ts]
 
+  print(total_looses_ts)
   gradients = outer_tape.gradient(total_losses_ts[-1], model.trainable_variables)
   optim.apply_gradients(zip(gradients, model.trainable_variables))
 
