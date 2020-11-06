@@ -157,7 +157,8 @@ from tensorflow.keras.backend import int_shape
 from tensorflow.keras import initializers
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import MeanAbsoluteError
-from tensorflow.keras.layers import LeakyReLU, MaxPooling2D, ZeroPadding2D, UpSampling2D, Cropping2D, Concatenate
+from bicubic_interp import bicubic_interp_2d
+from tensorflow.keras.layers import LeakyReLU, MaxPooling2D, ZeroPadding2D, Cropping2D, Concatenate
 #     Input,
 #     Dense,
 #     Conv2D,
@@ -340,7 +341,11 @@ def _decodeBlock(x, shortcut, rows_odd, cols_odd, cweights, bweights, bns, activ
     #Add zero padding on bottom and right if odd dimension required at output,
     #giving an output of one greater than required
     x = ZeroPadding2D(padding=((0,rows_odd),(0,cols_odd)))(x)
-    x = UpSampling2D(size=(2,2), interpolation=UPSAMPLE_INTERP)(x)
+    # x = UpSampling2D(size=(2,2), interpolation=UPSAMPLE_INTERP)(x)
+    up_size = np.array(x.shape)
+    up_size[1] *= 2
+    up_size[2] *= 2
+    x = bicubic_interp_2d(x,(up_size[1],up_size[2]))
     #If padding was added, crop the output to match the target shape
     #print(rows_odd)
     #print(cols_odd)
@@ -462,7 +467,6 @@ class MuskensNet(tf.keras.layers.Layer):
                        self.bns['decode_layer'+str(block)+'_'+'bn'])
       #print("decode_out.shape:", x.shape)
     
-    print("after decode, ", x[0][0])
     x = tf.nn.conv2d(input=x, filters=weights['last_layer_conv'], strides=[1,1,1,1], padding='SAME') + weights['last_layer_b']
 
     return x
@@ -651,7 +655,8 @@ class MAML(tf.keras.Model):
           task_outputs_ts.append(predictions_ts)
           loss_ts = self.loss_func(predictions_ts, label_ts)
           task_losses_ts.append(loss_ts)
-      
+          
+      new_weights.clear()
       #############################
 
       # Compute accuracies from output predictions
@@ -665,17 +670,20 @@ class MAML(tf.keras.Model):
 
     input_tr, input_ts, label_tr, label_ts = inp
     # to initialize the batch norm vars, might want to combine this, and not run idx 0 twice.
-    unused = task_inner_loop((input_tr[1], input_ts[1], label_tr[1], label_ts[1]),
+    unused = task_inner_loop((input_tr[0], input_ts[0], label_tr[0], label_ts[0]),
                           False,
                           meta_batch_size,
                           num_inner_updates)
-    # out_dtype = [tf.float32, [tf.float32]*num_inner_updates, tf.float32, [tf.float32]*num_inner_updates]
-    # out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
-    # task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
-    result = []
-    for j in range(meta_batch_size):
-    	result.append(task_inner_loop((input_tr[j], input_ts[j], label_tr[j], label_ts[j]), False, meta_batch_size, num_inner_updates))
-    result = np.stack(result, axis=0)
+    out_dtype = [tf.float32, [tf.float32]*num_inner_updates, tf.float32, [tf.float32]*num_inner_updates]
+    out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
+    task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
+    result = tf.map_fn(task_inner_loop_partial,
+                       elems=(input_tr, input_ts, label_tr, label_ts),
+                       dtype=out_dtype)
+ 
+    #result = []
+    #for j in range(meta_batch_size):
+    #	result.append(task_inner_loop((input_tr[j], input_ts[j], label_tr[j], label_ts[j]), False, meta_batch_size, num_inner_updates))
     
     return result
 
@@ -698,11 +706,9 @@ def outer_train_step(inp, model, optim, meta_batch_size=25, num_inner_updates=1)
   with tf.GradientTape(persistent=False) as outer_tape:
     result = model(inp, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
     outputs_tr, outputs_ts, losses_tr_pre, losses_ts, accuracies_tr_pre, accuracies_ts = result
-    print("results!!!")
     total_losses_ts = [tf.reduce_mean(loss_ts) for loss_ts in losses_ts]
 
   gradients = outer_tape.gradient(total_losses_ts[-1], model.trainable_variables)
-  print("gradients")
   optim.apply_gradients(zip(gradients, model.trainable_variables))
 
   total_loss_tr_pre = tf.reduce_mean(losses_tr_pre)
@@ -727,11 +733,11 @@ def outer_eval_step(inp, model, meta_batch_size=25, num_inner_updates=1):
 
 def meta_train_fn(model, exp_string, data_generator,
                n_way=5, meta_train_iterations=15000, meta_batch_size=25,
-               log=True, logdir='/tmp/data', k_shot=1, num_inner_updates=1, meta_lr=0.001):
-  SUMMARY_INTERVAL = 10
-  SAVE_INTERVAL = 100
-  PRINT_INTERVAL = 10  
-  TEST_PRINT_INTERVAL = PRINT_INTERVAL*5
+               log=True, logdir='/scratch/users/chenkaim/models/', k_shot=1, num_inner_updates=1, meta_lr=0.001):
+  SUMMARY_INTERVAL = 5
+  SAVE_INTERVAL = 50
+  PRINT_INTERVAL = 5  
+  TEST_PRINT_INTERVAL = PRINT_INTERVAL*2
 
   meta_train_results = [[],[],[]] # iters, pre_accuracy, post_accuracy
   meta_val_results = [[],[]] # iters, val_accuracy
@@ -749,7 +755,7 @@ def meta_train_fn(model, exp_string, data_generator,
     # sample a batch of training data and partition into
     # the support/training set (input_tr, label_tr) and the query/test set (input_ts, label_ts)
     # NOTE: The code assumes that the support and query sets have the same number of examples.
-
+    # print("iter ", itr)
     input_meta_train, label_meta_train = data_generator.sample_batch("meta_train", meta_batch_size);
     input_tr = tf.reshape(input_meta_train[:,:,:k_shot,:,:],[input_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], model.channels])
     label_tr = tf.reshape(label_meta_train[:,:,:k_shot,:,:,:],[label_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
@@ -757,7 +763,6 @@ def meta_train_fn(model, exp_string, data_generator,
     label_ts = tf.reshape(label_meta_train[:,:,k_shot:,:,:,:],[label_meta_train.shape[0],-1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
 
     #############################
-    print("finished sampling training set")
     inp = (input_tr, input_ts, label_tr, label_ts)
     
     result = outer_train_step(inp, model, optimizer, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
@@ -840,7 +845,7 @@ def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
 def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
              inner_update_lr=0.4, num_inner_updates=1,
              learn_inner_update_lr=False,
-             resume=False, resume_itr=0, log=True, logdir='/tmp/data',
+             resume=False, resume_itr=0, log=True, logdir='/scratch/users/chenkaim/models/',
              data_path='/scratch/users/chenkaim/data/',meta_train=True,
              meta_train_iterations=15000, meta_train_k_shot=-1,
              meta_train_inner_update_lr=-1):
@@ -880,4 +885,4 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
     meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
     return meta_test_results
   
-run_results = run_maml(n_way=1, k_shot=5, inner_update_lr=.04, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
+run_results = run_maml(n_way=1, k_shot=1, inner_update_lr=.04, num_inner_updates=1, meta_batch_size=2, meta_train_iterations=50, learn_inner_update_lr=False)
