@@ -599,7 +599,6 @@ class MAML(tf.keras.Model):
       # and use input_ts and labels for evaluating performance
 
       temp_weights = weights.copy()
-      print("copied weights: ", temp_weights["last_layer_b"])
       # print("input_tr.shape", input_tr.shape)
       # print("label_tr.shape", label_tr.shape)
       task_output_tr_pre = self.Unet(input_tr, temp_weights)
@@ -613,7 +612,6 @@ class MAML(tf.keras.Model):
           loss = self.loss_func(predictions,label_tr)
           # print(predictions.shape, label_tr.shape)
           gradients = g.gradient(loss, new_weights)
-          print("gradients:", gradients['last_layer_b'])
           if self.learn_inner_update_lr:
             for block in range(NUM_DOWNCOV_BLOCKS):
               new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0]
@@ -649,12 +647,9 @@ class MAML(tf.keras.Model):
             new_weights['last_layer_conv'] = new_weights['last_layer_conv'] - self.inner_update_lr*gradients['last_layer_conv']
             new_weights['last_layer_b'] = new_weights['last_layer_b'] - self.inner_update_lr*gradients['last_layer_b']
 
-          print("new_weights after update:", new_weights['last_layer_b'])
           predictions_ts = self.Unet(input_ts, new_weights)
           task_outputs_ts.append(predictions_ts)
-          print("predictions_ts: ", predictions_ts[0])
           loss_ts = self.loss_func(predictions_ts, label_ts)
-          print("loss_ts: ", loss_ts)
           task_losses_ts.append(loss_ts)
       
       #############################
@@ -670,21 +665,17 @@ class MAML(tf.keras.Model):
 
     input_tr, input_ts, label_tr, label_ts = inp
     # to initialize the batch norm vars, might want to combine this, and not run idx 0 twice.
-    out_dtype = [tf.float32, [tf.float32]*num_inner_updates, tf.float32, [tf.float32]*num_inner_updates]
-    out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
-    task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
-    result = []
-    print(input_tr.shape, input_ts.shape, label_tr.shape, label_ts.shape)
-    print("loop through the inputs!!!!")
-    for j in range(meta_batch_size):
-    	result.append(task_inner_loop((input_tr[j], input_ts[j], label_tr[j], label_ts[j]), False, meta_batch_size, num_inner_updates))
-    result = np.stack(result, axis=0)
-    
-    print("unused for initialing bn!!!")
     unused = task_inner_loop((input_tr[1], input_ts[1], label_tr[1], label_ts[1]),
                           False,
                           meta_batch_size,
                           num_inner_updates)
+    # out_dtype = [tf.float32, [tf.float32]*num_inner_updates, tf.float32, [tf.float32]*num_inner_updates]
+    # out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
+    # task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
+    result = []
+    for j in range(meta_batch_size):
+    	result.append(task_inner_loop((input_tr[j], input_ts[j], label_tr[j], label_ts[j]), False, meta_batch_size, num_inner_updates))
+    result = np.stack(result, axis=0)
     
     return result
 
@@ -889,4 +880,4 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
     meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
     return meta_test_results
   
-run_results = run_maml(n_way=1, k_shot=5, inner_update_lr=4.0, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
+run_results = run_maml(n_way=1, k_shot=5, inner_update_lr=.04, num_inner_updates=1,meta_train_iterations=200, learn_inner_update_lr=False)
