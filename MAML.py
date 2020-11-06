@@ -189,7 +189,7 @@ BATCH_SIZE = 16
 NUM_DOWNCOV_BLOCKS = 4
 NUM_UPSAMPLING_BLOCKS = NUM_DOWNCOV_BLOCKS-1
 NUM_OUT_CHANNELS = 2
-UPSAMPLE_INTERP = ["nearest", "bilinear"][0]
+UPSAMPLE_INTERP = ["nearest", "bilinear"][1]
 FNAME = '/scratch/users/chenkaim/test'
 
 seed=1234
@@ -449,6 +449,7 @@ class MuskensNet(tf.keras.layers.Layer):
       rows_odd = rows%2   #Boolean values. 1 if num of rows/cols is odd
       cols_odd = cols%2
       blocks.append((res_out, x, rows_odd, cols_odd))
+      #print("pool_out.shape: ", x.shape)
     
     (x, _, _, _) = blocks.pop()
     # num_decode_blocks = len(blocks)
@@ -459,6 +460,9 @@ class MuskensNet(tf.keras.layers.Layer):
                        weights['decode_layer'+str(block)+'_'+'conv'], \
                        weights['decode_layer'+str(block)+'_'+'b'], \
                        self.bns['decode_layer'+str(block)+'_'+'bn'])
+      #print("decode_out.shape:", x.shape)
+    
+    print("after decode, ", x[0][0])
     x = tf.nn.conv2d(input=x, filters=weights['last_layer_conv'], strides=[1,1,1,1], padding='SAME') + weights['last_layer_b']
 
     return x
@@ -594,20 +598,22 @@ class MAML(tf.keras.Model):
       # Note that at each inner update, always use input_tr and label_tr for calculating gradients
       # and use input_ts and labels for evaluating performance
 
-      new_weights = weights.copy()
+      temp_weights = weights.copy()
+      print("copied weights: ", temp_weights["last_layer_b"])
       # print("input_tr.shape", input_tr.shape)
       # print("label_tr.shape", label_tr.shape)
-      task_output_tr_pre = self.Unet(input_tr, new_weights)
+      task_output_tr_pre = self.Unet(input_tr, temp_weights)
       task_loss_tr_pre = self.loss_func(task_output_tr_pre, label_tr)
       # print("task_output_tr_pre.shape", task_output_tr_pre.shape)
-      with tf.GradientTape(persistent=True) as g:
+      with tf.GradientTape(persistent=False) as g:
+        new_weights = weights.copy()
         g.watch(new_weights)
         for i in range(num_inner_updates):
           predictions = self.Unet(input_tr, new_weights)
           loss = self.loss_func(predictions,label_tr)
-          print(predictions.shape, label_tr.shape)
+          # print(predictions.shape, label_tr.shape)
           gradients = g.gradient(loss, new_weights)
-          print("in 1")
+          print("gradients:", gradients['last_layer_b'])
           if self.learn_inner_update_lr:
             for block in range(NUM_DOWNCOV_BLOCKS):
               new_weights['encode_layer'+str(block)+'_'+'conv'][0] = new_weights['encode_layer'+str(block)+'_'+'conv'][0] - self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0]
@@ -643,9 +649,12 @@ class MAML(tf.keras.Model):
             new_weights['last_layer_conv'] = new_weights['last_layer_conv'] - self.inner_update_lr*gradients['last_layer_conv']
             new_weights['last_layer_b'] = new_weights['last_layer_b'] - self.inner_update_lr*gradients['last_layer_b']
 
+          print("new_weights after update:", new_weights['last_layer_b'])
           predictions_ts = self.Unet(input_ts, new_weights)
           task_outputs_ts.append(predictions_ts)
+          print("predictions_ts: ", predictions_ts[0])
           loss_ts = self.loss_func(predictions_ts, label_ts)
+          print("loss_ts: ", loss_ts)
           task_losses_ts.append(loss_ts)
       
       #############################
@@ -655,28 +664,28 @@ class MAML(tf.keras.Model):
 
       for j in range(num_inner_updates):
         task_accuracies_ts.append(accuracy(task_outputs_ts[j], label_ts))
-      print("in 2")
       task_output = [task_output_tr_pre, task_outputs_ts, task_loss_tr_pre, task_losses_ts, task_accuracy_tr_pre, task_accuracies_ts]
 
       return task_output
 
     input_tr, input_ts, label_tr, label_ts = inp
     # to initialize the batch norm vars, might want to combine this, and not run idx 0 twice.
-    unused = task_inner_loop((input_tr[0], input_ts[0], label_tr[0], label_ts[0]),
-                          False,
-                          meta_batch_size,
-                          num_inner_updates)
     out_dtype = [tf.float32, [tf.float32]*num_inner_updates, tf.float32, [tf.float32]*num_inner_updates]
     out_dtype.extend([tf.float32, [tf.float32]*num_inner_updates])
     task_inner_loop_partial = partial(task_inner_loop, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
-    print("111")
-    result = my_map(task_inner_loop,
-                    elems=(input_tr, input_ts, label_tr, label_ts),
-                    dtype=out_dtype,
-                    parallel_iterations=meta_batch_size)
-    #result = task_inner_loop((input_tr, input_ts, label_tr, label_ts),True, meta_batch_size, num_inner_updates)
-
-    print("222")
+    result = []
+    print(input_tr.shape, input_ts.shape, label_tr.shape, label_ts.shape)
+    print("loop through the inputs!!!!")
+    for j in range(meta_batch_size):
+    	result.append(task_inner_loop((input_tr[j], input_ts[j], label_tr[j], label_ts[j]), False, meta_batch_size, num_inner_updates))
+    result = np.stack(result, axis=0)
+    
+    print("unused for initialing bn!!!")
+    unused = task_inner_loop((input_tr[1], input_ts[1], label_tr[1], label_ts[1]),
+                          False,
+                          meta_batch_size,
+                          num_inner_updates)
+    
     return result
 
 """Model training code"""
@@ -698,11 +707,11 @@ def outer_train_step(inp, model, optim, meta_batch_size=25, num_inner_updates=1)
   with tf.GradientTape(persistent=False) as outer_tape:
     result = model(inp, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
     outputs_tr, outputs_ts, losses_tr_pre, losses_ts, accuracies_tr_pre, accuracies_ts = result
-    print(result)
+    print("results!!!")
     total_losses_ts = [tf.reduce_mean(loss_ts) for loss_ts in losses_ts]
 
-  print(total_looses_ts)
   gradients = outer_tape.gradient(total_losses_ts[-1], model.trainable_variables)
+  print("gradients")
   optim.apply_gradients(zip(gradients, model.trainable_variables))
 
   total_loss_tr_pre = tf.reduce_mean(losses_tr_pre)
