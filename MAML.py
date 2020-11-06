@@ -801,9 +801,9 @@ def meta_train_fn(model, exp_string, data_generator,
 
   model_file = logdir + '/' + exp_string +  '/model' + str(itr)
   print("Saving to ", model_file)
-  model.save_weights(model_file)
+  # model.save_weights(model_file)
  
-  return meta_train_results, meta_val_results
+  return meta_train_results, meta_val_results, model, model_file
 
 # TO DO: change this:
 NUM_META_TEST_POINTS = 600
@@ -886,3 +886,26 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
     return meta_test_results
   
 run_results = run_maml(n_way=1, k_shot=1, inner_update_lr=.04, num_inner_updates=1, meta_batch_size=2, meta_train_iterations=50, learn_inner_update_lr=False)
+
+
+from matplotlib import pyplot as plt
+
+meta_train_results, meta_val_results,  _model, model_file = run_results
+
+
+plt.figure()
+plt.plot(meta_train_results[0],meta_train_results[1])
+plt.plot(meta_train_results[0],meta_train_results[2])
+plt.xlabel("meta_train_results")
+plt.ylabel("loss")
+plt.title("Meta-train loss")
+
+plt.figure()
+plt.plot(meta_val_results[0],meta_val_results[1])
+plt.plot(meta_val_results[0],meta_val_results[2])
+plt.xlabel("meta_val_results")
+plt.ylabel("loss")
+plt.title("meta_val loss")
+plt.show()
+
+
