@@ -1,0 +1,1361 @@
+
+Lmod is automatically replacing "imkl/2019" with "openblas/0.2.19".
+
+-------------------------------------------------------------------------------
+The following dependent module(s) are not currently loaded: imkl/2019 (required by: py-tensorflow/2.1.0_py36)
+-------------------------------------------------------------------------------
+
+The following have been reloaded with a version change:
+  1) cuda/10.2.89 => cuda/10.1.168     2) cudnn/7.6.5 => cudnn/7.6.4
+
+
+The following have been reloaded with a version change:
+  1) py-numpy/1.18.1_py36 => py-numpy/1.14.3_py36
+  2) py-scipy/1.4.1_py36 => py-scipy/1.1.0_py36
+
+
+The following have been reloaded with a version change:
+  1) py-numpy/1.14.3_py36 => py-numpy/1.18.1_py36
+
+
+Lmod is automatically replacing "openblas/0.2.19" with "imkl/2019".
+
+-------------------------------------------------------------------------------
+The following dependent module(s) are not currently loaded: cudnn/7.6.4 (required by: py-pytorch/1.4.0_py36), openblas/0.2.19 (required by: py-pytorch/1.4.0_py36), py-scipy/1.1.0_py36 (required by: py-scikit-learn/0.19.1_py36), python/3.6 (required by: py-numpy/1.18.1_py36), python/3.6.1 (required by: py-ipython/6.1.0_py36, py-pillow/7.0.0_py36)
+-------------------------------------------------------------------------------
+
+The following have been reloaded with a version change:
+  1) cuda/10.1.168 => cuda/10.2.89
+  2) cudnn/7.6.4 => cudnn/7.6.5
+  3) py-scipy/1.1.0_py36 => py-scipy/1.4.1_py36
+
+2020-11-15 13:27:13.750255: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.2
+2020-11-15 13:27:15.213470: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libnvinfer.so.6
+2020-11-15 13:27:15.216878: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libnvinfer_plugin.so.6
+2020-11-15 13:27:18.236056: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2020-11-15 13:27:18.276743: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+pciBusID: 0000:82:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.912GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2020-11-15 13:27:18.276807: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.2
+2020-11-15 13:27:18.276851: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-11-15 13:27:18.282479: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-11-15 13:27:18.283881: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-11-15 13:27:18.288524: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-11-15 13:27:18.291138: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-11-15 13:27:18.291200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-15 13:27:18.293129: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1697] Adding visible gpu devices: 0
+2020-11-15 13:27:18.293963: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE3 SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-11-15 13:27:18.303198: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2400020000 Hz
+2020-11-15 13:27:18.303654: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x57ff3c0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-11-15 13:27:18.303680: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2020-11-15 13:27:18.468952: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x58845b0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2020-11-15 13:27:18.469016: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): TITAN V, Compute Capability 7.0
+2020-11-15 13:27:18.471077: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1555] Found device 0 with properties: 
+pciBusID: 0000:82:00.0 name: TITAN V computeCapability: 7.0
+coreClock: 1.912GHz coreCount: 80 deviceMemorySize: 11.78GiB deviceMemoryBandwidth: 607.97GiB/s
+2020-11-15 13:27:18.471137: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.2
+2020-11-15 13:27:18.471163: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-11-15 13:27:18.471200: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-11-15 13:27:18.471226: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-11-15 13:27:18.471252: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-11-15 13:27:18.471277: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-11-15 13:27:18.471296: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-15 13:27:18.474618: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1697] Adding visible gpu devices: 0
+2020-11-15 13:27:18.474685: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.2
+2020-11-15 13:27:19.205347: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1096] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-11-15 13:27:19.205412: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102]      0 
+2020-11-15 13:27:19.205426: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] 0:   N 
+2020-11-15 13:27:19.207494: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1241] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10994 MB memory) -> physical GPU (device: 0, name: TITAN V, pci bus id: 0000:82:00.0, compute capability: 7.0)
+2020-11-15 13:27:19.208126: I tensorflow/core/common_runtime/process_util.cc:147] Creating new thread pool with default inter op setting: 2. Tune using inter_op_parallelism_threads for best performance.
+Using TensorFlow backend.
+WARNING:tensorflow:Layer maml is casting an input tensor from dtype float16 to the layer's dtype of float32, which is new behavior in TensorFlow 2.  The layer has dtype float32 because it's dtype defaults to floatx.
+
+If you intended to run this layer in float32, you can safely ignore this warning. If in doubt, this warning is likely only an issue if you are porting a TensorFlow 1.X model to TensorFlow 2.
+
+To change all layers to have dtype float16 by default, call `tf.keras.backend.set_floatx('float16')`. To change just this layer, pass dtype='float16' to the layer constructor. If you are the author of this layer, you can disable autocasting by passing autocast=False to the base Layer constructor.
+
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:Layer muskens_net is casting an input tensor from dtype float16 to the layer's dtype of float32, which is new behavior in TensorFlow 2.  The layer has dtype float32 because it's dtype defaults to floatx.
+
+If you intended to run this layer in float32, you can safely ignore this warning. If in doubt, this warning is likely only an issue if you are porting a TensorFlow 1.X model to TensorFlow 2.
+
+To change all layers to have dtype float16 by default, call `tf.keras.backend.set_floatx('float16')`. To change just this layer, pass dtype='float16' to the layer constructor. If you are the author of this layer, you can disable autocasting by passing autocast=False to the base Layer constructor.
+
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+WARNING:tensorflow:AutoGraph could not transform <bound method MuskensNet.call of <__main__.MuskensNet object at 0x7f4fb31e59e8>> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unexpected indent (<unknown>, line 17)
+2020-11-15 13:27:45.482047: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-15 13:27:46.882151: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+WARNING:tensorflow:Skipping full serialization of Keras model <__main__.MAML object at 0x7f4fb31bd940>, because its inputs are not defined.
+2020-11-15 13:57:35.798233: W tensorflow/python/util/util.cc:319] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+TensorFlow version:  2.1.0
+Tracing in inner
+Tracing in Muskens
+Tracing in Muskens
+Tracing in Muskens
+Tracing in mapping
+Tracing in Muskens
+Tracing in Muskens
+Tracing in Muskens
+Tracing in inner
+Tracing in Muskens
+Tracing in Muskens
+Tracing in Muskens
+Tracing in mapping
+Tracing in Muskens
+Tracing in Muskens
+Tracing in Muskens
+Iteration 5: pre-inner-loop train accuracy: 1.00290, post-inner-loop test accuracy: 1.00103, train_loss: 1.23740
+Iteration 10: pre-inner-loop train accuracy: 0.99423, post-inner-loop test accuracy: 0.99338, train_loss: 1.14080
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.99349, meta-validation post-inner-loop test accuracy: 0.99175
+Iteration 15: pre-inner-loop train accuracy: 0.97970, post-inner-loop test accuracy: 0.97994, train_loss: 1.06684
+Iteration 20: pre-inner-loop train accuracy: 0.96976, post-inner-loop test accuracy: 0.97966, train_loss: 1.08781
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.98542, meta-validation post-inner-loop test accuracy: 0.98375
+Iteration 25: pre-inner-loop train accuracy: 0.96827, post-inner-loop test accuracy: 0.96812, train_loss: 1.04016
+Iteration 30: pre-inner-loop train accuracy: 0.94737, post-inner-loop test accuracy: 0.95330, train_loss: 0.94341
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.99524, meta-validation post-inner-loop test accuracy: 0.99411
+Iteration 35: pre-inner-loop train accuracy: 0.93463, post-inner-loop test accuracy: 0.94647, train_loss: 0.92387
+Iteration 40: pre-inner-loop train accuracy: 0.93856, post-inner-loop test accuracy: 0.95189, train_loss: 0.98912
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.99860, meta-validation post-inner-loop test accuracy: 0.99321
+Iteration 45: pre-inner-loop train accuracy: 0.99608, post-inner-loop test accuracy: 0.99583, train_loss: 1.11668
+Iteration 50: pre-inner-loop train accuracy: 0.95723, post-inner-loop test accuracy: 0.94635, train_loss: 1.02087
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.98359, meta-validation post-inner-loop test accuracy: 0.98547
+Iteration 55: pre-inner-loop train accuracy: 0.92161, post-inner-loop test accuracy: 0.91041, train_loss: 0.84022
+Iteration 60: pre-inner-loop train accuracy: 0.98565, post-inner-loop test accuracy: 0.98275, train_loss: 1.08614
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.95997, meta-validation post-inner-loop test accuracy: 0.95891
+Iteration 65: pre-inner-loop train accuracy: 0.93248, post-inner-loop test accuracy: 0.92773, train_loss: 1.00943
+Iteration 70: pre-inner-loop train accuracy: 0.88890, post-inner-loop test accuracy: 0.90712, train_loss: 0.89099
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.97969, meta-validation post-inner-loop test accuracy: 0.97725
+Iteration 75: pre-inner-loop train accuracy: 0.92045, post-inner-loop test accuracy: 0.85960, train_loss: 0.74739
+Iteration 80: pre-inner-loop train accuracy: 0.88232, post-inner-loop test accuracy: 0.87909, train_loss: 0.86591
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.92461, meta-validation post-inner-loop test accuracy: 0.91743
+Iteration 85: pre-inner-loop train accuracy: 0.85327, post-inner-loop test accuracy: 0.86843, train_loss: 0.84179
+Iteration 90: pre-inner-loop train accuracy: 0.97325, post-inner-loop test accuracy: 0.96978, train_loss: 1.14305
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.90423, meta-validation post-inner-loop test accuracy: 0.89480
+Iteration 95: pre-inner-loop train accuracy: 0.83833, post-inner-loop test accuracy: 0.82699, train_loss: 0.76860
+Iteration 100: pre-inner-loop train accuracy: 0.83419, post-inner-loop test accuracy: 0.86724, train_loss: 0.79571
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.88695, meta-validation post-inner-loop test accuracy: 0.87765
+Iteration 105: pre-inner-loop train accuracy: 0.84582, post-inner-loop test accuracy: 0.86114, train_loss: 0.93740
+Iteration 110: pre-inner-loop train accuracy: 0.95924, post-inner-loop test accuracy: 0.94053, train_loss: 1.12469
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.85931, meta-validation post-inner-loop test accuracy: 0.87347
+Iteration 115: pre-inner-loop train accuracy: 0.95510, post-inner-loop test accuracy: 0.96092, train_loss: 1.13394
+Iteration 120: pre-inner-loop train accuracy: 0.94658, post-inner-loop test accuracy: 0.94707, train_loss: 1.09455
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.85974, meta-validation post-inner-loop test accuracy: 0.87914
+Iteration 125: pre-inner-loop train accuracy: 0.82700, post-inner-loop test accuracy: 0.81171, train_loss: 0.78763
+Iteration 130: pre-inner-loop train accuracy: 0.80516, post-inner-loop test accuracy: 0.81434, train_loss: 0.88553
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.93718, meta-validation post-inner-loop test accuracy: 0.91482
+Iteration 135: pre-inner-loop train accuracy: 0.87166, post-inner-loop test accuracy: 0.83204, train_loss: 0.78104
+Iteration 140: pre-inner-loop train accuracy: 0.81359, post-inner-loop test accuracy: 0.82312, train_loss: 0.81487
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.92352, meta-validation post-inner-loop test accuracy: 0.92006
+Iteration 145: pre-inner-loop train accuracy: 0.82809, post-inner-loop test accuracy: 0.89473, train_loss: 0.97160
+Iteration 150: pre-inner-loop train accuracy: 0.86077, post-inner-loop test accuracy: 0.82338, train_loss: 0.84812
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.83122, meta-validation post-inner-loop test accuracy: 0.83166
+Iteration 155: pre-inner-loop train accuracy: 0.92068, post-inner-loop test accuracy: 0.91095, train_loss: 1.05623
+Iteration 160: pre-inner-loop train accuracy: 0.87664, post-inner-loop test accuracy: 0.81135, train_loss: 0.71698
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.82250, meta-validation post-inner-loop test accuracy: 0.81993
+Iteration 165: pre-inner-loop train accuracy: 0.84214, post-inner-loop test accuracy: 0.83813, train_loss: 0.85113
+Iteration 170: pre-inner-loop train accuracy: 0.83181, post-inner-loop test accuracy: 0.77423, train_loss: 0.75400
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.84024, meta-validation post-inner-loop test accuracy: 0.85239
+Iteration 175: pre-inner-loop train accuracy: 0.85478, post-inner-loop test accuracy: 0.85831, train_loss: 0.83326
+Iteration 180: pre-inner-loop train accuracy: 0.79921, post-inner-loop test accuracy: 0.84929, train_loss: 0.83685
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.81590, meta-validation post-inner-loop test accuracy: 0.81701
+Iteration 185: pre-inner-loop train accuracy: 0.81032, post-inner-loop test accuracy: 0.86386, train_loss: 0.99245
+Iteration 190: pre-inner-loop train accuracy: 0.85020, post-inner-loop test accuracy: 0.79369, train_loss: 0.77978
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.89392, meta-validation post-inner-loop test accuracy: 0.87722
+Iteration 195: pre-inner-loop train accuracy: 0.81145, post-inner-loop test accuracy: 0.78854, train_loss: 0.84705
+Iteration 200: pre-inner-loop train accuracy: 0.84658, post-inner-loop test accuracy: 0.73562, train_loss: 0.60341
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.79884, meta-validation post-inner-loop test accuracy: 0.78309
+Iteration 205: pre-inner-loop train accuracy: 0.77669, post-inner-loop test accuracy: 0.80507, train_loss: 0.98422
+Iteration 210: pre-inner-loop train accuracy: 0.78193, post-inner-loop test accuracy: 0.78807, train_loss: 0.87455
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.76897, meta-validation post-inner-loop test accuracy: 0.74912
+Iteration 215: pre-inner-loop train accuracy: 0.78501, post-inner-loop test accuracy: 0.81260, train_loss: 0.81973
+Iteration 220: pre-inner-loop train accuracy: 0.80338, post-inner-loop test accuracy: 0.78818, train_loss: 0.96724
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.77015, meta-validation post-inner-loop test accuracy: 0.80093
+Iteration 225: pre-inner-loop train accuracy: 0.77628, post-inner-loop test accuracy: 0.76127, train_loss: 0.93100
+Iteration 230: pre-inner-loop train accuracy: 0.76061, post-inner-loop test accuracy: 0.75750, train_loss: 0.91382
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.75651, meta-validation post-inner-loop test accuracy: 0.71749
+Iteration 235: pre-inner-loop train accuracy: 0.79472, post-inner-loop test accuracy: 0.76979, train_loss: 0.72647
+Iteration 240: pre-inner-loop train accuracy: 0.80260, post-inner-loop test accuracy: 0.78021, train_loss: 0.90570
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.78954, meta-validation post-inner-loop test accuracy: 0.79450
+Iteration 245: pre-inner-loop train accuracy: 0.79862, post-inner-loop test accuracy: 0.78547, train_loss: 0.92218
+Iteration 250: pre-inner-loop train accuracy: 0.76873, post-inner-loop test accuracy: 0.77787, train_loss: 0.76406
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.79003, meta-validation post-inner-loop test accuracy: 0.78681
+Iteration 255: pre-inner-loop train accuracy: 0.78011, post-inner-loop test accuracy: 0.81254, train_loss: 0.95380
+Iteration 260: pre-inner-loop train accuracy: 0.81959, post-inner-loop test accuracy: 0.81350, train_loss: 0.84291
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.81821, meta-validation post-inner-loop test accuracy: 0.74559
+Iteration 265: pre-inner-loop train accuracy: 0.76885, post-inner-loop test accuracy: 0.74308, train_loss: 0.80471
+Iteration 270: pre-inner-loop train accuracy: 0.79998, post-inner-loop test accuracy: 0.77539, train_loss: 0.96036
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.78285, meta-validation post-inner-loop test accuracy: 0.83399
+Iteration 275: pre-inner-loop train accuracy: 0.77135, post-inner-loop test accuracy: 0.77923, train_loss: 0.98744
+Iteration 280: pre-inner-loop train accuracy: 0.78363, post-inner-loop test accuracy: 0.75542, train_loss: 0.67762
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.77520, meta-validation post-inner-loop test accuracy: 0.76689
+Iteration 285: pre-inner-loop train accuracy: 0.77018, post-inner-loop test accuracy: 0.84044, train_loss: 0.96346
+Iteration 290: pre-inner-loop train accuracy: 0.77150, post-inner-loop test accuracy: 0.76616, train_loss: 0.91919
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.79547, meta-validation post-inner-loop test accuracy: 0.72959
+Iteration 295: pre-inner-loop train accuracy: 0.77314, post-inner-loop test accuracy: 0.80609, train_loss: 0.81336
+Iteration 300: pre-inner-loop train accuracy: 0.76920, post-inner-loop test accuracy: 0.71545, train_loss: 0.73373
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.75012, meta-validation post-inner-loop test accuracy: 0.74662
+Iteration 305: pre-inner-loop train accuracy: 0.79619, post-inner-loop test accuracy: 0.73734, train_loss: 0.77297
+Iteration 310: pre-inner-loop train accuracy: 0.82324, post-inner-loop test accuracy: 0.74838, train_loss: 0.82903
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.72658, meta-validation post-inner-loop test accuracy: 0.76696
+Iteration 315: pre-inner-loop train accuracy: 0.73650, post-inner-loop test accuracy: 0.83633, train_loss: 0.91398
+Iteration 320: pre-inner-loop train accuracy: 0.81663, post-inner-loop test accuracy: 0.75693, train_loss: 0.76614
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.73197, meta-validation post-inner-loop test accuracy: 0.72056
+Iteration 325: pre-inner-loop train accuracy: 0.76637, post-inner-loop test accuracy: 0.72601, train_loss: 0.80981
+Iteration 330: pre-inner-loop train accuracy: 0.78168, post-inner-loop test accuracy: 0.71933, train_loss: 0.59660
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.75331, meta-validation post-inner-loop test accuracy: 0.79006
+Iteration 335: pre-inner-loop train accuracy: 0.82333, post-inner-loop test accuracy: 0.74875, train_loss: 0.80460
+Iteration 340: pre-inner-loop train accuracy: 0.74588, post-inner-loop test accuracy: 0.72636, train_loss: 0.88288
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.77689, meta-validation post-inner-loop test accuracy: 0.80637
+Iteration 345: pre-inner-loop train accuracy: 0.72454, post-inner-loop test accuracy: 0.75258, train_loss: 0.78406
+Iteration 350: pre-inner-loop train accuracy: 0.74132, post-inner-loop test accuracy: 0.74759, train_loss: 0.63925
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.71810, meta-validation post-inner-loop test accuracy: 0.75212
+Iteration 355: pre-inner-loop train accuracy: 0.73110, post-inner-loop test accuracy: 0.72867, train_loss: 0.90555
+Iteration 360: pre-inner-loop train accuracy: 0.82005, post-inner-loop test accuracy: 0.72633, train_loss: 0.76302
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.71064, meta-validation post-inner-loop test accuracy: 0.74478
+Iteration 365: pre-inner-loop train accuracy: 0.72633, post-inner-loop test accuracy: 0.77362, train_loss: 0.82259
+Iteration 370: pre-inner-loop train accuracy: 0.74864, post-inner-loop test accuracy: 0.70563, train_loss: 0.76720
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.77277, meta-validation post-inner-loop test accuracy: 0.81325
+Iteration 375: pre-inner-loop train accuracy: 0.76639, post-inner-loop test accuracy: 0.74037, train_loss: 0.93233
+Iteration 380: pre-inner-loop train accuracy: 0.69203, post-inner-loop test accuracy: 0.79946, train_loss: 0.75651
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.76657, meta-validation post-inner-loop test accuracy: 0.75079
+Iteration 385: pre-inner-loop train accuracy: 0.74875, post-inner-loop test accuracy: 0.74060, train_loss: 0.89863
+Iteration 390: pre-inner-loop train accuracy: 0.76398, post-inner-loop test accuracy: 0.72715, train_loss: 0.87005
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.73531, meta-validation post-inner-loop test accuracy: 0.78815
+Iteration 395: pre-inner-loop train accuracy: 0.72740, post-inner-loop test accuracy: 0.76234, train_loss: 0.75488
+Iteration 400: pre-inner-loop train accuracy: 0.70268, post-inner-loop test accuracy: 0.76486, train_loss: 0.83847
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.76887, meta-validation post-inner-loop test accuracy: 0.76492
+Iteration 405: pre-inner-loop train accuracy: 0.73983, post-inner-loop test accuracy: 0.74372, train_loss: 0.71798
+Iteration 410: pre-inner-loop train accuracy: 0.73235, post-inner-loop test accuracy: 0.78099, train_loss: 0.76394
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.73385, meta-validation post-inner-loop test accuracy: 0.69901
+Iteration 415: pre-inner-loop train accuracy: 0.74829, post-inner-loop test accuracy: 0.73375, train_loss: 0.87191
+Iteration 420: pre-inner-loop train accuracy: 0.76245, post-inner-loop test accuracy: 0.69294, train_loss: 0.72111
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.76683, meta-validation post-inner-loop test accuracy: 0.79628
+Iteration 425: pre-inner-loop train accuracy: 0.70286, post-inner-loop test accuracy: 0.69494, train_loss: 0.74165
+Iteration 430: pre-inner-loop train accuracy: 0.68610, post-inner-loop test accuracy: 0.67732, train_loss: 0.71654
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.76322, meta-validation post-inner-loop test accuracy: 0.81170
+Iteration 435: pre-inner-loop train accuracy: 0.77008, post-inner-loop test accuracy: 0.71765, train_loss: 0.87395
+Iteration 440: pre-inner-loop train accuracy: 0.76633, post-inner-loop test accuracy: 0.74040, train_loss: 0.72128
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.70388, meta-validation post-inner-loop test accuracy: 0.69309
+Iteration 445: pre-inner-loop train accuracy: 0.73714, post-inner-loop test accuracy: 0.79351, train_loss: 0.86388
+Iteration 450: pre-inner-loop train accuracy: 0.71546, post-inner-loop test accuracy: 0.70313, train_loss: 0.77090
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.75965, meta-validation post-inner-loop test accuracy: 0.83481
+Iteration 455: pre-inner-loop train accuracy: 0.76370, post-inner-loop test accuracy: 0.73006, train_loss: 0.77228
+Iteration 460: pre-inner-loop train accuracy: 0.71926, post-inner-loop test accuracy: 0.66451, train_loss: 0.73076
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.72937, meta-validation post-inner-loop test accuracy: 0.67292
+Iteration 465: pre-inner-loop train accuracy: 0.74414, post-inner-loop test accuracy: 0.72598, train_loss: 0.71298
+Iteration 470: pre-inner-loop train accuracy: 0.73519, post-inner-loop test accuracy: 0.73830, train_loss: 0.73326
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68709, meta-validation post-inner-loop test accuracy: 0.78193
+Iteration 475: pre-inner-loop train accuracy: 0.68406, post-inner-loop test accuracy: 0.76468, train_loss: 0.74590
+Iteration 480: pre-inner-loop train accuracy: 0.72740, post-inner-loop test accuracy: 0.74348, train_loss: 0.67073
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.77029, meta-validation post-inner-loop test accuracy: 0.74061
+Iteration 485: pre-inner-loop train accuracy: 0.75709, post-inner-loop test accuracy: 0.68727, train_loss: 0.71236
+Iteration 490: pre-inner-loop train accuracy: 0.84094, post-inner-loop test accuracy: 0.73501, train_loss: 0.66330
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.75060, meta-validation post-inner-loop test accuracy: 0.76316
+Iteration 495: pre-inner-loop train accuracy: 0.77226, post-inner-loop test accuracy: 0.70734, train_loss: 0.67854
+Iteration 500: pre-inner-loop train accuracy: 0.70162, post-inner-loop test accuracy: 0.69129, train_loss: 0.82449
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.72803, meta-validation post-inner-loop test accuracy: 0.75935
+Iteration 505: pre-inner-loop train accuracy: 0.67847, post-inner-loop test accuracy: 0.68940, train_loss: 0.80792
+Iteration 510: pre-inner-loop train accuracy: 0.80418, post-inner-loop test accuracy: 0.81865, train_loss: 0.75385
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68647, meta-validation post-inner-loop test accuracy: 0.68699
+Iteration 515: pre-inner-loop train accuracy: 0.70693, post-inner-loop test accuracy: 0.71426, train_loss: 0.82675
+Iteration 520: pre-inner-loop train accuracy: 0.74564, post-inner-loop test accuracy: 0.77479, train_loss: 0.71624
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.71161, meta-validation post-inner-loop test accuracy: 0.71060
+Iteration 525: pre-inner-loop train accuracy: 0.86353, post-inner-loop test accuracy: 0.78938, train_loss: 0.71427
+Iteration 530: pre-inner-loop train accuracy: 0.68282, post-inner-loop test accuracy: 0.72435, train_loss: 0.80156
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.73874, meta-validation post-inner-loop test accuracy: 0.68067
+Iteration 535: pre-inner-loop train accuracy: 0.71007, post-inner-loop test accuracy: 0.70529, train_loss: 0.84478
+Iteration 540: pre-inner-loop train accuracy: 0.73412, post-inner-loop test accuracy: 0.72100, train_loss: 0.71026
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.72240, meta-validation post-inner-loop test accuracy: 0.77527
+Iteration 545: pre-inner-loop train accuracy: 0.70506, post-inner-loop test accuracy: 0.70612, train_loss: 0.76197
+Iteration 550: pre-inner-loop train accuracy: 0.73831, post-inner-loop test accuracy: 0.70881, train_loss: 0.85902
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68220, meta-validation post-inner-loop test accuracy: 0.68986
+Iteration 555: pre-inner-loop train accuracy: 0.72356, post-inner-loop test accuracy: 0.72136, train_loss: 0.71839
+Iteration 560: pre-inner-loop train accuracy: 0.72085, post-inner-loop test accuracy: 0.68166, train_loss: 0.81529
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.71215, meta-validation post-inner-loop test accuracy: 0.66666
+Iteration 565: pre-inner-loop train accuracy: 0.71185, post-inner-loop test accuracy: 0.71801, train_loss: 0.74467
+Iteration 570: pre-inner-loop train accuracy: 0.73714, post-inner-loop test accuracy: 0.74277, train_loss: 0.71245
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67933, meta-validation post-inner-loop test accuracy: 0.71512
+Iteration 575: pre-inner-loop train accuracy: 0.71083, post-inner-loop test accuracy: 0.63528, train_loss: 0.71186
+Iteration 580: pre-inner-loop train accuracy: 0.70066, post-inner-loop test accuracy: 0.73726, train_loss: 0.91282
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64376, meta-validation post-inner-loop test accuracy: 0.66060
+Iteration 585: pre-inner-loop train accuracy: 0.72982, post-inner-loop test accuracy: 0.75638, train_loss: 0.71376
+Iteration 590: pre-inner-loop train accuracy: 0.73872, post-inner-loop test accuracy: 0.77116, train_loss: 0.85506
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.73268, meta-validation post-inner-loop test accuracy: 0.75312
+Iteration 595: pre-inner-loop train accuracy: 0.67847, post-inner-loop test accuracy: 0.73871, train_loss: 0.91976
+Iteration 600: pre-inner-loop train accuracy: 0.75426, post-inner-loop test accuracy: 0.75621, train_loss: 0.65046
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69852, meta-validation post-inner-loop test accuracy: 0.69215
+Iteration 605: pre-inner-loop train accuracy: 0.74290, post-inner-loop test accuracy: 0.70013, train_loss: 0.88213
+Iteration 610: pre-inner-loop train accuracy: 0.79428, post-inner-loop test accuracy: 0.75221, train_loss: 0.77063
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69248, meta-validation post-inner-loop test accuracy: 0.74356
+Iteration 615: pre-inner-loop train accuracy: 0.73999, post-inner-loop test accuracy: 0.72952, train_loss: 0.89677
+Iteration 620: pre-inner-loop train accuracy: 0.65606, post-inner-loop test accuracy: 0.73187, train_loss: 0.76007
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.66197, meta-validation post-inner-loop test accuracy: 0.63503
+Iteration 625: pre-inner-loop train accuracy: 0.71127, post-inner-loop test accuracy: 0.78020, train_loss: 0.73938
+Iteration 630: pre-inner-loop train accuracy: 0.68119, post-inner-loop test accuracy: 0.68140, train_loss: 0.72367
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.70027, meta-validation post-inner-loop test accuracy: 0.73306
+Iteration 635: pre-inner-loop train accuracy: 0.69230, post-inner-loop test accuracy: 0.67841, train_loss: 0.79172
+Iteration 640: pre-inner-loop train accuracy: 0.76311, post-inner-loop test accuracy: 0.68829, train_loss: 0.77068
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67906, meta-validation post-inner-loop test accuracy: 0.67373
+Iteration 645: pre-inner-loop train accuracy: 0.68682, post-inner-loop test accuracy: 0.70762, train_loss: 0.89255
+Iteration 650: pre-inner-loop train accuracy: 0.72564, post-inner-loop test accuracy: 0.75173, train_loss: 0.73378
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64032, meta-validation post-inner-loop test accuracy: 0.64608
+Iteration 655: pre-inner-loop train accuracy: 0.69563, post-inner-loop test accuracy: 0.64269, train_loss: 0.76827
+Iteration 660: pre-inner-loop train accuracy: 0.68336, post-inner-loop test accuracy: 0.76607, train_loss: 0.83912
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69482, meta-validation post-inner-loop test accuracy: 0.72647
+Iteration 665: pre-inner-loop train accuracy: 0.71312, post-inner-loop test accuracy: 0.69192, train_loss: 0.62597
+Iteration 670: pre-inner-loop train accuracy: 0.64717, post-inner-loop test accuracy: 0.71594, train_loss: 0.72965
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.71794, meta-validation post-inner-loop test accuracy: 0.72354
+Iteration 675: pre-inner-loop train accuracy: 0.76024, post-inner-loop test accuracy: 0.66057, train_loss: 0.56178
+Iteration 680: pre-inner-loop train accuracy: 0.75793, post-inner-loop test accuracy: 0.70411, train_loss: 0.68636
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68780, meta-validation post-inner-loop test accuracy: 0.68166
+Iteration 685: pre-inner-loop train accuracy: 0.69512, post-inner-loop test accuracy: 0.76280, train_loss: 0.74702
+Iteration 690: pre-inner-loop train accuracy: 0.71453, post-inner-loop test accuracy: 0.61392, train_loss: 0.52280
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63527, meta-validation post-inner-loop test accuracy: 0.62473
+Iteration 695: pre-inner-loop train accuracy: 0.69838, post-inner-loop test accuracy: 0.75550, train_loss: 0.72663
+Iteration 700: pre-inner-loop train accuracy: 0.68411, post-inner-loop test accuracy: 0.60665, train_loss: 0.64777
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61380, meta-validation post-inner-loop test accuracy: 0.64602
+Iteration 705: pre-inner-loop train accuracy: 0.69028, post-inner-loop test accuracy: 0.76561, train_loss: 0.82180
+Iteration 710: pre-inner-loop train accuracy: 0.67947, post-inner-loop test accuracy: 0.72471, train_loss: 0.88414
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69189, meta-validation post-inner-loop test accuracy: 0.71634
+Iteration 715: pre-inner-loop train accuracy: 0.77933, post-inner-loop test accuracy: 0.78043, train_loss: 0.72757
+Iteration 720: pre-inner-loop train accuracy: 0.79541, post-inner-loop test accuracy: 0.70472, train_loss: 0.61047
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63118, meta-validation post-inner-loop test accuracy: 0.59849
+Iteration 725: pre-inner-loop train accuracy: 0.67587, post-inner-loop test accuracy: 0.65594, train_loss: 0.69087
+Iteration 730: pre-inner-loop train accuracy: 0.69007, post-inner-loop test accuracy: 0.68268, train_loss: 0.65537
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64067, meta-validation post-inner-loop test accuracy: 0.65854
+Iteration 735: pre-inner-loop train accuracy: 0.63023, post-inner-loop test accuracy: 0.70680, train_loss: 0.67961
+Iteration 740: pre-inner-loop train accuracy: 0.67753, post-inner-loop test accuracy: 0.65987, train_loss: 0.79383
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64101, meta-validation post-inner-loop test accuracy: 0.61322
+Iteration 745: pre-inner-loop train accuracy: 0.71312, post-inner-loop test accuracy: 0.71040, train_loss: 0.86671
+Iteration 750: pre-inner-loop train accuracy: 0.73170, post-inner-loop test accuracy: 0.62942, train_loss: 0.67085
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59214, meta-validation post-inner-loop test accuracy: 0.65917
+Iteration 755: pre-inner-loop train accuracy: 0.71338, post-inner-loop test accuracy: 0.71279, train_loss: 0.88437
+Iteration 760: pre-inner-loop train accuracy: 0.66452, post-inner-loop test accuracy: 0.71564, train_loss: 0.68810
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.65458, meta-validation post-inner-loop test accuracy: 0.67355
+Iteration 765: pre-inner-loop train accuracy: 0.67467, post-inner-loop test accuracy: 0.73159, train_loss: 0.69424
+Iteration 770: pre-inner-loop train accuracy: 0.74249, post-inner-loop test accuracy: 0.65392, train_loss: 0.70838
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69211, meta-validation post-inner-loop test accuracy: 0.64735
+Iteration 775: pre-inner-loop train accuracy: 0.68458, post-inner-loop test accuracy: 0.65178, train_loss: 0.72122
+Iteration 780: pre-inner-loop train accuracy: 0.70398, post-inner-loop test accuracy: 0.67088, train_loss: 0.65026
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69112, meta-validation post-inner-loop test accuracy: 0.67030
+Iteration 785: pre-inner-loop train accuracy: 0.67256, post-inner-loop test accuracy: 0.71975, train_loss: 0.80676
+Iteration 790: pre-inner-loop train accuracy: 0.64910, post-inner-loop test accuracy: 0.68441, train_loss: 0.70343
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67132, meta-validation post-inner-loop test accuracy: 0.70636
+Iteration 795: pre-inner-loop train accuracy: 0.62559, post-inner-loop test accuracy: 0.73660, train_loss: 0.78961
+Iteration 800: pre-inner-loop train accuracy: 0.74378, post-inner-loop test accuracy: 0.74639, train_loss: 0.67770
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69993, meta-validation post-inner-loop test accuracy: 0.64638
+Iteration 805: pre-inner-loop train accuracy: 0.70636, post-inner-loop test accuracy: 0.66889, train_loss: 0.72612
+Iteration 810: pre-inner-loop train accuracy: 0.70105, post-inner-loop test accuracy: 0.69562, train_loss: 0.82346
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67415, meta-validation post-inner-loop test accuracy: 0.68136
+Iteration 815: pre-inner-loop train accuracy: 0.72247, post-inner-loop test accuracy: 0.75142, train_loss: 0.63090
+Iteration 820: pre-inner-loop train accuracy: 0.64502, post-inner-loop test accuracy: 0.67920, train_loss: 0.84561
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.72037, meta-validation post-inner-loop test accuracy: 0.60658
+Iteration 825: pre-inner-loop train accuracy: 0.58540, post-inner-loop test accuracy: 0.64598, train_loss: 0.67456
+Iteration 830: pre-inner-loop train accuracy: 0.63359, post-inner-loop test accuracy: 0.68743, train_loss: 0.73763
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68396, meta-validation post-inner-loop test accuracy: 0.65344
+Iteration 835: pre-inner-loop train accuracy: 0.71796, post-inner-loop test accuracy: 0.68747, train_loss: 0.61700
+Iteration 840: pre-inner-loop train accuracy: 0.67618, post-inner-loop test accuracy: 0.71838, train_loss: 0.66373
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68952, meta-validation post-inner-loop test accuracy: 0.68332
+Iteration 845: pre-inner-loop train accuracy: 0.64686, post-inner-loop test accuracy: 0.77472, train_loss: 0.83064
+Iteration 850: pre-inner-loop train accuracy: 0.71474, post-inner-loop test accuracy: 0.68335, train_loss: 0.80261
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63675, meta-validation post-inner-loop test accuracy: 0.69924
+Iteration 855: pre-inner-loop train accuracy: 0.64244, post-inner-loop test accuracy: 0.67778, train_loss: 0.81189
+Iteration 860: pre-inner-loop train accuracy: 0.66138, post-inner-loop test accuracy: 0.68843, train_loss: 0.79695
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63660, meta-validation post-inner-loop test accuracy: 0.69238
+Iteration 865: pre-inner-loop train accuracy: 0.76059, post-inner-loop test accuracy: 0.72471, train_loss: 0.69696
+Iteration 870: pre-inner-loop train accuracy: 0.67926, post-inner-loop test accuracy: 0.64894, train_loss: 0.77956
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55051, meta-validation post-inner-loop test accuracy: 0.68801
+Iteration 875: pre-inner-loop train accuracy: 0.67381, post-inner-loop test accuracy: 0.60790, train_loss: 0.75504
+Iteration 880: pre-inner-loop train accuracy: 0.71497, post-inner-loop test accuracy: 0.78276, train_loss: 0.80841
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63539, meta-validation post-inner-loop test accuracy: 0.65300
+Iteration 885: pre-inner-loop train accuracy: 0.63202, post-inner-loop test accuracy: 0.69689, train_loss: 0.64825
+Iteration 890: pre-inner-loop train accuracy: 0.63433, post-inner-loop test accuracy: 0.67491, train_loss: 0.80139
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.60620, meta-validation post-inner-loop test accuracy: 0.66531
+Iteration 895: pre-inner-loop train accuracy: 0.76536, post-inner-loop test accuracy: 0.63860, train_loss: 0.55641
+Iteration 900: pre-inner-loop train accuracy: 0.66509, post-inner-loop test accuracy: 0.70889, train_loss: 0.84563
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63630, meta-validation post-inner-loop test accuracy: 0.76212
+Iteration 905: pre-inner-loop train accuracy: 0.64209, post-inner-loop test accuracy: 0.66396, train_loss: 0.73459
+Iteration 910: pre-inner-loop train accuracy: 0.68563, post-inner-loop test accuracy: 0.70404, train_loss: 0.85783
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64813, meta-validation post-inner-loop test accuracy: 0.61738
+Iteration 915: pre-inner-loop train accuracy: 0.67777, post-inner-loop test accuracy: 0.69033, train_loss: 0.86875
+Iteration 920: pre-inner-loop train accuracy: 0.76466, post-inner-loop test accuracy: 0.75212, train_loss: 0.70095
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.60912, meta-validation post-inner-loop test accuracy: 0.59736
+Iteration 925: pre-inner-loop train accuracy: 0.69274, post-inner-loop test accuracy: 0.68644, train_loss: 0.66333
+Iteration 930: pre-inner-loop train accuracy: 0.69768, post-inner-loop test accuracy: 0.70119, train_loss: 0.86156
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.65268, meta-validation post-inner-loop test accuracy: 0.69115
+Iteration 935: pre-inner-loop train accuracy: 0.68501, post-inner-loop test accuracy: 0.70863, train_loss: 0.67893
+Iteration 940: pre-inner-loop train accuracy: 0.66310, post-inner-loop test accuracy: 0.64316, train_loss: 0.76753
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61150, meta-validation post-inner-loop test accuracy: 0.68502
+Iteration 945: pre-inner-loop train accuracy: 0.67787, post-inner-loop test accuracy: 0.67415, train_loss: 0.82395
+Iteration 950: pre-inner-loop train accuracy: 0.69879, post-inner-loop test accuracy: 0.74725, train_loss: 0.79567
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64274, meta-validation post-inner-loop test accuracy: 0.66109
+Iteration 955: pre-inner-loop train accuracy: 0.68144, post-inner-loop test accuracy: 0.65368, train_loss: 0.61248
+Iteration 960: pre-inner-loop train accuracy: 0.67206, post-inner-loop test accuracy: 0.65241, train_loss: 0.77248
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67286, meta-validation post-inner-loop test accuracy: 0.67066
+Iteration 965: pre-inner-loop train accuracy: 0.68550, post-inner-loop test accuracy: 0.71188, train_loss: 0.60804
+Iteration 970: pre-inner-loop train accuracy: 0.60054, post-inner-loop test accuracy: 0.61129, train_loss: 0.77953
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.65491, meta-validation post-inner-loop test accuracy: 0.69896
+Iteration 975: pre-inner-loop train accuracy: 0.70554, post-inner-loop test accuracy: 0.63226, train_loss: 0.68735
+Iteration 980: pre-inner-loop train accuracy: 0.62774, post-inner-loop test accuracy: 0.70095, train_loss: 0.61151
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59791, meta-validation post-inner-loop test accuracy: 0.66996
+Iteration 985: pre-inner-loop train accuracy: 0.77998, post-inner-loop test accuracy: 0.73084, train_loss: 0.79945
+Iteration 990: pre-inner-loop train accuracy: 0.71513, post-inner-loop test accuracy: 0.73691, train_loss: 0.77536
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.65701, meta-validation post-inner-loop test accuracy: 0.66506
+Iteration 995: pre-inner-loop train accuracy: 0.63312, post-inner-loop test accuracy: 0.64180, train_loss: 0.68524
+Iteration 1000: pre-inner-loop train accuracy: 0.75670, post-inner-loop test accuracy: 0.62580, train_loss: 0.50189
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.65724, meta-validation post-inner-loop test accuracy: 0.69803
+Iteration 1005: pre-inner-loop train accuracy: 0.68914, post-inner-loop test accuracy: 0.69949, train_loss: 0.65518
+Iteration 1010: pre-inner-loop train accuracy: 0.63980, post-inner-loop test accuracy: 0.70395, train_loss: 0.62013
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.60528, meta-validation post-inner-loop test accuracy: 0.61578
+Iteration 1015: pre-inner-loop train accuracy: 0.64238, post-inner-loop test accuracy: 0.68860, train_loss: 0.83211
+Iteration 1020: pre-inner-loop train accuracy: 0.69936, post-inner-loop test accuracy: 0.68186, train_loss: 0.73681
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67178, meta-validation post-inner-loop test accuracy: 0.55721
+Iteration 1025: pre-inner-loop train accuracy: 0.66697, post-inner-loop test accuracy: 0.66919, train_loss: 0.61252
+Iteration 1030: pre-inner-loop train accuracy: 0.73106, post-inner-loop test accuracy: 0.75758, train_loss: 0.71315
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59174, meta-validation post-inner-loop test accuracy: 0.52884
+Iteration 1035: pre-inner-loop train accuracy: 0.67846, post-inner-loop test accuracy: 0.67606, train_loss: 0.70459
+Iteration 1040: pre-inner-loop train accuracy: 0.69869, post-inner-loop test accuracy: 0.67537, train_loss: 0.60016
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.67101, meta-validation post-inner-loop test accuracy: 0.55913
+Iteration 1045: pre-inner-loop train accuracy: 0.60607, post-inner-loop test accuracy: 0.63084, train_loss: 0.79078
+Iteration 1050: pre-inner-loop train accuracy: 0.58786, post-inner-loop test accuracy: 0.65067, train_loss: 0.80837
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.69798, meta-validation post-inner-loop test accuracy: 0.73151
+Iteration 1055: pre-inner-loop train accuracy: 0.69730, post-inner-loop test accuracy: 0.75407, train_loss: 0.68197
+Iteration 1060: pre-inner-loop train accuracy: 0.70502, post-inner-loop test accuracy: 0.71575, train_loss: 0.65484
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68210, meta-validation post-inner-loop test accuracy: 0.57223
+Iteration 1065: pre-inner-loop train accuracy: 0.73231, post-inner-loop test accuracy: 0.64999, train_loss: 0.61739
+Iteration 1070: pre-inner-loop train accuracy: 0.62564, post-inner-loop test accuracy: 0.64316, train_loss: 0.78949
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64663, meta-validation post-inner-loop test accuracy: 0.64029
+Iteration 1075: pre-inner-loop train accuracy: 0.67153, post-inner-loop test accuracy: 0.65244, train_loss: 0.77393
+Iteration 1080: pre-inner-loop train accuracy: 0.62841, post-inner-loop test accuracy: 0.70755, train_loss: 0.77796
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.68901, meta-validation post-inner-loop test accuracy: 0.67254
+Iteration 1085: pre-inner-loop train accuracy: 0.65090, post-inner-loop test accuracy: 0.72137, train_loss: 0.68690
+Iteration 1090: pre-inner-loop train accuracy: 0.68374, post-inner-loop test accuracy: 0.66309, train_loss: 0.77807
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64640, meta-validation post-inner-loop test accuracy: 0.68782
+Iteration 1095: pre-inner-loop train accuracy: 0.64882, post-inner-loop test accuracy: 0.65162, train_loss: 0.77290
+Iteration 1100: pre-inner-loop train accuracy: 0.74280, post-inner-loop test accuracy: 0.61428, train_loss: 0.50506
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63425, meta-validation post-inner-loop test accuracy: 0.66273
+Iteration 1105: pre-inner-loop train accuracy: 0.61596, post-inner-loop test accuracy: 0.55370, train_loss: 0.71256
+Iteration 1110: pre-inner-loop train accuracy: 0.65032, post-inner-loop test accuracy: 0.65445, train_loss: 0.61772
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63257, meta-validation post-inner-loop test accuracy: 0.67438
+Iteration 1115: pre-inner-loop train accuracy: 0.77094, post-inner-loop test accuracy: 0.72060, train_loss: 0.64778
+Iteration 1120: pre-inner-loop train accuracy: 0.66554, post-inner-loop test accuracy: 0.61611, train_loss: 0.77528
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63179, meta-validation post-inner-loop test accuracy: 0.67651
+Iteration 1125: pre-inner-loop train accuracy: 0.68607, post-inner-loop test accuracy: 0.66031, train_loss: 0.70487
+Iteration 1130: pre-inner-loop train accuracy: 0.77671, post-inner-loop test accuracy: 0.69790, train_loss: 0.78506
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58043, meta-validation post-inner-loop test accuracy: 0.63901
+Iteration 1135: pre-inner-loop train accuracy: 0.57137, post-inner-loop test accuracy: 0.59100, train_loss: 0.65228
+Iteration 1140: pre-inner-loop train accuracy: 0.62884, post-inner-loop test accuracy: 0.65573, train_loss: 0.71534
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59806, meta-validation post-inner-loop test accuracy: 0.71565
+Iteration 1145: pre-inner-loop train accuracy: 0.63072, post-inner-loop test accuracy: 0.61593, train_loss: 0.65993
+Iteration 1150: pre-inner-loop train accuracy: 0.71704, post-inner-loop test accuracy: 0.65422, train_loss: 0.59705
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57011, meta-validation post-inner-loop test accuracy: 0.57597
+Iteration 1155: pre-inner-loop train accuracy: 0.60625, post-inner-loop test accuracy: 0.61644, train_loss: 0.66084
+Iteration 1160: pre-inner-loop train accuracy: 0.70815, post-inner-loop test accuracy: 0.75341, train_loss: 0.77730
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58065, meta-validation post-inner-loop test accuracy: 0.56664
+Iteration 1165: pre-inner-loop train accuracy: 0.67313, post-inner-loop test accuracy: 0.70857, train_loss: 0.86383
+Iteration 1170: pre-inner-loop train accuracy: 0.71283, post-inner-loop test accuracy: 0.61746, train_loss: 0.52902
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61837, meta-validation post-inner-loop test accuracy: 0.67101
+Iteration 1175: pre-inner-loop train accuracy: 0.77244, post-inner-loop test accuracy: 0.68451, train_loss: 0.70789
+Iteration 1180: pre-inner-loop train accuracy: 0.65149, post-inner-loop test accuracy: 0.62912, train_loss: 0.58758
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63584, meta-validation post-inner-loop test accuracy: 0.62580
+Iteration 1185: pre-inner-loop train accuracy: 0.66218, post-inner-loop test accuracy: 0.62813, train_loss: 0.56032
+Iteration 1190: pre-inner-loop train accuracy: 0.69896, post-inner-loop test accuracy: 0.63748, train_loss: 0.76153
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55219, meta-validation post-inner-loop test accuracy: 0.52179
+Iteration 1195: pre-inner-loop train accuracy: 0.59874, post-inner-loop test accuracy: 0.71491, train_loss: 0.68678
+Iteration 1200: pre-inner-loop train accuracy: 0.70761, post-inner-loop test accuracy: 0.54836, train_loss: 0.44954
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64251, meta-validation post-inner-loop test accuracy: 0.66764
+Iteration 1205: pre-inner-loop train accuracy: 0.64626, post-inner-loop test accuracy: 0.66883, train_loss: 0.80634
+Iteration 1210: pre-inner-loop train accuracy: 0.59504, post-inner-loop test accuracy: 0.63287, train_loss: 0.77045
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.66794, meta-validation post-inner-loop test accuracy: 0.62933
+Iteration 1215: pre-inner-loop train accuracy: 0.79151, post-inner-loop test accuracy: 0.67855, train_loss: 0.76508
+Iteration 1220: pre-inner-loop train accuracy: 0.71643, post-inner-loop test accuracy: 0.66795, train_loss: 0.56606
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59738, meta-validation post-inner-loop test accuracy: 0.51289
+Iteration 1225: pre-inner-loop train accuracy: 0.64518, post-inner-loop test accuracy: 0.75588, train_loss: 0.67196
+Iteration 1230: pre-inner-loop train accuracy: 0.63687, post-inner-loop test accuracy: 0.65988, train_loss: 0.73689
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54616, meta-validation post-inner-loop test accuracy: 0.59083
+Iteration 1235: pre-inner-loop train accuracy: 0.62986, post-inner-loop test accuracy: 0.64482, train_loss: 0.77580
+Iteration 1240: pre-inner-loop train accuracy: 0.68384, post-inner-loop test accuracy: 0.69157, train_loss: 0.82460
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58974, meta-validation post-inner-loop test accuracy: 0.70846
+Iteration 1245: pre-inner-loop train accuracy: 0.72694, post-inner-loop test accuracy: 0.70323, train_loss: 0.66664
+Iteration 1250: pre-inner-loop train accuracy: 0.70927, post-inner-loop test accuracy: 0.67942, train_loss: 0.59598
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.64549, meta-validation post-inner-loop test accuracy: 0.64909
+Iteration 1255: pre-inner-loop train accuracy: 0.68055, post-inner-loop test accuracy: 0.76744, train_loss: 0.82200
+Iteration 1260: pre-inner-loop train accuracy: 0.68636, post-inner-loop test accuracy: 0.66053, train_loss: 0.78697
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61813, meta-validation post-inner-loop test accuracy: 0.69189
+Iteration 1265: pre-inner-loop train accuracy: 0.70513, post-inner-loop test accuracy: 0.65128, train_loss: 0.65485
+Iteration 1270: pre-inner-loop train accuracy: 0.61899, post-inner-loop test accuracy: 0.62596, train_loss: 0.77914
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56129, meta-validation post-inner-loop test accuracy: 0.60973
+Iteration 1275: pre-inner-loop train accuracy: 0.57750, post-inner-loop test accuracy: 0.59017, train_loss: 0.72689
+Iteration 1280: pre-inner-loop train accuracy: 0.64774, post-inner-loop test accuracy: 0.66097, train_loss: 0.71582
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63147, meta-validation post-inner-loop test accuracy: 0.63385
+Iteration 1285: pre-inner-loop train accuracy: 0.62332, post-inner-loop test accuracy: 0.60174, train_loss: 0.71474
+Iteration 1290: pre-inner-loop train accuracy: 0.77594, post-inner-loop test accuracy: 0.75664, train_loss: 0.69453
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.60047, meta-validation post-inner-loop test accuracy: 0.62156
+Iteration 1295: pre-inner-loop train accuracy: 0.58666, post-inner-loop test accuracy: 0.61588, train_loss: 0.74259
+Iteration 1300: pre-inner-loop train accuracy: 0.59044, post-inner-loop test accuracy: 0.61028, train_loss: 0.71464
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61045, meta-validation post-inner-loop test accuracy: 0.62689
+Iteration 1305: pre-inner-loop train accuracy: 0.64358, post-inner-loop test accuracy: 0.63828, train_loss: 0.62351
+Iteration 1310: pre-inner-loop train accuracy: 0.67722, post-inner-loop test accuracy: 0.67783, train_loss: 0.67581
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.65478, meta-validation post-inner-loop test accuracy: 0.62070
+Iteration 1315: pre-inner-loop train accuracy: 0.68482, post-inner-loop test accuracy: 0.73125, train_loss: 0.68659
+Iteration 1320: pre-inner-loop train accuracy: 0.74420, post-inner-loop test accuracy: 0.64266, train_loss: 0.55740
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52226, meta-validation post-inner-loop test accuracy: 0.56360
+Iteration 1325: pre-inner-loop train accuracy: 0.56321, post-inner-loop test accuracy: 0.58155, train_loss: 0.72632
+Iteration 1330: pre-inner-loop train accuracy: 0.63781, post-inner-loop test accuracy: 0.58647, train_loss: 0.70266
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56310, meta-validation post-inner-loop test accuracy: 0.62473
+Iteration 1335: pre-inner-loop train accuracy: 0.64345, post-inner-loop test accuracy: 0.67436, train_loss: 0.73024
+Iteration 1340: pre-inner-loop train accuracy: 0.75138, post-inner-loop test accuracy: 0.61930, train_loss: 0.68143
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53523, meta-validation post-inner-loop test accuracy: 0.68649
+Iteration 1345: pre-inner-loop train accuracy: 0.69431, post-inner-loop test accuracy: 0.64067, train_loss: 0.62520
+Iteration 1350: pre-inner-loop train accuracy: 0.67267, post-inner-loop test accuracy: 0.68401, train_loss: 0.68128
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54906, meta-validation post-inner-loop test accuracy: 0.54664
+Iteration 1355: pre-inner-loop train accuracy: 0.57465, post-inner-loop test accuracy: 0.65755, train_loss: 0.72432
+Iteration 1360: pre-inner-loop train accuracy: 0.63833, post-inner-loop test accuracy: 0.70614, train_loss: 0.87981
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55189, meta-validation post-inner-loop test accuracy: 0.53565
+Iteration 1365: pre-inner-loop train accuracy: 0.63533, post-inner-loop test accuracy: 0.76134, train_loss: 0.90539
+Iteration 1370: pre-inner-loop train accuracy: 0.65719, post-inner-loop test accuracy: 0.57944, train_loss: 0.71587
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58475, meta-validation post-inner-loop test accuracy: 0.67337
+Iteration 1375: pre-inner-loop train accuracy: 0.73764, post-inner-loop test accuracy: 0.64574, train_loss: 0.60473
+Iteration 1380: pre-inner-loop train accuracy: 0.66466, post-inner-loop test accuracy: 0.65603, train_loss: 0.64284
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58505, meta-validation post-inner-loop test accuracy: 0.61616
+Iteration 1385: pre-inner-loop train accuracy: 0.77482, post-inner-loop test accuracy: 0.61662, train_loss: 0.57040
+Iteration 1390: pre-inner-loop train accuracy: 0.65163, post-inner-loop test accuracy: 0.66750, train_loss: 0.59448
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.46731, meta-validation post-inner-loop test accuracy: 0.54837
+Iteration 1395: pre-inner-loop train accuracy: 0.63209, post-inner-loop test accuracy: 0.57954, train_loss: 0.72883
+Iteration 1400: pre-inner-loop train accuracy: 0.59236, post-inner-loop test accuracy: 0.69645, train_loss: 0.82478
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63176, meta-validation post-inner-loop test accuracy: 0.63081
+Iteration 1405: pre-inner-loop train accuracy: 0.73729, post-inner-loop test accuracy: 0.61036, train_loss: 0.54871
+Iteration 1410: pre-inner-loop train accuracy: 0.64994, post-inner-loop test accuracy: 0.68562, train_loss: 0.70551
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58938, meta-validation post-inner-loop test accuracy: 0.68137
+Iteration 1415: pre-inner-loop train accuracy: 0.63081, post-inner-loop test accuracy: 0.59184, train_loss: 0.69905
+Iteration 1420: pre-inner-loop train accuracy: 0.57079, post-inner-loop test accuracy: 0.63135, train_loss: 0.54273
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58381, meta-validation post-inner-loop test accuracy: 0.53628
+Iteration 1425: pre-inner-loop train accuracy: 0.65513, post-inner-loop test accuracy: 0.75391, train_loss: 0.83083
+Iteration 1430: pre-inner-loop train accuracy: 0.68282, post-inner-loop test accuracy: 0.55078, train_loss: 0.60792
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53853, meta-validation post-inner-loop test accuracy: 0.54783
+Iteration 1435: pre-inner-loop train accuracy: 0.67482, post-inner-loop test accuracy: 0.63198, train_loss: 0.67766
+Iteration 1440: pre-inner-loop train accuracy: 0.65367, post-inner-loop test accuracy: 0.67933, train_loss: 0.56581
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56687, meta-validation post-inner-loop test accuracy: 0.65988
+Iteration 1445: pre-inner-loop train accuracy: 0.59202, post-inner-loop test accuracy: 0.67904, train_loss: 0.84024
+Iteration 1450: pre-inner-loop train accuracy: 0.60940, post-inner-loop test accuracy: 0.76391, train_loss: 0.83677
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.60666, meta-validation post-inner-loop test accuracy: 0.61687
+Iteration 1455: pre-inner-loop train accuracy: 0.63314, post-inner-loop test accuracy: 0.65059, train_loss: 0.69060
+Iteration 1460: pre-inner-loop train accuracy: 0.70212, post-inner-loop test accuracy: 0.59439, train_loss: 0.63640
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50333, meta-validation post-inner-loop test accuracy: 0.55428
+Iteration 1465: pre-inner-loop train accuracy: 0.60691, post-inner-loop test accuracy: 0.63543, train_loss: 0.67617
+Iteration 1470: pre-inner-loop train accuracy: 0.59411, post-inner-loop test accuracy: 0.59929, train_loss: 0.71568
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56019, meta-validation post-inner-loop test accuracy: 0.62109
+Iteration 1475: pre-inner-loop train accuracy: 0.70314, post-inner-loop test accuracy: 0.60100, train_loss: 0.63507
+Iteration 1480: pre-inner-loop train accuracy: 0.65572, post-inner-loop test accuracy: 0.59889, train_loss: 0.54072
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59937, meta-validation post-inner-loop test accuracy: 0.62154
+Iteration 1485: pre-inner-loop train accuracy: 0.62326, post-inner-loop test accuracy: 0.62275, train_loss: 0.73683
+Iteration 1490: pre-inner-loop train accuracy: 0.63325, post-inner-loop test accuracy: 0.63420, train_loss: 0.64567
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51038, meta-validation post-inner-loop test accuracy: 0.51734
+Iteration 1495: pre-inner-loop train accuracy: 0.59848, post-inner-loop test accuracy: 0.58041, train_loss: 0.62731
+Iteration 1500: pre-inner-loop train accuracy: 0.63300, post-inner-loop test accuracy: 0.74182, train_loss: 0.88881
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63980, meta-validation post-inner-loop test accuracy: 0.61939
+Iteration 1505: pre-inner-loop train accuracy: 0.59401, post-inner-loop test accuracy: 0.58273, train_loss: 0.68906
+Iteration 1510: pre-inner-loop train accuracy: 0.71283, post-inner-loop test accuracy: 0.67639, train_loss: 0.65249
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55558, meta-validation post-inner-loop test accuracy: 0.59787
+Iteration 1515: pre-inner-loop train accuracy: 0.65495, post-inner-loop test accuracy: 0.62565, train_loss: 0.66687
+Iteration 1520: pre-inner-loop train accuracy: 0.60350, post-inner-loop test accuracy: 0.69804, train_loss: 0.75476
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53761, meta-validation post-inner-loop test accuracy: 0.55351
+Iteration 1525: pre-inner-loop train accuracy: 0.74005, post-inner-loop test accuracy: 0.66156, train_loss: 0.64349
+Iteration 1530: pre-inner-loop train accuracy: 0.81782, post-inner-loop test accuracy: 0.65895, train_loss: 0.56694
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54551, meta-validation post-inner-loop test accuracy: 0.55168
+Iteration 1535: pre-inner-loop train accuracy: 0.57744, post-inner-loop test accuracy: 0.57630, train_loss: 0.62156
+Iteration 1540: pre-inner-loop train accuracy: 0.61829, post-inner-loop test accuracy: 0.67814, train_loss: 0.65557
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50656, meta-validation post-inner-loop test accuracy: 0.51654
+Iteration 1545: pre-inner-loop train accuracy: 0.67387, post-inner-loop test accuracy: 0.67748, train_loss: 0.83818
+Iteration 1550: pre-inner-loop train accuracy: 0.73924, post-inner-loop test accuracy: 0.65069, train_loss: 0.61354
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50140, meta-validation post-inner-loop test accuracy: 0.53424
+Iteration 1555: pre-inner-loop train accuracy: 0.63174, post-inner-loop test accuracy: 0.70674, train_loss: 0.68015
+Iteration 1560: pre-inner-loop train accuracy: 0.63000, post-inner-loop test accuracy: 0.59724, train_loss: 0.75273
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57093, meta-validation post-inner-loop test accuracy: 0.63446
+Iteration 1565: pre-inner-loop train accuracy: 0.57875, post-inner-loop test accuracy: 0.56658, train_loss: 0.60810
+Iteration 1570: pre-inner-loop train accuracy: 0.61936, post-inner-loop test accuracy: 0.60399, train_loss: 0.57475
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59743, meta-validation post-inner-loop test accuracy: 0.62976
+Iteration 1575: pre-inner-loop train accuracy: 0.70737, post-inner-loop test accuracy: 0.69362, train_loss: 0.62987
+Iteration 1580: pre-inner-loop train accuracy: 0.60214, post-inner-loop test accuracy: 0.63002, train_loss: 0.65888
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56546, meta-validation post-inner-loop test accuracy: 0.53121
+Iteration 1585: pre-inner-loop train accuracy: 0.79235, post-inner-loop test accuracy: 0.65456, train_loss: 0.56784
+Iteration 1590: pre-inner-loop train accuracy: 0.59702, post-inner-loop test accuracy: 0.61106, train_loss: 0.72322
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58419, meta-validation post-inner-loop test accuracy: 0.60393
+Iteration 1595: pre-inner-loop train accuracy: 0.61656, post-inner-loop test accuracy: 0.58495, train_loss: 0.64016
+Iteration 1600: pre-inner-loop train accuracy: 0.67711, post-inner-loop test accuracy: 0.73548, train_loss: 0.75720
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55775, meta-validation post-inner-loop test accuracy: 0.62977
+Iteration 1605: pre-inner-loop train accuracy: 0.68125, post-inner-loop test accuracy: 0.72465, train_loss: 0.86193
+Iteration 1610: pre-inner-loop train accuracy: 0.62904, post-inner-loop test accuracy: 0.59101, train_loss: 0.71360
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53172, meta-validation post-inner-loop test accuracy: 0.58879
+Iteration 1615: pre-inner-loop train accuracy: 0.65822, post-inner-loop test accuracy: 0.73332, train_loss: 0.65288
+Iteration 1620: pre-inner-loop train accuracy: 0.66313, post-inner-loop test accuracy: 0.67082, train_loss: 0.64647
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54480, meta-validation post-inner-loop test accuracy: 0.63377
+Iteration 1625: pre-inner-loop train accuracy: 0.55402, post-inner-loop test accuracy: 0.66634, train_loss: 0.61887
+Iteration 1630: pre-inner-loop train accuracy: 0.57810, post-inner-loop test accuracy: 0.63070, train_loss: 0.74081
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57479, meta-validation post-inner-loop test accuracy: 0.57117
+Iteration 1635: pre-inner-loop train accuracy: 0.62763, post-inner-loop test accuracy: 0.66725, train_loss: 0.70124
+Iteration 1640: pre-inner-loop train accuracy: 0.72523, post-inner-loop test accuracy: 0.68838, train_loss: 0.62563
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57332, meta-validation post-inner-loop test accuracy: 0.53612
+Iteration 1645: pre-inner-loop train accuracy: 0.75377, post-inner-loop test accuracy: 0.79839, train_loss: 0.74331
+Iteration 1650: pre-inner-loop train accuracy: 0.61335, post-inner-loop test accuracy: 0.55409, train_loss: 0.71253
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.60704, meta-validation post-inner-loop test accuracy: 0.66655
+Iteration 1655: pre-inner-loop train accuracy: 0.75028, post-inner-loop test accuracy: 0.64571, train_loss: 0.56604
+Iteration 1660: pre-inner-loop train accuracy: 0.63500, post-inner-loop test accuracy: 0.59581, train_loss: 0.63275
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57391, meta-validation post-inner-loop test accuracy: 0.61548
+Iteration 1665: pre-inner-loop train accuracy: 0.70020, post-inner-loop test accuracy: 0.79177, train_loss: 0.78694
+Iteration 1670: pre-inner-loop train accuracy: 0.67636, post-inner-loop test accuracy: 0.65081, train_loss: 0.62843
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56084, meta-validation post-inner-loop test accuracy: 0.54117
+Iteration 1675: pre-inner-loop train accuracy: 0.58758, post-inner-loop test accuracy: 0.56562, train_loss: 0.69052
+Iteration 1680: pre-inner-loop train accuracy: 0.74390, post-inner-loop test accuracy: 0.65191, train_loss: 0.60700
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55466, meta-validation post-inner-loop test accuracy: 0.58671
+Iteration 1685: pre-inner-loop train accuracy: 0.62944, post-inner-loop test accuracy: 0.63364, train_loss: 0.67516
+Iteration 1690: pre-inner-loop train accuracy: 0.65324, post-inner-loop test accuracy: 0.61304, train_loss: 0.63390
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52800, meta-validation post-inner-loop test accuracy: 0.52161
+Iteration 1695: pre-inner-loop train accuracy: 0.61362, post-inner-loop test accuracy: 0.66341, train_loss: 0.60792
+Iteration 1700: pre-inner-loop train accuracy: 0.60037, post-inner-loop test accuracy: 0.58806, train_loss: 0.63046
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58583, meta-validation post-inner-loop test accuracy: 0.55386
+Iteration 1705: pre-inner-loop train accuracy: 0.60543, post-inner-loop test accuracy: 0.57554, train_loss: 0.61990
+Iteration 1710: pre-inner-loop train accuracy: 0.71046, post-inner-loop test accuracy: 0.68326, train_loss: 0.61489
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63565, meta-validation post-inner-loop test accuracy: 0.68411
+Iteration 1715: pre-inner-loop train accuracy: 0.59045, post-inner-loop test accuracy: 0.64810, train_loss: 0.70377
+Iteration 1720: pre-inner-loop train accuracy: 0.63300, post-inner-loop test accuracy: 0.61254, train_loss: 0.72397
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49503, meta-validation post-inner-loop test accuracy: 0.60538
+Iteration 1725: pre-inner-loop train accuracy: 0.64815, post-inner-loop test accuracy: 0.56150, train_loss: 0.59279
+Iteration 1730: pre-inner-loop train accuracy: 0.58321, post-inner-loop test accuracy: 0.64344, train_loss: 0.65817
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56338, meta-validation post-inner-loop test accuracy: 0.58583
+Iteration 1735: pre-inner-loop train accuracy: 0.57530, post-inner-loop test accuracy: 0.63475, train_loss: 0.78538
+Iteration 1740: pre-inner-loop train accuracy: 0.60837, post-inner-loop test accuracy: 0.62070, train_loss: 0.68260
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59679, meta-validation post-inner-loop test accuracy: 0.62787
+Iteration 1745: pre-inner-loop train accuracy: 0.64290, post-inner-loop test accuracy: 0.60151, train_loss: 0.67039
+Iteration 1750: pre-inner-loop train accuracy: 0.57578, post-inner-loop test accuracy: 0.60548, train_loss: 0.70570
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55468, meta-validation post-inner-loop test accuracy: 0.52355
+Iteration 1755: pre-inner-loop train accuracy: 0.61255, post-inner-loop test accuracy: 0.58656, train_loss: 0.62907
+Iteration 1760: pre-inner-loop train accuracy: 0.62431, post-inner-loop test accuracy: 0.69131, train_loss: 0.60781
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57223, meta-validation post-inner-loop test accuracy: 0.64823
+Iteration 1765: pre-inner-loop train accuracy: 0.63775, post-inner-loop test accuracy: 0.62600, train_loss: 0.66008
+Iteration 1770: pre-inner-loop train accuracy: 0.74207, post-inner-loop test accuracy: 0.65028, train_loss: 0.59170
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53396, meta-validation post-inner-loop test accuracy: 0.53036
+Iteration 1775: pre-inner-loop train accuracy: 0.56933, post-inner-loop test accuracy: 0.60430, train_loss: 0.73423
+Iteration 1780: pre-inner-loop train accuracy: 0.59487, post-inner-loop test accuracy: 0.56588, train_loss: 0.69900
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49467, meta-validation post-inner-loop test accuracy: 0.52537
+Iteration 1785: pre-inner-loop train accuracy: 0.73662, post-inner-loop test accuracy: 0.56609, train_loss: 0.45960
+Iteration 1790: pre-inner-loop train accuracy: 0.60004, post-inner-loop test accuracy: 0.62568, train_loss: 0.66675
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54309, meta-validation post-inner-loop test accuracy: 0.67946
+Iteration 1795: pre-inner-loop train accuracy: 0.73448, post-inner-loop test accuracy: 0.59031, train_loss: 0.63865
+Iteration 1800: pre-inner-loop train accuracy: 0.58900, post-inner-loop test accuracy: 0.65787, train_loss: 0.78130
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63183, meta-validation post-inner-loop test accuracy: 0.60980
+Iteration 1805: pre-inner-loop train accuracy: 0.65680, post-inner-loop test accuracy: 0.64879, train_loss: 0.65872
+Iteration 1810: pre-inner-loop train accuracy: 0.60815, post-inner-loop test accuracy: 0.64805, train_loss: 0.79153
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63966, meta-validation post-inner-loop test accuracy: 0.67036
+Iteration 1815: pre-inner-loop train accuracy: 0.69599, post-inner-loop test accuracy: 0.68437, train_loss: 0.64255
+Iteration 1820: pre-inner-loop train accuracy: 0.60106, post-inner-loop test accuracy: 0.60642, train_loss: 0.63397
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52824, meta-validation post-inner-loop test accuracy: 0.52567
+Iteration 1825: pre-inner-loop train accuracy: 0.56291, post-inner-loop test accuracy: 0.56690, train_loss: 0.59821
+Iteration 1830: pre-inner-loop train accuracy: 0.62785, post-inner-loop test accuracy: 0.63332, train_loss: 0.66796
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53486, meta-validation post-inner-loop test accuracy: 0.54275
+Iteration 1835: pre-inner-loop train accuracy: 0.68912, post-inner-loop test accuracy: 0.65659, train_loss: 0.55351
+Iteration 1840: pre-inner-loop train accuracy: 0.64918, post-inner-loop test accuracy: 0.66018, train_loss: 0.65602
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47838, meta-validation post-inner-loop test accuracy: 0.53349
+Iteration 1845: pre-inner-loop train accuracy: 0.73460, post-inner-loop test accuracy: 0.60645, train_loss: 0.65063
+Iteration 1850: pre-inner-loop train accuracy: 0.68453, post-inner-loop test accuracy: 0.66938, train_loss: 0.81494
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61930, meta-validation post-inner-loop test accuracy: 0.60826
+Iteration 1855: pre-inner-loop train accuracy: 0.58556, post-inner-loop test accuracy: 0.56092, train_loss: 0.67024
+Iteration 1860: pre-inner-loop train accuracy: 0.61623, post-inner-loop test accuracy: 0.69808, train_loss: 0.66249
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54848, meta-validation post-inner-loop test accuracy: 0.49608
+Iteration 1865: pre-inner-loop train accuracy: 0.69729, post-inner-loop test accuracy: 0.72924, train_loss: 0.58363
+Iteration 1870: pre-inner-loop train accuracy: 0.63428, post-inner-loop test accuracy: 0.63409, train_loss: 0.58618
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55810, meta-validation post-inner-loop test accuracy: 0.52092
+Iteration 1875: pre-inner-loop train accuracy: 0.61815, post-inner-loop test accuracy: 0.72718, train_loss: 0.77336
+Iteration 1880: pre-inner-loop train accuracy: 0.64643, post-inner-loop test accuracy: 0.71570, train_loss: 0.67346
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53689, meta-validation post-inner-loop test accuracy: 0.55288
+Iteration 1885: pre-inner-loop train accuracy: 0.56789, post-inner-loop test accuracy: 0.55228, train_loss: 0.65505
+Iteration 1890: pre-inner-loop train accuracy: 0.74372, post-inner-loop test accuracy: 0.61999, train_loss: 0.58921
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52723, meta-validation post-inner-loop test accuracy: 0.53480
+Iteration 1895: pre-inner-loop train accuracy: 0.63746, post-inner-loop test accuracy: 0.73206, train_loss: 0.73218
+Iteration 1900: pre-inner-loop train accuracy: 0.63369, post-inner-loop test accuracy: 0.69879, train_loss: 0.66949
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.62229, meta-validation post-inner-loop test accuracy: 0.53811
+Iteration 1905: pre-inner-loop train accuracy: 0.66060, post-inner-loop test accuracy: 0.71169, train_loss: 0.68886
+Iteration 1910: pre-inner-loop train accuracy: 0.58813, post-inner-loop test accuracy: 0.53774, train_loss: 0.63839
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56190, meta-validation post-inner-loop test accuracy: 0.57162
+Iteration 1915: pre-inner-loop train accuracy: 0.60064, post-inner-loop test accuracy: 0.55602, train_loss: 0.69875
+Iteration 1920: pre-inner-loop train accuracy: 0.60972, post-inner-loop test accuracy: 0.61297, train_loss: 0.71534
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49854, meta-validation post-inner-loop test accuracy: 0.54747
+Iteration 1925: pre-inner-loop train accuracy: 0.68900, post-inner-loop test accuracy: 0.68649, train_loss: 0.55311
+Iteration 1930: pre-inner-loop train accuracy: 0.62005, post-inner-loop test accuracy: 0.56241, train_loss: 0.60315
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54789, meta-validation post-inner-loop test accuracy: 0.52685
+Iteration 1935: pre-inner-loop train accuracy: 0.69155, post-inner-loop test accuracy: 0.55503, train_loss: 0.61899
+Iteration 1940: pre-inner-loop train accuracy: 0.57745, post-inner-loop test accuracy: 0.61994, train_loss: 0.65044
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58692, meta-validation post-inner-loop test accuracy: 0.55525
+Iteration 1945: pre-inner-loop train accuracy: 0.56448, post-inner-loop test accuracy: 0.65480, train_loss: 0.69838
+Iteration 1950: pre-inner-loop train accuracy: 0.57810, post-inner-loop test accuracy: 0.59472, train_loss: 0.74129
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54509, meta-validation post-inner-loop test accuracy: 0.55234
+Iteration 1955: pre-inner-loop train accuracy: 0.71291, post-inner-loop test accuracy: 0.64792, train_loss: 0.59894
+Iteration 1960: pre-inner-loop train accuracy: 0.64038, post-inner-loop test accuracy: 0.61412, train_loss: 0.65686
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58400, meta-validation post-inner-loop test accuracy: 0.52835
+Iteration 1965: pre-inner-loop train accuracy: 0.57038, post-inner-loop test accuracy: 0.55081, train_loss: 0.68333
+Iteration 1970: pre-inner-loop train accuracy: 0.60566, post-inner-loop test accuracy: 0.58100, train_loss: 0.68276
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54204, meta-validation post-inner-loop test accuracy: 0.54952
+Iteration 1975: pre-inner-loop train accuracy: 0.64390, post-inner-loop test accuracy: 0.63654, train_loss: 0.70243
+Iteration 1980: pre-inner-loop train accuracy: 0.54926, post-inner-loop test accuracy: 0.59701, train_loss: 0.72735
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57132, meta-validation post-inner-loop test accuracy: 0.61299
+Iteration 1985: pre-inner-loop train accuracy: 0.67275, post-inner-loop test accuracy: 0.65371, train_loss: 0.60372
+Iteration 1990: pre-inner-loop train accuracy: 0.56230, post-inner-loop test accuracy: 0.66147, train_loss: 0.70551
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55662, meta-validation post-inner-loop test accuracy: 0.67109
+Iteration 1995: pre-inner-loop train accuracy: 0.69716, post-inner-loop test accuracy: 0.61855, train_loss: 0.64300
+Iteration 2000: pre-inner-loop train accuracy: 0.58815, post-inner-loop test accuracy: 0.58939, train_loss: 0.62935
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.44913, meta-validation post-inner-loop test accuracy: 0.49434
+Iteration 2005: pre-inner-loop train accuracy: 0.58719, post-inner-loop test accuracy: 0.61543, train_loss: 0.74548
+Iteration 2010: pre-inner-loop train accuracy: 0.65147, post-inner-loop test accuracy: 0.63032, train_loss: 0.65128
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51942, meta-validation post-inner-loop test accuracy: 0.56520
+Iteration 2015: pre-inner-loop train accuracy: 0.64974, post-inner-loop test accuracy: 0.75093, train_loss: 0.67404
+Iteration 2020: pre-inner-loop train accuracy: 0.67237, post-inner-loop test accuracy: 0.73605, train_loss: 0.76641
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50391, meta-validation post-inner-loop test accuracy: 0.49744
+Iteration 2025: pre-inner-loop train accuracy: 0.56537, post-inner-loop test accuracy: 0.62235, train_loss: 0.73041
+Iteration 2030: pre-inner-loop train accuracy: 0.63710, post-inner-loop test accuracy: 0.67269, train_loss: 0.62614
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49298, meta-validation post-inner-loop test accuracy: 0.52182
+Iteration 2035: pre-inner-loop train accuracy: 0.52943, post-inner-loop test accuracy: 0.61414, train_loss: 0.76941
+Iteration 2040: pre-inner-loop train accuracy: 0.71012, post-inner-loop test accuracy: 0.58333, train_loss: 0.58650
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53953, meta-validation post-inner-loop test accuracy: 0.48436
+Iteration 2045: pre-inner-loop train accuracy: 0.61063, post-inner-loop test accuracy: 0.62763, train_loss: 0.63278
+Iteration 2050: pre-inner-loop train accuracy: 0.71493, post-inner-loop test accuracy: 0.67084, train_loss: 0.59902
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48986, meta-validation post-inner-loop test accuracy: 0.52965
+Iteration 2055: pre-inner-loop train accuracy: 0.61701, post-inner-loop test accuracy: 0.63591, train_loss: 0.67710
+Iteration 2060: pre-inner-loop train accuracy: 0.68015, post-inner-loop test accuracy: 0.60143, train_loss: 0.50633
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53835, meta-validation post-inner-loop test accuracy: 0.51167
+Iteration 2065: pre-inner-loop train accuracy: 0.52718, post-inner-loop test accuracy: 0.55759, train_loss: 0.60029
+Iteration 2070: pre-inner-loop train accuracy: 0.75027, post-inner-loop test accuracy: 0.66750, train_loss: 0.56075
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49589, meta-validation post-inner-loop test accuracy: 0.49377
+Iteration 2075: pre-inner-loop train accuracy: 0.66820, post-inner-loop test accuracy: 0.65397, train_loss: 0.62706
+Iteration 2080: pre-inner-loop train accuracy: 0.61107, post-inner-loop test accuracy: 0.56761, train_loss: 0.67733
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.59460, meta-validation post-inner-loop test accuracy: 0.60979
+Iteration 2085: pre-inner-loop train accuracy: 0.72717, post-inner-loop test accuracy: 0.64355, train_loss: 0.73838
+Iteration 2090: pre-inner-loop train accuracy: 0.65439, post-inner-loop test accuracy: 0.72482, train_loss: 0.79168
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.63530, meta-validation post-inner-loop test accuracy: 0.46975
+Iteration 2095: pre-inner-loop train accuracy: 0.70792, post-inner-loop test accuracy: 0.56905, train_loss: 0.53895
+Iteration 2100: pre-inner-loop train accuracy: 0.74864, post-inner-loop test accuracy: 0.57221, train_loss: 0.60446
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53930, meta-validation post-inner-loop test accuracy: 0.51192
+Iteration 2105: pre-inner-loop train accuracy: 0.73723, post-inner-loop test accuracy: 0.57925, train_loss: 0.48039
+Iteration 2110: pre-inner-loop train accuracy: 0.70705, post-inner-loop test accuracy: 0.66618, train_loss: 0.53413
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49131, meta-validation post-inner-loop test accuracy: 0.54243
+Iteration 2115: pre-inner-loop train accuracy: 0.58882, post-inner-loop test accuracy: 0.73167, train_loss: 0.66741
+Iteration 2120: pre-inner-loop train accuracy: 0.56397, post-inner-loop test accuracy: 0.54980, train_loss: 0.56313
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52379, meta-validation post-inner-loop test accuracy: 0.54880
+Iteration 2125: pre-inner-loop train accuracy: 0.64777, post-inner-loop test accuracy: 0.59417, train_loss: 0.62603
+Iteration 2130: pre-inner-loop train accuracy: 0.61351, post-inner-loop test accuracy: 0.58730, train_loss: 0.71036
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54429, meta-validation post-inner-loop test accuracy: 0.62080
+Iteration 2135: pre-inner-loop train accuracy: 0.72262, post-inner-loop test accuracy: 0.62640, train_loss: 0.58134
+Iteration 2140: pre-inner-loop train accuracy: 0.59494, post-inner-loop test accuracy: 0.60337, train_loss: 0.57355
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52753, meta-validation post-inner-loop test accuracy: 0.50782
+Iteration 2145: pre-inner-loop train accuracy: 0.56047, post-inner-loop test accuracy: 0.55228, train_loss: 0.57047
+Iteration 2150: pre-inner-loop train accuracy: 0.61470, post-inner-loop test accuracy: 0.55108, train_loss: 0.68043
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56036, meta-validation post-inner-loop test accuracy: 0.53981
+Iteration 2155: pre-inner-loop train accuracy: 0.56802, post-inner-loop test accuracy: 0.67371, train_loss: 0.69353
+Iteration 2160: pre-inner-loop train accuracy: 0.57021, post-inner-loop test accuracy: 0.56281, train_loss: 0.68155
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55397, meta-validation post-inner-loop test accuracy: 0.57735
+Iteration 2165: pre-inner-loop train accuracy: 0.54678, post-inner-loop test accuracy: 0.70510, train_loss: 0.68089
+Iteration 2170: pre-inner-loop train accuracy: 0.54958, post-inner-loop test accuracy: 0.60722, train_loss: 0.63305
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53807, meta-validation post-inner-loop test accuracy: 0.54091
+Iteration 2175: pre-inner-loop train accuracy: 0.61782, post-inner-loop test accuracy: 0.66810, train_loss: 0.61060
+Iteration 2180: pre-inner-loop train accuracy: 0.75110, post-inner-loop test accuracy: 0.58602, train_loss: 0.52097
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54178, meta-validation post-inner-loop test accuracy: 0.46143
+Iteration 2185: pre-inner-loop train accuracy: 0.63005, post-inner-loop test accuracy: 0.67377, train_loss: 0.64117
+Iteration 2190: pre-inner-loop train accuracy: 0.70382, post-inner-loop test accuracy: 0.57835, train_loss: 0.54786
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55259, meta-validation post-inner-loop test accuracy: 0.54260
+Iteration 2195: pre-inner-loop train accuracy: 0.59280, post-inner-loop test accuracy: 0.57188, train_loss: 0.58872
+Iteration 2200: pre-inner-loop train accuracy: 0.52482, post-inner-loop test accuracy: 0.59425, train_loss: 0.68784
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52919, meta-validation post-inner-loop test accuracy: 0.52952
+Iteration 2205: pre-inner-loop train accuracy: 0.64273, post-inner-loop test accuracy: 0.60474, train_loss: 0.53570
+Iteration 2210: pre-inner-loop train accuracy: 0.66870, post-inner-loop test accuracy: 0.69477, train_loss: 0.72696
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55295, meta-validation post-inner-loop test accuracy: 0.46717
+Iteration 2215: pre-inner-loop train accuracy: 0.60089, post-inner-loop test accuracy: 0.60935, train_loss: 0.73603
+Iteration 2220: pre-inner-loop train accuracy: 0.72401, post-inner-loop test accuracy: 0.71430, train_loss: 0.58213
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52358, meta-validation post-inner-loop test accuracy: 0.56233
+Iteration 2225: pre-inner-loop train accuracy: 0.60368, post-inner-loop test accuracy: 0.63798, train_loss: 0.74794
+Iteration 2230: pre-inner-loop train accuracy: 0.66308, post-inner-loop test accuracy: 0.64020, train_loss: 0.61783
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49993, meta-validation post-inner-loop test accuracy: 0.51163
+Iteration 2235: pre-inner-loop train accuracy: 0.69859, post-inner-loop test accuracy: 0.66410, train_loss: 0.59014
+Iteration 2240: pre-inner-loop train accuracy: 0.52935, post-inner-loop test accuracy: 0.58740, train_loss: 0.62031
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.58214, meta-validation post-inner-loop test accuracy: 0.55518
+Iteration 2245: pre-inner-loop train accuracy: 0.62274, post-inner-loop test accuracy: 0.57946, train_loss: 0.69711
+Iteration 2250: pre-inner-loop train accuracy: 0.67748, post-inner-loop test accuracy: 0.58686, train_loss: 0.54765
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53101, meta-validation post-inner-loop test accuracy: 0.47890
+Iteration 2255: pre-inner-loop train accuracy: 0.53267, post-inner-loop test accuracy: 0.55322, train_loss: 0.68591
+Iteration 2260: pre-inner-loop train accuracy: 0.57857, post-inner-loop test accuracy: 0.62794, train_loss: 0.58052
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48327, meta-validation post-inner-loop test accuracy: 0.53768
+Iteration 2265: pre-inner-loop train accuracy: 0.57485, post-inner-loop test accuracy: 0.64375, train_loss: 0.65296
+Iteration 2270: pre-inner-loop train accuracy: 0.64654, post-inner-loop test accuracy: 0.59681, train_loss: 0.51159
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50682, meta-validation post-inner-loop test accuracy: 0.51967
+Iteration 2275: pre-inner-loop train accuracy: 0.72806, post-inner-loop test accuracy: 0.64263, train_loss: 0.65986
+Iteration 2280: pre-inner-loop train accuracy: 0.63405, post-inner-loop test accuracy: 0.65466, train_loss: 0.54971
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56192, meta-validation post-inner-loop test accuracy: 0.48985
+Iteration 2285: pre-inner-loop train accuracy: 0.62161, post-inner-loop test accuracy: 0.61242, train_loss: 0.73789
+Iteration 2290: pre-inner-loop train accuracy: 0.58953, post-inner-loop test accuracy: 0.55476, train_loss: 0.69663
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56758, meta-validation post-inner-loop test accuracy: 0.49118
+Iteration 2295: pre-inner-loop train accuracy: 0.66001, post-inner-loop test accuracy: 0.70277, train_loss: 0.74159
+Iteration 2300: pre-inner-loop train accuracy: 0.65536, post-inner-loop test accuracy: 0.65829, train_loss: 0.61964
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57830, meta-validation post-inner-loop test accuracy: 0.45741
+Iteration 2305: pre-inner-loop train accuracy: 0.67844, post-inner-loop test accuracy: 0.76348, train_loss: 0.66382
+Iteration 2310: pre-inner-loop train accuracy: 0.52941, post-inner-loop test accuracy: 0.63852, train_loss: 0.60158
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49468, meta-validation post-inner-loop test accuracy: 0.56187
+Iteration 2315: pre-inner-loop train accuracy: 0.66232, post-inner-loop test accuracy: 0.65270, train_loss: 0.58912
+Iteration 2320: pre-inner-loop train accuracy: 0.65265, post-inner-loop test accuracy: 0.59352, train_loss: 0.65666
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48281, meta-validation post-inner-loop test accuracy: 0.57223
+Iteration 2325: pre-inner-loop train accuracy: 0.55280, post-inner-loop test accuracy: 0.53164, train_loss: 0.62246
+Iteration 2330: pre-inner-loop train accuracy: 0.56841, post-inner-loop test accuracy: 0.56468, train_loss: 0.62448
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52125, meta-validation post-inner-loop test accuracy: 0.50818
+Iteration 2335: pre-inner-loop train accuracy: 0.59623, post-inner-loop test accuracy: 0.62853, train_loss: 0.76645
+Iteration 2340: pre-inner-loop train accuracy: 0.63423, post-inner-loop test accuracy: 0.64526, train_loss: 0.65511
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49151, meta-validation post-inner-loop test accuracy: 0.60022
+Iteration 2345: pre-inner-loop train accuracy: 0.68815, post-inner-loop test accuracy: 0.64115, train_loss: 0.58885
+Iteration 2350: pre-inner-loop train accuracy: 0.61380, post-inner-loop test accuracy: 0.70010, train_loss: 0.72689
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.46954, meta-validation post-inner-loop test accuracy: 0.51489
+Iteration 2355: pre-inner-loop train accuracy: 0.61996, post-inner-loop test accuracy: 0.65526, train_loss: 0.64030
+Iteration 2360: pre-inner-loop train accuracy: 0.61782, post-inner-loop test accuracy: 0.72481, train_loss: 0.64262
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51500, meta-validation post-inner-loop test accuracy: 0.51675
+Iteration 2365: pre-inner-loop train accuracy: 0.54719, post-inner-loop test accuracy: 0.53173, train_loss: 0.65719
+Iteration 2370: pre-inner-loop train accuracy: 0.59697, post-inner-loop test accuracy: 0.56852, train_loss: 0.66546
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51584, meta-validation post-inner-loop test accuracy: 0.52103
+Iteration 2375: pre-inner-loop train accuracy: 0.66174, post-inner-loop test accuracy: 0.60134, train_loss: 0.63118
+Iteration 2380: pre-inner-loop train accuracy: 0.67695, post-inner-loop test accuracy: 0.67367, train_loss: 0.57912
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.61851, meta-validation post-inner-loop test accuracy: 0.52614
+Iteration 2385: pre-inner-loop train accuracy: 0.62957, post-inner-loop test accuracy: 0.65740, train_loss: 0.59374
+Iteration 2390: pre-inner-loop train accuracy: 0.71635, post-inner-loop test accuracy: 0.63672, train_loss: 0.55416
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55683, meta-validation post-inner-loop test accuracy: 0.52471
+Iteration 2395: pre-inner-loop train accuracy: 0.63094, post-inner-loop test accuracy: 0.62124, train_loss: 0.57377
+Iteration 2400: pre-inner-loop train accuracy: 0.61868, post-inner-loop test accuracy: 0.53402, train_loss: 0.56928
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53475, meta-validation post-inner-loop test accuracy: 0.52376
+Iteration 2405: pre-inner-loop train accuracy: 0.70160, post-inner-loop test accuracy: 0.64418, train_loss: 0.61373
+Iteration 2410: pre-inner-loop train accuracy: 0.56361, post-inner-loop test accuracy: 0.61383, train_loss: 0.72339
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50914, meta-validation post-inner-loop test accuracy: 0.51715
+Iteration 2415: pre-inner-loop train accuracy: 0.60672, post-inner-loop test accuracy: 0.55442, train_loss: 0.49676
+Iteration 2420: pre-inner-loop train accuracy: 0.68452, post-inner-loop test accuracy: 0.67267, train_loss: 0.59550
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50760, meta-validation post-inner-loop test accuracy: 0.51260
+Iteration 2425: pre-inner-loop train accuracy: 0.61738, post-inner-loop test accuracy: 0.60088, train_loss: 0.64896
+Iteration 2430: pre-inner-loop train accuracy: 0.65358, post-inner-loop test accuracy: 0.65338, train_loss: 0.63807
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54327, meta-validation post-inner-loop test accuracy: 0.56517
+Iteration 2435: pre-inner-loop train accuracy: 0.59352, post-inner-loop test accuracy: 0.59565, train_loss: 0.72242
+Iteration 2440: pre-inner-loop train accuracy: 0.58880, post-inner-loop test accuracy: 0.65094, train_loss: 0.64829
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51093, meta-validation post-inner-loop test accuracy: 0.54046
+Iteration 2445: pre-inner-loop train accuracy: 0.59671, post-inner-loop test accuracy: 0.63593, train_loss: 0.62626
+Iteration 2450: pre-inner-loop train accuracy: 0.75284, post-inner-loop test accuracy: 0.68917, train_loss: 0.54452
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.57445, meta-validation post-inner-loop test accuracy: 0.56062
+Iteration 2455: pre-inner-loop train accuracy: 0.59807, post-inner-loop test accuracy: 0.65948, train_loss: 0.68257
+Iteration 2460: pre-inner-loop train accuracy: 0.58008, post-inner-loop test accuracy: 0.60911, train_loss: 0.73739
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53256, meta-validation post-inner-loop test accuracy: 0.54367
+Iteration 2465: pre-inner-loop train accuracy: 0.66393, post-inner-loop test accuracy: 0.69238, train_loss: 0.65738
+Iteration 2470: pre-inner-loop train accuracy: 0.56386, post-inner-loop test accuracy: 0.61225, train_loss: 0.73386
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53619, meta-validation post-inner-loop test accuracy: 0.67060
+Iteration 2475: pre-inner-loop train accuracy: 0.61736, post-inner-loop test accuracy: 0.67800, train_loss: 0.70061
+Iteration 2480: pre-inner-loop train accuracy: 0.73016, post-inner-loop test accuracy: 0.54394, train_loss: 0.57926
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.55463, meta-validation post-inner-loop test accuracy: 0.51677
+Iteration 2485: pre-inner-loop train accuracy: 0.58409, post-inner-loop test accuracy: 0.75892, train_loss: 0.66506
+Iteration 2490: pre-inner-loop train accuracy: 0.61415, post-inner-loop test accuracy: 0.62953, train_loss: 0.76878
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53187, meta-validation post-inner-loop test accuracy: 0.53752
+Iteration 2495: pre-inner-loop train accuracy: 0.65393, post-inner-loop test accuracy: 0.69835, train_loss: 0.70280
+Iteration 2500: pre-inner-loop train accuracy: 0.74132, post-inner-loop test accuracy: 0.59153, train_loss: 0.54935
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51077, meta-validation post-inner-loop test accuracy: 0.53039
+Iteration 2505: pre-inner-loop train accuracy: 0.51255, post-inner-loop test accuracy: 0.64735, train_loss: 0.80586
+Iteration 2510: pre-inner-loop train accuracy: 0.55696, post-inner-loop test accuracy: 0.54184, train_loss: 0.62604
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49896, meta-validation post-inner-loop test accuracy: 0.54650
+Iteration 2515: pre-inner-loop train accuracy: 0.51396, post-inner-loop test accuracy: 0.53804, train_loss: 0.64334
+Iteration 2520: pre-inner-loop train accuracy: 0.60729, post-inner-loop test accuracy: 0.53930, train_loss: 0.66854
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54330, meta-validation post-inner-loop test accuracy: 0.50150
+Iteration 2525: pre-inner-loop train accuracy: 0.67354, post-inner-loop test accuracy: 0.60851, train_loss: 0.51571
+Iteration 2530: pre-inner-loop train accuracy: 0.56912, post-inner-loop test accuracy: 0.59463, train_loss: 0.74961
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54688, meta-validation post-inner-loop test accuracy: 0.59149
+Iteration 2535: pre-inner-loop train accuracy: 0.55551, post-inner-loop test accuracy: 0.54926, train_loss: 0.64511
+Iteration 2540: pre-inner-loop train accuracy: 0.58295, post-inner-loop test accuracy: 0.57045, train_loss: 0.58855
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52834, meta-validation post-inner-loop test accuracy: 0.49586
+Iteration 2545: pre-inner-loop train accuracy: 0.54650, post-inner-loop test accuracy: 0.56454, train_loss: 0.68992
+Iteration 2550: pre-inner-loop train accuracy: 0.61881, post-inner-loop test accuracy: 0.55351, train_loss: 0.69625
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50454, meta-validation post-inner-loop test accuracy: 0.58500
+Iteration 2555: pre-inner-loop train accuracy: 0.55764, post-inner-loop test accuracy: 0.72008, train_loss: 0.61345
+Iteration 2560: pre-inner-loop train accuracy: 0.61763, post-inner-loop test accuracy: 0.56883, train_loss: 0.48796
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52742, meta-validation post-inner-loop test accuracy: 0.53617
+Iteration 2565: pre-inner-loop train accuracy: 0.63357, post-inner-loop test accuracy: 0.63201, train_loss: 0.54386
+Iteration 2570: pre-inner-loop train accuracy: 0.63092, post-inner-loop test accuracy: 0.60785, train_loss: 0.57808
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49840, meta-validation post-inner-loop test accuracy: 0.52022
+Iteration 2575: pre-inner-loop train accuracy: 0.48269, post-inner-loop test accuracy: 0.57497, train_loss: 0.68458
+Iteration 2580: pre-inner-loop train accuracy: 0.50027, post-inner-loop test accuracy: 0.55930, train_loss: 0.66668
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53102, meta-validation post-inner-loop test accuracy: 0.59314
+Iteration 2585: pre-inner-loop train accuracy: 0.49689, post-inner-loop test accuracy: 0.55702, train_loss: 0.64153
+Iteration 2590: pre-inner-loop train accuracy: 0.54798, post-inner-loop test accuracy: 0.59410, train_loss: 0.70819
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52030, meta-validation post-inner-loop test accuracy: 0.60300
+Iteration 2595: pre-inner-loop train accuracy: 0.62520, post-inner-loop test accuracy: 0.62180, train_loss: 0.68000
+Iteration 2600: pre-inner-loop train accuracy: 0.62843, post-inner-loop test accuracy: 0.66811, train_loss: 0.69294
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49485, meta-validation post-inner-loop test accuracy: 0.58523
+Iteration 2605: pre-inner-loop train accuracy: 0.51251, post-inner-loop test accuracy: 0.62982, train_loss: 0.79945
+Iteration 2610: pre-inner-loop train accuracy: 0.66815, post-inner-loop test accuracy: 0.59234, train_loss: 0.61244
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53949, meta-validation post-inner-loop test accuracy: 0.51151
+Iteration 2615: pre-inner-loop train accuracy: 0.59803, post-inner-loop test accuracy: 0.65927, train_loss: 0.58101
+Iteration 2620: pre-inner-loop train accuracy: 0.68581, post-inner-loop test accuracy: 0.65170, train_loss: 0.61864
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53031, meta-validation post-inner-loop test accuracy: 0.50918
+Iteration 2625: pre-inner-loop train accuracy: 0.61983, post-inner-loop test accuracy: 0.55233, train_loss: 0.65664
+Iteration 2630: pre-inner-loop train accuracy: 0.71197, post-inner-loop test accuracy: 0.68965, train_loss: 0.60681
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47961, meta-validation post-inner-loop test accuracy: 0.47974
+Iteration 2635: pre-inner-loop train accuracy: 0.60054, post-inner-loop test accuracy: 0.55692, train_loss: 0.68487
+Iteration 2640: pre-inner-loop train accuracy: 0.64973, post-inner-loop test accuracy: 0.69726, train_loss: 0.61616
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50144, meta-validation post-inner-loop test accuracy: 0.54305
+Iteration 2645: pre-inner-loop train accuracy: 0.62910, post-inner-loop test accuracy: 0.61349, train_loss: 0.58452
+Iteration 2650: pre-inner-loop train accuracy: 0.60564, post-inner-loop test accuracy: 0.72635, train_loss: 0.75083
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48474, meta-validation post-inner-loop test accuracy: 0.47733
+Iteration 2655: pre-inner-loop train accuracy: 0.56382, post-inner-loop test accuracy: 0.51356, train_loss: 0.55585
+Iteration 2660: pre-inner-loop train accuracy: 0.53860, post-inner-loop test accuracy: 0.59798, train_loss: 0.73847
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54644, meta-validation post-inner-loop test accuracy: 0.58087
+Iteration 2665: pre-inner-loop train accuracy: 0.54906, post-inner-loop test accuracy: 0.55534, train_loss: 0.66055
+Iteration 2670: pre-inner-loop train accuracy: 0.51097, post-inner-loop test accuracy: 0.54744, train_loss: 0.63384
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53114, meta-validation post-inner-loop test accuracy: 0.63311
+Iteration 2675: pre-inner-loop train accuracy: 0.66095, post-inner-loop test accuracy: 0.64373, train_loss: 0.62444
+Iteration 2680: pre-inner-loop train accuracy: 0.72556, post-inner-loop test accuracy: 0.57910, train_loss: 0.53494
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50672, meta-validation post-inner-loop test accuracy: 0.54095
+Iteration 2685: pre-inner-loop train accuracy: 0.58230, post-inner-loop test accuracy: 0.63497, train_loss: 0.64840
+Iteration 2690: pre-inner-loop train accuracy: 0.59106, post-inner-loop test accuracy: 0.59018, train_loss: 0.65113
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51199, meta-validation post-inner-loop test accuracy: 0.53876
+Iteration 2695: pre-inner-loop train accuracy: 0.71079, post-inner-loop test accuracy: 0.58238, train_loss: 0.53140
+Iteration 2700: pre-inner-loop train accuracy: 0.65797, post-inner-loop test accuracy: 0.61701, train_loss: 0.48374
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49913, meta-validation post-inner-loop test accuracy: 0.47986
+Iteration 2705: pre-inner-loop train accuracy: 0.65641, post-inner-loop test accuracy: 0.59100, train_loss: 0.53226
+Iteration 2710: pre-inner-loop train accuracy: 0.55994, post-inner-loop test accuracy: 0.60439, train_loss: 0.73719
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47547, meta-validation post-inner-loop test accuracy: 0.54292
+Iteration 2715: pre-inner-loop train accuracy: 0.73002, post-inner-loop test accuracy: 0.55997, train_loss: 0.61132
+Iteration 2720: pre-inner-loop train accuracy: 0.55944, post-inner-loop test accuracy: 0.64063, train_loss: 0.56550
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48541, meta-validation post-inner-loop test accuracy: 0.63695
+Iteration 2725: pre-inner-loop train accuracy: 0.55360, post-inner-loop test accuracy: 0.65899, train_loss: 0.70686
+Iteration 2730: pre-inner-loop train accuracy: 0.54284, post-inner-loop test accuracy: 0.58320, train_loss: 0.69916
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47478, meta-validation post-inner-loop test accuracy: 0.49030
+Iteration 2735: pre-inner-loop train accuracy: 0.66619, post-inner-loop test accuracy: 0.57831, train_loss: 0.62458
+Iteration 2740: pre-inner-loop train accuracy: 0.53408, post-inner-loop test accuracy: 0.58122, train_loss: 0.72111
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52702, meta-validation post-inner-loop test accuracy: 0.48368
+Iteration 2745: pre-inner-loop train accuracy: 0.60939, post-inner-loop test accuracy: 0.59788, train_loss: 0.61478
+Iteration 2750: pre-inner-loop train accuracy: 0.66820, post-inner-loop test accuracy: 0.71973, train_loss: 0.68015
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52005, meta-validation post-inner-loop test accuracy: 0.51796
+Iteration 2755: pre-inner-loop train accuracy: 0.71914, post-inner-loop test accuracy: 0.59439, train_loss: 0.55538
+Iteration 2760: pre-inner-loop train accuracy: 0.57796, post-inner-loop test accuracy: 0.61481, train_loss: 0.64459
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53591, meta-validation post-inner-loop test accuracy: 0.50204
+Iteration 2765: pre-inner-loop train accuracy: 0.55122, post-inner-loop test accuracy: 0.51133, train_loss: 0.59382
+Iteration 2770: pre-inner-loop train accuracy: 0.56319, post-inner-loop test accuracy: 0.58416, train_loss: 0.69165
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52055, meta-validation post-inner-loop test accuracy: 0.60214
+Iteration 2775: pre-inner-loop train accuracy: 0.56604, post-inner-loop test accuracy: 0.59486, train_loss: 0.70243
+Iteration 2780: pre-inner-loop train accuracy: 0.65740, post-inner-loop test accuracy: 0.55343, train_loss: 0.60694
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50536, meta-validation post-inner-loop test accuracy: 0.47550
+Iteration 2785: pre-inner-loop train accuracy: 0.58109, post-inner-loop test accuracy: 0.56485, train_loss: 0.66420
+Iteration 2790: pre-inner-loop train accuracy: 0.62149, post-inner-loop test accuracy: 0.64039, train_loss: 0.54759
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56395, meta-validation post-inner-loop test accuracy: 0.62349
+Iteration 2795: pre-inner-loop train accuracy: 0.55055, post-inner-loop test accuracy: 0.54197, train_loss: 0.67162
+Iteration 2800: pre-inner-loop train accuracy: 0.49754, post-inner-loop test accuracy: 0.62786, train_loss: 0.75383
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47907, meta-validation post-inner-loop test accuracy: 0.48859
+Iteration 2805: pre-inner-loop train accuracy: 0.66268, post-inner-loop test accuracy: 0.72966, train_loss: 0.59750
+Iteration 2810: pre-inner-loop train accuracy: 0.56006, post-inner-loop test accuracy: 0.52972, train_loss: 0.64762
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.52427, meta-validation post-inner-loop test accuracy: 0.51420
+Iteration 2815: pre-inner-loop train accuracy: 0.63010, post-inner-loop test accuracy: 0.72918, train_loss: 0.75994
+Iteration 2820: pre-inner-loop train accuracy: 0.54486, post-inner-loop test accuracy: 0.56931, train_loss: 0.68589
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51876, meta-validation post-inner-loop test accuracy: 0.53975
+Iteration 2825: pre-inner-loop train accuracy: 0.74198, post-inner-loop test accuracy: 0.70736, train_loss: 0.63558
+Iteration 2830: pre-inner-loop train accuracy: 0.50560, post-inner-loop test accuracy: 0.54721, train_loss: 0.64540
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53804, meta-validation post-inner-loop test accuracy: 0.53743
+Iteration 2835: pre-inner-loop train accuracy: 0.66836, post-inner-loop test accuracy: 0.69037, train_loss: 0.69758
+Iteration 2840: pre-inner-loop train accuracy: 0.52804, post-inner-loop test accuracy: 0.64726, train_loss: 0.77430
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50703, meta-validation post-inner-loop test accuracy: 0.55194
+Iteration 2845: pre-inner-loop train accuracy: 0.64555, post-inner-loop test accuracy: 0.68140, train_loss: 0.66176
+Iteration 2850: pre-inner-loop train accuracy: 0.50612, post-inner-loop test accuracy: 0.58508, train_loss: 0.70365
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54954, meta-validation post-inner-loop test accuracy: 0.51788
+Iteration 2855: pre-inner-loop train accuracy: 0.67548, post-inner-loop test accuracy: 0.68309, train_loss: 0.61271
+Iteration 2860: pre-inner-loop train accuracy: 0.74565, post-inner-loop test accuracy: 0.62033, train_loss: 0.55135
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48146, meta-validation post-inner-loop test accuracy: 0.47795
+Iteration 2865: pre-inner-loop train accuracy: 0.59341, post-inner-loop test accuracy: 0.66530, train_loss: 0.69853
+Iteration 2870: pre-inner-loop train accuracy: 0.73332, post-inner-loop test accuracy: 0.56765, train_loss: 0.49859
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50425, meta-validation post-inner-loop test accuracy: 0.51355
+Iteration 2875: pre-inner-loop train accuracy: 0.60388, post-inner-loop test accuracy: 0.65170, train_loss: 0.60609
+Iteration 2880: pre-inner-loop train accuracy: 0.66644, post-inner-loop test accuracy: 0.60481, train_loss: 0.55377
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53075, meta-validation post-inner-loop test accuracy: 0.54602
+Iteration 2885: pre-inner-loop train accuracy: 0.60010, post-inner-loop test accuracy: 0.49364, train_loss: 0.53559
+Iteration 2890: pre-inner-loop train accuracy: 0.66012, post-inner-loop test accuracy: 0.65306, train_loss: 0.64806
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51485, meta-validation post-inner-loop test accuracy: 0.49458
+Iteration 2895: pre-inner-loop train accuracy: 0.53472, post-inner-loop test accuracy: 0.57964, train_loss: 0.70991
+Iteration 2900: pre-inner-loop train accuracy: 0.54958, post-inner-loop test accuracy: 0.61976, train_loss: 0.66362
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.51566, meta-validation post-inner-loop test accuracy: 0.50649
+Iteration 2905: pre-inner-loop train accuracy: 0.70266, post-inner-loop test accuracy: 0.73765, train_loss: 0.62696
+Iteration 2910: pre-inner-loop train accuracy: 0.62152, post-inner-loop test accuracy: 0.70420, train_loss: 0.67695
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.49427, meta-validation post-inner-loop test accuracy: 0.53299
+Iteration 2915: pre-inner-loop train accuracy: 0.58176, post-inner-loop test accuracy: 0.60258, train_loss: 0.62900
+Iteration 2920: pre-inner-loop train accuracy: 0.62999, post-inner-loop test accuracy: 0.71074, train_loss: 0.63003
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.53673, meta-validation post-inner-loop test accuracy: 0.46502
+Iteration 2925: pre-inner-loop train accuracy: 0.54448, post-inner-loop test accuracy: 0.55407, train_loss: 0.62841
+Iteration 2930: pre-inner-loop train accuracy: 0.66605, post-inner-loop test accuracy: 0.60177, train_loss: 0.55021
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.54177, meta-validation post-inner-loop test accuracy: 0.52007
+Iteration 2935: pre-inner-loop train accuracy: 0.53549, post-inner-loop test accuracy: 0.58696, train_loss: 0.62767
+Iteration 2940: pre-inner-loop train accuracy: 0.68890, post-inner-loop test accuracy: 0.66376, train_loss: 0.63189
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.48902, meta-validation post-inner-loop test accuracy: 0.52398
+Iteration 2945: pre-inner-loop train accuracy: 0.69987, post-inner-loop test accuracy: 0.57828, train_loss: 0.49415
+Iteration 2950: pre-inner-loop train accuracy: 0.50929, post-inner-loop test accuracy: 0.54672, train_loss: 0.64416
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.56181, meta-validation post-inner-loop test accuracy: 0.54578
+Iteration 2955: pre-inner-loop train accuracy: 0.65439, post-inner-loop test accuracy: 0.61498, train_loss: 0.51051
+Iteration 2960: pre-inner-loop train accuracy: 0.58678, post-inner-loop test accuracy: 0.48617, train_loss: 0.61296
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47000, meta-validation post-inner-loop test accuracy: 0.51578
+Iteration 2965: pre-inner-loop train accuracy: 0.66904, post-inner-loop test accuracy: 0.64604, train_loss: 0.56615
+Iteration 2970: pre-inner-loop train accuracy: 0.61528, post-inner-loop test accuracy: 0.51475, train_loss: 0.64413
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.50946, meta-validation post-inner-loop test accuracy: 0.58122
+Iteration 2975: pre-inner-loop train accuracy: 0.68312, post-inner-loop test accuracy: 0.68769, train_loss: 0.68607
+Iteration 2980: pre-inner-loop train accuracy: 0.50676, post-inner-loop test accuracy: 0.54161, train_loss: 0.62546
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.47972, meta-validation post-inner-loop test accuracy: 0.54699
+Iteration 2985: pre-inner-loop train accuracy: 0.76286, post-inner-loop test accuracy: 0.57324, train_loss: 0.65618
+Iteration 2990: pre-inner-loop train accuracy: 0.65855, post-inner-loop test accuracy: 0.62123, train_loss: 0.60368
+finished sampling eval set
+Meta-validation pre-inner-loop train accuracy: 0.42212, meta-validation post-inner-loop test accuracy: 0.63136
+Iteration 2995: pre-inner-loop train accuracy: 0.60143, post-inner-loop test accuracy: 0.55087, train_loss: 0.58920
+Saving to  /scratch/users/chenkaim/models/cls_1.mbs_1.k_shot_32.inner_numstep_1.inner_updatelr_0.004.learn_inner_update_lr_False/model3000
+Traceback (most recent call last):
+  File "MAML.py", line 746, in <module>
+    data_path='/scratch/users/chenkaim/data/binary_1000')
+  File "MAML.py", line 729, in run_maml
+    k_shot, num_inner_updates, meta_lr)
+  File "MAML.py", line 658, in meta_train_fn
+    tf.saved_model.save(model, model_file)
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/saved_model/save.py", line 899, in save
+    _ = _SaveableView(checkpoint_graph_view)
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/saved_model/save.py", line 165, in __init__
+    self.checkpoint_view.objects_ids_and_slot_variables())
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/training/tracking/graph_view.py", line 415, in objects_ids_and_slot_variables
+    trackable_objects, path_to_root = self._breadth_first_traversal()
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/training/tracking/graph_view.py", line 199, in _breadth_first_traversal
+    for name, dependency in self.list_dependencies(current_trackable):
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/saved_model/save.py", line 113, in list_dependencies
+    for name, dep in super(_AugmentedGraphView, self).list_dependencies(obj):
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/training/tracking/graph_view.py", line 159, in list_dependencies
+    return obj._checkpoint_dependencies
+  File "/share/software/user/open/py-tensorflow/2.1.0_py36/lib/python3.6/site-packages/tensorflow_core/python/training/tracking/data_structures.py", line 509, in _checkpoint_dependencies
+    "automatically un-wrapped and subsequently ignored." % (self,)))
+ValueError: Unable to save the object ListWrapper([ListWrapper([<tf.Tensor 'muskens_net_2/leaky_re_lu_56/LeakyRelu:0' shape=(32, 50, 200, 32) dtype=float32>, <tf.Tensor 'muskens_net_2/max_pooling2d_8/MaxPool:0' shape=(32, 25, 100, 32) dtype=float32>, 0, 0]), ListWrapper([<tf.Tensor 'muskens_net_2/leaky_re_lu_60/LeakyRelu:0' shape=(32, 25, 100, 64) dtype=float32>, <tf.Tensor 'muskens_net_2/max_pooling2d_9/MaxPool:0' shape=(32, 12, 50, 64) dtype=float32>, 1, 0]), ListWrapper([<tf.Tensor 'muskens_net_2/leaky_re_lu_64/LeakyRelu:0' shape=(32, 12, 50, 128) dtype=float32>, <tf.Tensor 'muskens_net_2/max_pooling2d_10/MaxPool:0' shape=(32, 6, 25, 128) dtype=float32>, 0, 0]), ListWrapper([<tf.Tensor 'muskens_net_2/leaky_re_lu_68/LeakyRelu:0' shape=(32, 6, 25, 256) dtype=float32>, <tf.Tensor 'muskens_net_2/max_pooling2d_11/MaxPool:0' shape=(32, 3, 12, 256) dtype=float32>, 0, 1])]) (a list wrapper constructed to track trackable TensorFlow objects). A list element was replaced (__setitem__, __setslice__), deleted (__delitem__, __delslice__), or moved (sort). In order to support restoration on object creation, tracking is exclusively for append-only data structures.
+
+If you don't need this list checkpointed, wrap it in a tf.contrib.checkpoint.NoDependency object; it will be automatically un-wrapped and subsequently ignored.

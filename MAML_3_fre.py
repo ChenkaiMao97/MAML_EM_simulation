@@ -136,7 +136,7 @@ class DataGenerator(object):
     for i in range(batch_size):
       sampled_data_folders = random.sample(
         folders, num_classes)
-      mat_paths = get_mat_paths(sampled_data_folders, n_samples=num_samples_per_class, shuffle=True)
+      mat_paths = get_mat_paths(sampled_data_folders, n_samples=num_samples_per_class, shuffle=False)
       images_and_labels = [mat_to_input_and_field(
         li) for li in mat_paths]
       images = np.array([i[0] for i in images_and_labels])
@@ -191,7 +191,7 @@ ALPHA = 0.2
 NUM_DOWNCOV_BLOCKS = 5
 NUM_UPSAMPLING_BLOCKS = NUM_DOWNCOV_BLOCKS-1
 NUM_OUT_CHANNELS = 2
-HIDDEN_DIM = 30
+HIDDEN_DIM = 32
 UPSAMPLE_INTERP = ["nearest", "bilinear"][1]
 FNAME = '/scratch/users/chenkaim/test'
 
@@ -565,6 +565,7 @@ def outer_train_step(input_tr, input_ts, label_tr, label_ts, model, optim, itr, 
   gradients = outer_tape.gradient(total_losses_ts[-1], model.trainable_variables)
   # print("model.trainable_variables[0][0][0][0][0]: ", model.trainable_variables[0][0][0][0][0])
   optim.apply_gradients(zip(gradients, model.trainable_variables))
+  # print("optim.learning_rate = ", optim.learning_rate)
 
   total_loss_tr_pre = tf.reduce_mean(losses_tr_pre)
   with writer.as_default():
@@ -609,12 +610,10 @@ def meta_train_fn(model, exp_string, data_generator,
   num_classes = data_generator.num_classes
 
   num_data_samples = 20000
-
   lr_scheduler = tf.keras.optimizers.schedules.ExponentialDecay(meta_lr,
                                                                 decay_steps=100,
-                                                                decay_rate=0.98,
+                                                                decay_rate=0.95,
                                                                 staircase=False)
-
 
   optimizer = tf.keras.optimizers.Adam(learning_rate=lr_scheduler)
   start_epoch = continue_epoch if continue_train else 0
@@ -749,11 +748,11 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
   if meta_train_inner_update_lr == -1:
     meta_train_inner_update_lr = inner_update_lr
 
-  exp_string = '200_epochs_1_fre_5_down_'+'cls_'+str(n_way)+'.mbs_'+str(meta_batch_size) + '.k_shot_' + str(meta_train_k_shot) + '.inner_numstep_' + str(num_inner_updates) + '.inner_updatelr_' + str(meta_train_inner_update_lr) + '.learn_inner_update_lr_' + str(learn_inner_update_lr)
+  exp_string = 'final_binary_3_fre_5_down_but_small_inner'+'cls_'+str(n_way)+'.mbs_'+str(meta_batch_size) + '.k_shot_' + str(meta_train_k_shot) + '.inner_numstep_' + str(num_inner_updates) + '.inner_updatelr_' + str(meta_train_inner_update_lr) + '.learn_inner_update_lr_' + str(learn_inner_update_lr)
 
   if meta_train:
     if(continue_train):
-      model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
+      model_file = logdir + '/' + exp_string + '/' + "model_epoch_"+str(continue_epoch-1)+".ckpt"
       print("Restoring model weights from ", model_file)
       model.load_weights(model_file)
 
@@ -771,16 +770,16 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
     meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
     return meta_test_results
 
-run_results = run_maml(n_way=1, k_shot=1, 
-                       inner_update_lr=0, num_inner_updates=1, 
-                       meta_batch_size=64, 
-                       epochs=201, 
+run_results = run_maml(n_way=1, k_shot=4, 
+                       inner_update_lr=1e-6, num_inner_updates=1, 
+                       meta_batch_size=16, 
+                       epochs=31, 
                        learn_inner_update_lr=True,
                        meta_train=True,
                        continue_train=False,
                        continue_epoch=0,
-                       meta_lr=3e-4,
-                       data_path='/scratch/users/chenkaim/data/binary_1000')
+                       meta_lr=1e-4,
+                       data_path='/scratch/users/chenkaim/data/binary_3_fre')
 
 from matplotlib import pyplot as plt
 

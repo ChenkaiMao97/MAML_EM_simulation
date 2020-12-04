@@ -105,8 +105,7 @@ class DataGenerator(object):
     self.metatrain_data_folders = data_folders[: num_train]
     self.metaval_data_folders = data_folders[
       num_train:num_train + num_val]
-    self.metatest_data_folders = data_folders[
-      num_train + num_val:]
+    self.metatest_data_folders = data_folders[:]
 
   def sample_batch(self, batch_type, batch_size, shuffle=True, swap=False):
     """
@@ -191,7 +190,7 @@ ALPHA = 0.2
 NUM_DOWNCOV_BLOCKS = 5
 NUM_UPSAMPLING_BLOCKS = NUM_DOWNCOV_BLOCKS-1
 NUM_OUT_CHANNELS = 2
-HIDDEN_DIM = 30
+HIDDEN_DIM = 32
 UPSAMPLE_INTERP = ["nearest", "bilinear"][1]
 FNAME = '/scratch/users/chenkaim/test'
 
@@ -380,6 +379,20 @@ class MAML(tf.keras.Model):
           self.inner_update_lr_dict[key] = [[tf.Variable(self.inner_update_lr, name='inner_update_lr_%s_%d_%d' % (key, number, j), dtype=COMPUTE_DTYPE) for number in range(len(self.Unet.layer_weights[key]))] for j in range(num_inner_updates)]
         else:
           self.inner_update_lr_dict[key] = [tf.Variable(self.inner_update_lr, name='inner_update_lr_%s_%d' % (key, j), dtype=COMPUTE_DTYPE) for j in range(num_inner_updates)]
+
+    self.accum_grad = {}
+    for block in range(NUM_DOWNCOV_BLOCKS):
+      self.accum_grad['encode_layer'+str(block)+'_'+'conv'] = []
+      self.accum_grad['encode_layer'+str(block)+'_'+'conv'].append(tf.Variable(self.Unet.layer_weights['encode_layer'+str(block)+'_'+'conv'][0]))
+      self.accum_grad['encode_layer'+str(block)+'_'+'conv'].append(tf.Variable(self.Unet.layer_weights['encode_layer'+str(block)+'_'+'conv'][1]))
+      self.accum_grad['encode_layer'+str(block)+'_'+'conv'].append(tf.Variable(self.Unet.layer_weights['encode_layer'+str(block)+'_'+'conv'][2]))
+    for block in range(NUM_UPSAMPLING_BLOCKS):
+      self.accum_grad['decode_layer'+str(block)+'_'+'conv'] = []
+      self.accum_grad['decode_layer'+str(block)+'_'+'conv'].append(tf.Variable(self.Unet.layer_weights['decode_layer'+str(block)+'_'+'conv'][0]))
+      self.accum_grad['decode_layer'+str(block)+'_'+'conv'].append(tf.Variable(self.Unet.layer_weights['decode_layer'+str(block)+'_'+'conv'][1]))
+      self.accum_grad['decode_layer'+str(block)+'_'+'conv'].append(tf.Variable(self.Unet.layer_weights['decode_layer'+str(block)+'_'+'conv'][2]))
+    self.accum_grad['last_layer_conv'] = tf.Variable(self.Unet.layer_weights['last_layer_conv'])
+    self.accum_grad['last_layer_b'] = tf.Variable(self.Unet.layer_weights['last_layer_b'])
   
   @tf.function
   def call(self, input_tr, input_ts, label_tr, label_ts, meta_batch_size=25, num_inner_updates=1):
@@ -421,7 +434,6 @@ class MAML(tf.keras.Model):
       # and use input_ts and labels for evaluating performance
       
       # new_weights = weights.copy()
-      
       for i in range(num_inner_updates):
         with tf.GradientTape(persistent=True) as g:
           predictions = self.Unet(input_tr, weights)
@@ -436,12 +448,34 @@ class MAML(tf.keras.Model):
             weights['encode_layer'+str(block)+'_'+'conv'][0].assign_add(-self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0])
             weights['encode_layer'+str(block)+'_'+'conv'][1].assign_add(-self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][1]*gradients['encode_layer'+str(block)+'_'+'conv'][1])
             weights['encode_layer'+str(block)+'_'+'conv'][2].assign_add(-self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][2]*gradients['encode_layer'+str(block)+'_'+'conv'][2])
+            if(i == 0):
+              self.accum_grad['encode_layer'+str(block)+'_'+'conv'][0].assign(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0])
+              self.accum_grad['encode_layer'+str(block)+'_'+'conv'][1].assign(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][1]*gradients['encode_layer'+str(block)+'_'+'conv'][1])
+              self.accum_grad['encode_layer'+str(block)+'_'+'conv'][2].assign(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][2]*gradients['encode_layer'+str(block)+'_'+'conv'][2])
+            else:
+              self.accum_grad['encode_layer'+str(block)+'_'+'conv'][0].assign_add(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0])
+              self.accum_grad['encode_layer'+str(block)+'_'+'conv'][1].assign_add(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][1]*gradients['encode_layer'+str(block)+'_'+'conv'][1])
+              self.accum_grad['encode_layer'+str(block)+'_'+'conv'][2].assign_add(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][2]*gradients['encode_layer'+str(block)+'_'+'conv'][2])
           for block in range(NUM_UPSAMPLING_BLOCKS):
             weights['decode_layer'+str(block)+'_'+'conv'][0].assign_add(-self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][0]*gradients['decode_layer'+str(block)+'_'+'conv'][0])
             weights['decode_layer'+str(block)+'_'+'conv'][1].assign_add(-self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][1]*gradients['decode_layer'+str(block)+'_'+'conv'][1])
             weights['decode_layer'+str(block)+'_'+'conv'][2].assign_add(-self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][2]*gradients['decode_layer'+str(block)+'_'+'conv'][2])
+            if(i == 0):
+              self.accum_grad['decode_layer'+str(block)+'_'+'conv'][0].assign(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][0]*gradients['decode_layer'+str(block)+'_'+'conv'][0])
+              self.accum_grad['decode_layer'+str(block)+'_'+'conv'][1].assign(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][1]*gradients['decode_layer'+str(block)+'_'+'conv'][1])
+              self.accum_grad['decode_layer'+str(block)+'_'+'conv'][2].assign(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][2]*gradients['decode_layer'+str(block)+'_'+'conv'][2])
+            else:
+              self.accum_grad['decode_layer'+str(block)+'_'+'conv'][0].assign_add(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][0]*gradients['decode_layer'+str(block)+'_'+'conv'][0])
+              self.accum_grad['decode_layer'+str(block)+'_'+'conv'][1].assign_add(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][1]*gradients['decode_layer'+str(block)+'_'+'conv'][1])
+              self.accum_grad['decode_layer'+str(block)+'_'+'conv'][2].assign_add(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][2]*gradients['decode_layer'+str(block)+'_'+'conv'][2])
           weights['last_layer_conv'].assign_add(-self.inner_update_lr_dict['last_layer_conv'][i]*gradients['last_layer_conv'])
           weights['last_layer_b'].assign_add(-self.inner_update_lr_dict['last_layer_b'][i]*gradients['last_layer_b'])
+          if(i == 0):
+            self.accum_grad['last_layer_conv'].assign(self.inner_update_lr_dict['last_layer_conv'][i]*gradients['last_layer_conv'])
+            self.accum_grad['last_layer_b'].assign(self.inner_update_lr_dict['last_layer_b'][i]*gradients['last_layer_b'])
+          else:
+            self.accum_grad['last_layer_conv'].assign_add(self.inner_update_lr_dict['last_layer_conv'][i]*gradients['last_layer_conv'])
+            self.accum_grad['last_layer_b'].assign_add(self.inner_update_lr_dict['last_layer_b'][i]*gradients['last_layer_b'])
         else:
           for block in range(NUM_DOWNCOV_BLOCKS):
             # print(gradients['encode_layer'+str(block)+'_'+'conv'][0].shape, weights['encode_layer'+str(block)+'_'+'conv'][0].shape)
@@ -460,29 +494,16 @@ class MAML(tf.keras.Model):
         loss_ts = self.loss_func(predictions_ts, label_ts)
         task_losses_ts.append(loss_ts)
 
-        if self.learn_inner_update_lr:
-          for block in range(NUM_DOWNCOV_BLOCKS):
-            weights['encode_layer'+str(block)+'_'+'conv'][0].assign_add(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][0]*gradients['encode_layer'+str(block)+'_'+'conv'][0])
-            weights['encode_layer'+str(block)+'_'+'conv'][1].assign_add(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][1]*gradients['encode_layer'+str(block)+'_'+'conv'][1])
-            weights['encode_layer'+str(block)+'_'+'conv'][2].assign_add(self.inner_update_lr_dict['encode_layer'+str(block)+'_'+'conv'][i][2]*gradients['encode_layer'+str(block)+'_'+'conv'][2])
-          for block in range(NUM_UPSAMPLING_BLOCKS):
-            weights['decode_layer'+str(block)+'_'+'conv'][0].assign_add(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][0]*gradients['decode_layer'+str(block)+'_'+'conv'][0])
-            weights['decode_layer'+str(block)+'_'+'conv'][1].assign_add(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][1]*gradients['decode_layer'+str(block)+'_'+'conv'][1])
-            weights['decode_layer'+str(block)+'_'+'conv'][2].assign_add(self.inner_update_lr_dict['decode_layer'+str(block)+'_'+'conv'][i][2]*gradients['decode_layer'+str(block)+'_'+'conv'][2])
-          weights['last_layer_conv'].assign_add(self.inner_update_lr_dict['last_layer_conv'][i]*gradients['last_layer_conv'])
-          weights['last_layer_b'].assign_add(self.inner_update_lr_dict['last_layer_b'][i]*gradients['last_layer_b'])
-        else:
-          for block in range(NUM_DOWNCOV_BLOCKS):
-            # print(gradients['encode_layer'+str(block)+'_'+'conv'][0].shape, weights['encode_layer'+str(block)+'_'+'conv'][0].shape)
-            weights['encode_layer'+str(block)+'_'+'conv'][0].assign_add(self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][0])
-            weights['encode_layer'+str(block)+'_'+'conv'][1].assign_add(self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][1])
-            weights['encode_layer'+str(block)+'_'+'conv'][2].assign_add(self.inner_update_lr*gradients['encode_layer'+str(block)+'_'+'conv'][2])
-          for block in range(NUM_UPSAMPLING_BLOCKS):
-            weights['decode_layer'+str(block)+'_'+'conv'][0].assign_add(self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][0])
-            weights['decode_layer'+str(block)+'_'+'conv'][1].assign_add(self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][1])
-            weights['decode_layer'+str(block)+'_'+'conv'][2].assign_add(self.inner_update_lr*gradients['decode_layer'+str(block)+'_'+'conv'][2])
-          weights['last_layer_conv'].assign_add(self.inner_update_lr*gradients['last_layer_conv'])
-          weights['last_layer_b'].assign_add(self.inner_update_lr*gradients['last_layer_b'])
+      for block in range(NUM_DOWNCOV_BLOCKS):
+        weights['encode_layer'+str(block)+'_'+'conv'][0].assign_add(self.accum_grad['encode_layer'+str(block)+'_'+'conv'][0])
+        weights['encode_layer'+str(block)+'_'+'conv'][1].assign_add(self.accum_grad['encode_layer'+str(block)+'_'+'conv'][1])
+        weights['encode_layer'+str(block)+'_'+'conv'][2].assign_add(self.accum_grad['encode_layer'+str(block)+'_'+'conv'][2])
+      for block in range(NUM_UPSAMPLING_BLOCKS):
+        weights['decode_layer'+str(block)+'_'+'conv'][0].assign_add(self.accum_grad['decode_layer'+str(block)+'_'+'conv'][0])
+        weights['decode_layer'+str(block)+'_'+'conv'][1].assign_add(self.accum_grad['decode_layer'+str(block)+'_'+'conv'][1])
+        weights['decode_layer'+str(block)+'_'+'conv'][2].assign_add(self.accum_grad['decode_layer'+str(block)+'_'+'conv'][2])
+      weights['last_layer_conv'].assign_add(self.accum_grad['last_layer_conv'])
+      weights['last_layer_b'].assign_add(self.accum_grad['last_layer_b'])
       #############################
 
       # Compute accuracies from output predictions
@@ -565,6 +586,7 @@ def outer_train_step(input_tr, input_ts, label_tr, label_ts, model, optim, itr, 
   gradients = outer_tape.gradient(total_losses_ts[-1], model.trainable_variables)
   # print("model.trainable_variables[0][0][0][0][0]: ", model.trainable_variables[0][0][0][0][0])
   optim.apply_gradients(zip(gradients, model.trainable_variables))
+  # print("optim.learning_rate = ", optim.learning_rate)
 
   total_loss_tr_pre = tf.reduce_mean(losses_tr_pre)
   with writer.as_default():
@@ -609,12 +631,10 @@ def meta_train_fn(model, exp_string, data_generator,
   num_classes = data_generator.num_classes
 
   num_data_samples = 20000
-
   lr_scheduler = tf.keras.optimizers.schedules.ExponentialDecay(meta_lr,
                                                                 decay_steps=100,
-                                                                decay_rate=0.98,
+                                                                decay_rate=0.95,
                                                                 staircase=False)
-
 
   optimizer = tf.keras.optimizers.Adam(learning_rate=lr_scheduler)
   start_epoch = continue_epoch if continue_train else 0
@@ -685,7 +705,7 @@ def meta_train_fn(model, exp_string, data_generator,
   return meta_train_results, meta_val_results, model, model_file
 
 # TO DO: change this:
-NUM_META_TEST_POINTS = 20
+NUM_META_TEST_POINTS = 200
 
 def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
               num_inner_updates=1):
@@ -709,8 +729,7 @@ def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
     input_ts = tf.reshape(input_meta_test[:,:,k_shot:,:,:],[input_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
     label_ts = tf.reshape(label_meta_test[:,:,k_shot:,:,:,:],[label_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
     #############################
-    inp = (input_tr, input_ts, label_tr, label_ts)
-    result = outer_eval_step(inp, model, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
+    result = outer_eval_step(input_tr, input_ts, label_tr, label_ts, model, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
 
     meta_test_accuracies.append(result[-1][-1])
 
@@ -722,7 +741,10 @@ def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
   print('Mean meta-test accuracy/loss, stddev, and confidence intervals')
   print((means, stds, ci95))
 
-def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
+from PIL import Image
+from matplotlib import cm
+
+def visualize_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
              inner_update_lr=0.4, num_inner_updates=1,
              learn_inner_update_lr=False,
              resume=False, resume_itr=0, log=True, logdir='/scratch/users/chenkaim/models',
@@ -749,38 +771,99 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
   if meta_train_inner_update_lr == -1:
     meta_train_inner_update_lr = inner_update_lr
 
-  exp_string = '200_epochs_1_fre_5_down_'+'cls_'+str(n_way)+'.mbs_'+str(meta_batch_size) + '.k_shot_' + str(meta_train_k_shot) + '.inner_numstep_' + str(num_inner_updates) + '.inner_updatelr_' + str(meta_train_inner_update_lr) + '.learn_inner_update_lr_' + str(learn_inner_update_lr)
+  # exp_string = 'final_binary_3_fre_5_down_'+'cls_'+str(n_way)+'.mbs_'+str(meta_batch_size) + '.k_shot_' + str(meta_train_k_shot) + '.inner_numstep_' + str(num_inner_updates) + '.inner_updatelr_' + str(meta_train_inner_update_lr) + '.learn_inner_update_lr_' + str(learn_inner_update_lr)
+  exp_string = "final_binary_3_fre_5_down_cls_1.mbs_16.k_shot_4.inner_numstep_2.inner_updatelr_0.0001.learn_inner_update_lr_True/model_epoch_30.ckpt"
+  meta_batch_size = 1
 
-  if meta_train:
-    if(continue_train):
-      model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
-      print("Restoring model weights from ", model_file)
-      model.load_weights(model_file)
+  # model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
+  model_file = logdir + '/' + exp_string
+  print("Restoring model weights from ", model_file)
+  model.load_weights(model_file)
 
-    meta_train_results, meta_val_results,  _model, model_file = meta_train_fn(model, exp_string, data_generator,
-                  n_way, meta_batch_size, log, logdir,
-                  k_shot, num_inner_updates, meta_lr, epochs, continue_train, continue_epoch)
-    return meta_train_results, meta_val_results,  _model, model_file
-  else:
-    meta_batch_size = 1
+  for i in range(4): # show 10 random results
+    data_generator.sample_batch("meta_val", meta_batch_size);
+    input_meta_test, label_meta_test = data_generator.sample_batch("meta_test", meta_batch_size);
+    input_tr = tf.reshape(input_meta_test[:,:,:k_shot,:,:],[input_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
+    label_tr = tf.reshape(label_meta_test[:,:,:k_shot,:,:,:],[label_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
+    input_ts = tf.reshape(input_meta_test[:,:,k_shot:,:,:],[input_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
+    label_ts = tf.reshape(label_meta_test[:,:,k_shot:,:,:,:],[label_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
+    #############################
+    inp = (input_tr, input_ts, label_tr, label_ts)
+    result = model(inp[0],inp[1],inp[2],inp[3], meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
 
-    model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
-    print("Restoring model weights from ", model_file)
-    model.load_weights(model_file)
+    outputs_tr, outputs_ts, losses_tr_pre, losses_ts, accuracies_tr_pre, accuracies_ts = result
 
-    meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
-    return meta_test_results
+    print("len(output_ts), outputs_ts.shape: ", len(outputs_ts), outputs_ts[0].shape)
+    print("label_ts.shape: ", label_ts.shape)
 
-run_results = run_maml(n_way=1, k_shot=1, 
-                       inner_update_lr=0, num_inner_updates=1, 
-                       meta_batch_size=64, 
-                       epochs=201, 
+    for j in range(1):
+      for k in range(1):
+        out1 = outputs_tr[-1,k,:,:,0].numpy()
+        scale = np.amax(np.abs(out1))
+        out1 = (out1/scale + 1)/2
+        img1 = Image.fromarray(np.uint8(cm.jet(out1)*255))
+        img1.save('Hy_real_pre_'+str(i)+'_'+str(k)+'.png')
+        img1.show()
+
+        out2 = outputs_tr[-1,k,:,:,1].numpy()
+        scale = np.amax(np.abs(out2))
+        out2 = (out2/scale + 1)/2
+        img2 = Image.fromarray(np.uint8(cm.jet(out2)*255))
+        img2.save('Hy_imag_pre_'+str(i)+'_'+str(k)+'.png')
+        img2.show()
+
+        out3 = label_tr[-1,k,:,:,0].numpy()
+        scale = np.amax(np.abs(out3))
+        out3 = (out3/scale + 1)/2
+        img3 = Image.fromarray(np.uint8(cm.jet(out3)*255))
+        img3.save('Hy_real_pre_lb_'+str(i)+'_'+str(k)+'.png')
+        img3.show()
+
+        out4 = label_tr[-1,k,:,:,1].numpy()
+        scale = np.amax(np.abs(out4))
+        out4 = (out4/scale + 1)/2
+        img4 = Image.fromarray(np.uint8(cm.jet(out4)*255))
+        img4.save('Hy_imag_pre_lb_'+str(i)+'_'+str(k)+'.png')
+        img4.show()
+
+        out1 = outputs_ts[-1][-1,k,:,:,0].numpy()
+        scale = np.amax(np.abs(out1))
+        out1 = (out1/scale + 1)/2
+        img1 = Image.fromarray(np.uint8(cm.jet(out1)*255))
+        img1.save('Hy_real_after_'+str(i)+'_'+str(k)+'.png')
+        img1.show()
+
+        out2 = outputs_ts[-1][-1,k,:,:,1].numpy()
+        scale = np.amax(np.abs(out2))
+        out2 = (out2/scale + 1)/2
+        img2 = Image.fromarray(np.uint8(cm.jet(out2)*255))
+        img2.save('Hy_imag_after_'+str(i)+'_'+str(k)+'.png')
+        img2.show()
+
+        out3 = label_ts[-1,k,:,:,0].numpy()
+        scale = np.amax(np.abs(out3))
+        out3 = (out3/scale + 1)/2
+        img3 = Image.fromarray(np.uint8(cm.jet(out3)*255))
+        img3.save('Hy_real_after_lb_'+str(i)+'_'+str(k)+'.png')
+        img3.show()
+
+        out4 = label_ts[-1,k,:,:,1].numpy()
+        scale = np.amax(np.abs(out4))
+        out4 = (out4/scale + 1)/2
+        img4 = Image.fromarray(np.uint8(cm.jet(out4)*255))
+        img4.save('Hy_imag_after_lb_'+str(i)+'_'+str(k)+'.png')
+        img4.show()
+
+run_results = visualize_maml(n_way=1, k_shot=4, 
+                       inner_update_lr=1e-4, num_inner_updates=2, 
+                       meta_batch_size=16, 
+                       epochs=31, 
                        learn_inner_update_lr=True,
-                       meta_train=True,
+                       meta_train=False,
                        continue_train=False,
                        continue_epoch=0,
-                       meta_lr=3e-4,
-                       data_path='/scratch/users/chenkaim/data/binary_1000')
+                       meta_lr=5e-5,
+                       data_path='/scratch/users/chenkaim/data/binary_1250')
 
 from matplotlib import pyplot as plt
 
@@ -802,3 +885,6 @@ meta_train_results, meta_val_results,  _model, model_file = run_results
 # plt.ylabel("loss")
 # plt.title("Meta-train loss")
 # plt.show()
+
+
+

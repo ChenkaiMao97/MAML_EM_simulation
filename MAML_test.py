@@ -106,7 +106,7 @@ class DataGenerator(object):
     self.metaval_data_folders = data_folders[
       num_train:num_train + num_val]
     self.metatest_data_folders = data_folders[
-      num_train + num_val:]
+      :]
 
   def sample_batch(self, batch_type, batch_size, shuffle=True, swap=False):
     """
@@ -136,7 +136,7 @@ class DataGenerator(object):
     for i in range(batch_size):
       sampled_data_folders = random.sample(
         folders, num_classes)
-      mat_paths = get_mat_paths(sampled_data_folders, n_samples=num_samples_per_class, shuffle=True)
+      mat_paths = get_mat_paths(sampled_data_folders, n_samples=num_samples_per_class, shuffle=False)
       images_and_labels = [mat_to_input_and_field(
         li) for li in mat_paths]
       images = np.array([i[0] for i in images_and_labels])
@@ -191,7 +191,7 @@ ALPHA = 0.2
 NUM_DOWNCOV_BLOCKS = 5
 NUM_UPSAMPLING_BLOCKS = NUM_DOWNCOV_BLOCKS-1
 NUM_OUT_CHANNELS = 2
-HIDDEN_DIM = 30
+HIDDEN_DIM = 32
 UPSAMPLE_INTERP = ["nearest", "bilinear"][1]
 FNAME = '/scratch/users/chenkaim/test'
 
@@ -612,7 +612,7 @@ def meta_train_fn(model, exp_string, data_generator,
 
   lr_scheduler = tf.keras.optimizers.schedules.ExponentialDecay(meta_lr,
                                                                 decay_steps=100,
-                                                                decay_rate=0.98,
+                                                                decay_rate=0.95,
                                                                 staircase=False)
 
 
@@ -685,7 +685,7 @@ def meta_train_fn(model, exp_string, data_generator,
   return meta_train_results, meta_val_results, model, model_file
 
 # TO DO: change this:
-NUM_META_TEST_POINTS = 20
+NUM_META_TEST_POINTS = 100
 
 def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
               num_inner_updates=1):
@@ -709,8 +709,7 @@ def meta_test_fn(model, data_generator, n_way=5, meta_batch_size=25, k_shot=1,
     input_ts = tf.reshape(input_meta_test[:,:,k_shot:,:,:],[input_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], model.channels])
     label_ts = tf.reshape(label_meta_test[:,:,k_shot:,:,:,:],[label_meta_test.shape[0], -1, model.dim_input[0], model.dim_input[1], NUM_OUT_CHANNELS])
     #############################
-    inp = (input_tr, input_ts, label_tr, label_ts)
-    result = outer_eval_step(inp, model, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
+    result = outer_eval_step(input_tr, input_ts, label_tr, label_ts, model, meta_batch_size=meta_batch_size, num_inner_updates=num_inner_updates)
 
     meta_test_accuracies.append(result[-1][-1])
 
@@ -749,38 +748,41 @@ def run_maml(n_way=5, k_shot=1, meta_batch_size=5, meta_lr=0.001,
   if meta_train_inner_update_lr == -1:
     meta_train_inner_update_lr = inner_update_lr
 
-  exp_string = '200_epochs_1_fre_5_down_'+'cls_'+str(n_way)+'.mbs_'+str(meta_batch_size) + '.k_shot_' + str(meta_train_k_shot) + '.inner_numstep_' + str(num_inner_updates) + '.inner_updatelr_' + str(meta_train_inner_update_lr) + '.learn_inner_update_lr_' + str(learn_inner_update_lr)
-
+  # exp_string = 'final_1_fre_5_down_'+'cls_'+str(n_way)+'.mbs_'+str(meta_batch_size) + '.k_shot_' + str(meta_train_k_shot) + '.inner_numstep_' + str(num_inner_updates) + '.inner_updatelr_' + str(meta_train_inner_update_lr) + '.learn_inner_update_lr_' + str(learn_inner_update_lr)
+  exp_string = "final_1_fre_5_down_cls_1.mbs_16.k_shot_4.inner_numstep_1.inner_updatelr_1e-06.learn_inner_update_lr_True/model_epoch_30.ckpt"
+  
   if meta_train:
-    if(continue_train):
-      model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
-      print("Restoring model weights from ", model_file)
-      model.load_weights(model_file)
+    pass
+    # if(continue_train):
+    #   model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
+    #   print("Restoring model weights from ", model_file)
+    #   model.load_weights(model_file)
 
-    meta_train_results, meta_val_results,  _model, model_file = meta_train_fn(model, exp_string, data_generator,
-                  n_way, meta_batch_size, log, logdir,
-                  k_shot, num_inner_updates, meta_lr, epochs, continue_train, continue_epoch)
-    return meta_train_results, meta_val_results,  _model, model_file
+    # meta_train_results, meta_val_results,  _model, model_file = meta_train_fn(model, exp_string, data_generator,
+    #               n_way, meta_batch_size, log, logdir,
+    #               k_shot, num_inner_updates, meta_lr, epochs, continue_train, continue_epoch)
+    # return meta_train_results, meta_val_results,  _model, model_file
   else:
     meta_batch_size = 1
 
-    model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
+    # model_file = tf.train.latest_checkpoint(logdir + '/' + exp_string)
+    model_file = logdir + '/' + exp_string
     print("Restoring model weights from ", model_file)
     model.load_weights(model_file)
 
     meta_test_results = meta_test_fn(model, data_generator, n_way, meta_batch_size, k_shot, num_inner_updates)
     return meta_test_results
 
-run_results = run_maml(n_way=1, k_shot=1, 
-                       inner_update_lr=0, num_inner_updates=1, 
-                       meta_batch_size=64, 
-                       epochs=201, 
+run_results = run_maml(n_way=1, k_shot=4, 
+                       inner_update_lr=5e-5, num_inner_updates=1, 
+                       meta_batch_size=16, 
+                       epochs=31, 
                        learn_inner_update_lr=True,
-                       meta_train=True,
+                       meta_train=False,
                        continue_train=False,
                        continue_epoch=0,
-                       meta_lr=3e-4,
-                       data_path='/scratch/users/chenkaim/data/binary_1000')
+                       meta_lr=5e-5,
+                       data_path='/scratch/users/chenkaim/data/binary_1400')
 
 from matplotlib import pyplot as plt
 
@@ -802,3 +804,4 @@ meta_train_results, meta_val_results,  _model, model_file = run_results
 # plt.ylabel("loss")
 # plt.title("Meta-train loss")
 # plt.show()
+
